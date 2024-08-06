@@ -55,6 +55,23 @@ const SignUpScreen = ({ navigation }) => {
     // Navigate to next screen if necessary
   };
 
+  // const handleSignUp = () => {
+  //   // Sample API call
+  //   axios.post('http://<your_ngrok_url>/api/users/', {
+  //     firstname,
+  //     lastname,
+  //     email,
+  //     phonenumber,
+  //   })
+  //   .then(response => {
+  //     console.log(response.data);
+  //     navigation.navigate('Login');
+  //   })
+  //   .catch(error => {
+  //     console.error(error);
+  //   });
+  // };
+
   return (
     <View style={styles.container}>
       {/* Display title */}
