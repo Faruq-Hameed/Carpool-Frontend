@@ -4,7 +4,7 @@ import { View, Image, StyleSheet } from 'react-native';
 const LogoScreen = () => {
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/images/icon.png')} style={styles.logo} />
+      <Image source={require('../assets/images/logo.png')} style={styles.logo} />
     </View>
   );
 };

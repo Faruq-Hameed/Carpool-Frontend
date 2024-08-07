@@ -13,7 +13,7 @@ const SignUpScreen = ({ navigation }) => {
   const handleSignUp = async () => {
 
     // API endpoint for sign up
-    const apiUrl = 'https://ffd4-105-119-1-165.ngrok-free.app/api/users/';
+    const apiUrl = 'https://699b-105-119-1-12.ngrok-free.app/api/users/';
 
     // Request body for the API call
     const requestBody = {
