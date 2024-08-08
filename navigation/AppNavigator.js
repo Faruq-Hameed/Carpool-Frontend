@@ -4,6 +4,8 @@ import SplashScreen from '../screens/SplashScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import LoginScreen from '../screens/LoginScreen';
+import ResetAccountScreen from '../screens/ResetAccountScreen';
+import VerifyAccountScreen from '../screens/VerifyAccountScreen';
 
 // Create a stack navigator
 const Stack = createStackNavigator();
@@ -19,6 +21,10 @@ const AppNavigator = () => (
     <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false}} />
     {/* Login screen, with no header */}
     <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+    {/* Verify Account screen, with no header */}
+   <Stack.Screen name="VerifyAccount" component={VerifyAccountScreen} options={{ headerShown: false }} />
+   {/* Reset Account screen, with no header */}
+   <Stack.Screen name="ResetAccount" component={ResetAccountScreen} options={{ headerShown: false }} />
   </Stack.Navigator>
 
 );

@@ -1,78 +1,26 @@
-// import React, {useState} from "react";
-// import{View, Text, TextInput, StyleSheet, Button, Alert} from 'react-native'
-
-
-// const LoginScreen = ({navigate}) =>{
-
-//     return (
-//       <View style={styles.container}>
-//         <View>
-//           <Text>Login</Text>
-//           <Text>Don't have an account? <Text>Register</Text></Text>
-//         </View>
-//         <View>
-//             <View>
-//                 <Text>Email</Text>
-//                 <View>
-//                     <TextInput
-//                     placeholder="+234"
-//                     editable={false}
-//                     />
-//                     <TextInput placeholder="08100004921" 
-//                     keyboardType="phone-pad"
-//                     value="email@example.com"
-//                     />
-//                 </View>
-//             </View>
-//             <View style={styles.button}>
-//             <Button  title="Login" onPress={console.log('login')}/> 
-//             </View>
-//         </View>
-//       </View>
-//     );
-// }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         justifyContent: "center",
-//         alignItems: "center",
-//         padding: 20,
-//         backgroundColor: "#fff",
-//       },
-//       inputContainer: {
-//         // flexDirection: "column",
-//         height: 70,
-//         width: "100%",
-//       },
-//       input: {
-//         width: "100%",
-//         padding: 10,
-//         marginBottom: 10,
-//         borderWidth: 1,
-//         borderColor: "#ced4da",
-//         borderRadius: 5,
-//       },
-//       button: {
-//         width: "100%",
-//         backgroundColor: "#4CAF50",
-//         borderRadius: 8,
-//         padding: 10,
-//       },
-// });
-
-// export default LoginScreen;
-
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import axios from "axios";
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 
 const LoginScreen = ({ navigation }) => {
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
+  console.log({ hello: "hello" });
+  const handleLogin = async () => {
+    const apiUrl = "https://1912-105-119-1-37.ngrok-free.app/api/users/otp/";
 
-  const handleLogin = () => {
-    // Navigate to Verify Account screen
-    navigation.navigate('VerifyAccount');
+    try {
+      const response = await axios.post(apiUrl, {
+        phonenumber: phoneNumber,
+      });
+      Alert.alert("Success", response.data.message);
+      // Navigate to Verify Account screen
+      // navigation.navigate("VerifyAccount");
+    } catch (error) {
+      // Handle any network or unexpected errors
+      error.response
+        ? Alert.alert("Error", error.response.data.message)
+        : error.message;
+    }
   };
 
   return (
@@ -89,6 +37,7 @@ const LoginScreen = ({ navigation }) => {
           style={styles.numberCode}
           placeholder="+234"
           keyboardType="phone-pad"
+          editable={false}
         />
         <TextInput
           style={styles.input}
@@ -99,7 +48,12 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <View style={styles.button}>
-        <Button title="Sign up" onPress={handleLogin} color="#fff" />
+        {/* This is the real callback  */}
+        {/* <Button title="Login" onPress={handleLogin} /> */}
+        <Button
+          title="Login"
+          onPress={() => navigation.navigate("VerifyAccount")}
+        />
       </View>
     </View>
   );
@@ -127,7 +81,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: "row",
-      height: 50,
+    height: 50,
     width: "100%",
     borderWidth: 1,
     borderColor: "#ced4da",
@@ -150,6 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#4CAF50",
     borderRadius: 8,
     padding: 10,
+    color: "#fff",
   },
 });
 export default LoginScreen;
