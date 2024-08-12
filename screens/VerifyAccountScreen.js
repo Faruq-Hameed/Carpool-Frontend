@@ -9,7 +9,7 @@ const VerifyAccountScreen = ({ navigation }) => {
 
   const handleVerify = () => {
     // Handle account verification
-    navigation.navigate("Welcome");
+    navigation.navigate("MainScreen");
   };
 
   return (

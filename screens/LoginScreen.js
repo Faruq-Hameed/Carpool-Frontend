@@ -6,15 +6,15 @@ const LoginScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   console.log({ hello: "hello" });
   const handleLogin = async () => {
-    const apiUrl = "https://1912-105-119-1-37.ngrok-free.app/api/users/otp/";
+    const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";
 
     try {
       const response = await axios.post(apiUrl, {
         phonenumber: phoneNumber,
       });
-      Alert.alert("Success", response.data.message);
+      // Alert.alert("Success", response.data.message);
       // Navigate to Verify Account screen
-      // navigation.navigate("VerifyAccount");
+      navigation.navigate("VerifyAccount");
     } catch (error) {
       // Handle any network or unexpected errors
       error.response
@@ -53,6 +53,7 @@ const LoginScreen = ({ navigation }) => {
         <Button
           title="Login"
           onPress={() => navigation.navigate("VerifyAccount")}
+          color="#fff"
         />
       </View>
     </View>
@@ -63,8 +64,6 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //   justifyContent: 'center',
-    // alignItems: "center",
     padding: 20,
     paddingVertical: 100,
     backgroundColor: "#fff",
@@ -104,7 +103,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#4CAF50",
     borderRadius: 8,
     padding: 10,
-    color: "#fff",
   },
 });
 export default LoginScreen;

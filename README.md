@@ -3,7 +3,7 @@
 
 ## Project Overview
 
-CarpoolApp is a mobile application designed to make carpooling more accessible and convenient. Users can sign up, log in, and verify their accounts to start carpooling with others in their community. The app aims to provide a seamless experience for users to find or offer carpool rides, reducing travel costs and environmental impact.
+CarpoolApp is a mobile application that I am currently designed to make carpooling more accessible and convenient. It is a personal project. Users can sign up, log in, and verify their accounts to start carpooling with others in their community. The app aims to provide a seamless experience for users to find or offer carpool rides, reducing travel costs and environmental impact.
 
 ### Key Features
 
@@ -61,6 +61,6 @@ To get started with the project, you can use the following commands:
 
 ## Next Steps
 
-- Implement additional screens like `ProfileScreen`, `RideDetailsScreen`, and `RideBookingScreen`.
+- Implement additional screens like `ProfileScreen`, `RideDetailsScreen`, `RideBookingScreen` etc.
 - Integrate backend APIs for user authentication, ride matching, and notifications.
 - Enhance the UI/UX based on user feedback.
