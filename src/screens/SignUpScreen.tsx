@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import { Label } from "../components/label";
 
-const SignUpScreen = ({ navigation }) => {
+
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'SignUp'>;
+const SignUpScreen: React.FC<Props> = ({ navigation }) => {
+
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");

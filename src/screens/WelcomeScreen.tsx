@@ -1,12 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, Button } from "react-native";
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
 
-const WelcomeScreen = ({ navigation }) => {
+type Props = StackScreenProps<RootStackParamList, "Welcome">;
+const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Display welcome image */}
       <Image
-        source={require("../assets/images/welcome.png")}
+        source={require("../../assets/images/welcome.png")}
         style={styles.image}
       />
       {/* Display title */}
@@ -18,16 +21,15 @@ const WelcomeScreen = ({ navigation }) => {
       </Text>
       {/* Button to navigate to SignUp screen */}
       <View style={styles.button}>
-      <Button
-        title="Get Started"
-        onPress={() => navigation.navigate("SignUp")}
-        color="#fff"
-      />
+        <Button
+          title="Get Started"
+          onPress={() => navigation.navigate("SignUp")}
+          color="#fff"
+        />
       </View>
     </View>
   );
 };
-
 
 // Styles for the welcome screen
 const styles = StyleSheet.create({
@@ -58,10 +60,10 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: '100%',
+    width: "100%",
     backgroundColor: "#4CAF50",
     borderRadius: 8,
-    padding: 10
+    padding: 10,
   },
 });
 

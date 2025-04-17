@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-const RecoverAccountScreen = ({ navigation }) => {
+
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'ResetAccount'>;
+const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
   const [code, setCode] = useState('');
 
   const handleRecover = () => {

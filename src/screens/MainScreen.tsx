@@ -3,7 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAre
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-const MainScreen = () => {
+
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
+const MainScreen: React.FC<Props> = ({ navigation }) => {
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#4CAF50" barStyle="light-content" />
@@ -52,7 +58,7 @@ const MainScreen = () => {
           <Ionicons name="car" size={24} color="#4CAF50" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.fab}>
-          <Ionicons name="user" size={24} color="#4CAF50" />
+          <Ionicons name="male" size={24} color="#4CAF50" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

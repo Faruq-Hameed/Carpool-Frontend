@@ -8,7 +8,12 @@ import {
   Keyboard,
 } from "react-native";
 
-const RecoverAccountScreen = ({ navigation }) => {
+
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'ResetAccount'>;
+const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState("");
 
   const handleRecover = () => {
@@ -19,11 +24,14 @@ const RecoverAccountScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Recover your account</Text>
-      <Text style={styles.subtitle}>
+      <Text style={styles.title}>
         Please enter the email linked to your account.
       </Text>
-      <View style={styles.inputContainer}>
-        <Text style={[styles.subtitle, styles.label]}> Email</Text>
+      <View >
+      {/* <View style={styles.subtitle}> */}
+        {/* <Text style={[styles.subtitle, styles.label]}> Email</Text> */}
+        <Text style={[ styles.label]}> Email</Text>
+
         <TextInput
           style={styles.input}
           placeholder="example@email.com"
@@ -37,8 +45,6 @@ const RecoverAccountScreen = ({ navigation }) => {
             title="Login"
             onPress={handleRecover}
             color="#fff"
-            onSubmitEditing={Keyboard.dismiss} // Dismiss keyboard on submit
-            returnKeyType="done" // Show "Done" button on keyboard
           />
         </View>
       </View>

@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const SplashScreen = ({ navigation }) => {
+
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'Splash'>;
+const SplashScreen: React.FC<Props> = ({ navigation }) => {
   // Navigate to the Welcome screen after 2 seconds
   useEffect(() => {
     setTimeout(() => {
@@ -12,7 +17,7 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Display logo image */}
-      <Image source={require('../assets/images/logo.png')} style={styles.logo} />
+      <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
       {/* Display logo text */}
       <Text style={styles.text}>Logo</Text>
     </View>

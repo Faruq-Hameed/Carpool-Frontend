@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import axios from "axios";
-const VerifyAccountScreen = ({ navigation }) => {
+
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../navigation/AppNavigator";
+
+type Props = StackScreenProps<RootStackParamList, 'VerifyAccount'>;
+const VerifyAccountScreen: React.FC<Props> = ({ navigation }) => {
   const [code1, setCode1] = useState("");
   const [code2, setCode2] = useState("");
   const [code3, setCode3] = useState("");

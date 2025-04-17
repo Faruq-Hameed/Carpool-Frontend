@@ -1,7 +1,12 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-const LogoScreen = () => {
+
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
+const LogoScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image source={require('../assets/images/logo.png')} style={styles.logo} />

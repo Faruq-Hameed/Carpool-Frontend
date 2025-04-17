@@ -2,7 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 
-const LoginScreen = ({ navigation }) => {
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'Login'>;
+const LoginScreen: React.FC<Props> = ({ navigation }) => {
+
   const [phoneNumber, setPhoneNumber] = useState("");
   console.log({ hello: "hello" });
   const handleLogin = async () => {
@@ -17,16 +22,16 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate("VerifyAccount");
     } catch (error) {
       // Handle any network or unexpected errors
-      error.response
-        ? Alert.alert("Error", error.response.data.message)
-        : error.message;
+    //   error.response
+    //     ? Alert.alert("Error", error.response.data.message)
+    //     : error.message;
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      <Text style={styles.subtitle}>
+      <Text style={styles.title}>
         Don't have an account?{" "}
         <Text onPress={() => navigation.navigate("SignUp")} style={styles.link}>
           Register
