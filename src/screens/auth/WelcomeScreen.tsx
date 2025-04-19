@@ -1,34 +1,53 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Button } from "react-native";
+import { View, StyleSheet, Image, Button, Dimensions } from "react-native";
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ScreenProps } from "../../types/navigation";
+import { useTypedNavigation } from "../../hooks/useTypedNavigation";
+import NavButton from "../../components/greenButton";
+import { Text } from "@rneui/base";
 
-type Props = StackScreenProps<AuthStackParamList, "Welcome">;
-const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
+/** Welcome screen is the first screen that the user sees when they open the app
+It displays a welcome message and a button to navigate to the SignUp screen */
+const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
+  const navigation = useTypedNavigation<"Welcome">();
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        {/* Display welcome image */}
+      {/* Display welcome image */}
+      <View style={styles.imageContainer}>
         <Image
-          source={require("../../assets/images/welcome.png")}
+          source={require("../../../assets/images/welcomeNew.png")}
           style={styles.image}
         />
-        {/* Display title */}
-        <Text style={styles.title}>Ride Together, Thrive Together</Text>
-        {/* Display subtitle */}
-        <Text style={styles.subtitle}>
-          Carpool to save money, meet new faces, and reduce traffic and carbon
-          footprint.
+      </View>
+      {/*Text container*/}
+      <View>
+        <Text h1 style={styles.heading}>
+          Share Ride, Share Cost
         </Text>
-        {/* Button to navigate to SignUp screen */}
-        <View style={styles.button}>
-          <Button
-            title="Get Started"
-            onPress={() => navigation.navigate("SignUp")}
-            color="#fff"
-          />
-        </View>
+        <Text style={styles.subText}>
+          Split your transport cost when you carpool and keep your wallet happy
+        </Text>
+      </View>
+      {/* Dots to indicate the current page */}
+      <View style={styles.dotsContainer}>
+        <View style={styles.activeDot} />
+        <View style={styles.inactiveDot} />
+      </View>
+      {/* Navigation buttons */}
+      <View>
+        <NavButton
+          title="Let’s get started"
+          onPress={() => navigation.navigate("SignUp")}
+        />
+        <NavButton
+          title="Login"
+          onPress={() => navigation.navigate("Login")}
+          btnType="clear"
+          bgColor="#FFFFFF"
+          titleColor="#126415"
+        />
       </View>
     </SafeAreaView>
   );
@@ -38,36 +57,66 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
+    paddingHorizontal: 24,
+    justifyContent: "space-between",
     backgroundColor: "#fff",
   },
-  image: {
-    width: "100%",
-    height: 200,
-    resizeMode: "contain",
-    marginBottom: 30,
+  imageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    // marginTop: 16,
+    width: 375,
+    height: 375,
+    borderWidth: 2,
+    borderColor: "red",
   },
-  title: {
+  image: {
+   
+    resizeMode: "contain",
+    borderRadius: 12,
+    // height: 220,
+  },
+  textsContainer: {
+    paddingHorizontal: 10,
+    alignItems: "center",
+  },
+  heading: {
     fontSize: 24,
-    fontWeight: "bold",
     textAlign: "center",
+    color: "#1A1A1A",
+    fontWeight: "700",
     marginBottom: 10,
   },
-  subtitle: {
-    fontSize: 16,
+  subText: {
+    fontSize: 14,
     textAlign: "center",
-    marginBottom: 20,
-    color: "#6c757d",
+    color: "#444",
+    lineHeight: 20,
   },
-
-  button: {
-    width: "100%",
-    backgroundColor: "#4CAF50",
-    borderRadius: 8,
-    padding: 10,
+  dotsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 12,
   },
+  activeDot: {
+    width: 30,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#126415",
+    marginHorizontal: 4,
+  },
+  inactiveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#C4C4C4",
+    marginHorizontal: 4,
+  },
+  // buttonsContainer: {
+  //   paddingBottom: 24,
+  //   gap: 12,
+  // },
 });
 
 export default WelcomeScreen;

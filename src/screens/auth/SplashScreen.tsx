@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Text } from "@rneui/base";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
-
-import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import { ScreenProps } from "../../types/navigation";
 
@@ -24,7 +20,7 @@ const SplashScreen: React.FC<ScreenProps<'Splash'>> = () => {
     <View style={styles.container}>
       {/* Display logo image */}
       <Image
-        source={require("../../assets/images/logo.png")}
+        source={require("../../../assets/images/logo.png")} // Path to  logo image
         style={styles.logo}
       />
       {/* Display logo text */}
