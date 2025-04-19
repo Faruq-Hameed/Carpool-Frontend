@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
-import { Label } from "../components/label";
+import { Label } from "../../components/label";
 
+import { AuthStackParamList } from "../../navigation/AuthNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
 
-import { RootStackParamList } from "../navigation/AppNavigator";
-import { StackScreenProps } from '@react-navigation/stack';
-
-type Props = StackScreenProps<RootStackParamList, 'SignUp'>;
+type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
-
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -17,9 +15,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
   // Handle sign up button press
   const handleSignUp = async () => {
-
     // API endpoint for sign up
-    const apiUrl = 'https://4e9c-102-219-53-33.ngrok-free.app/api/users/';
+    const apiUrl = "https://4e9c-102-219-53-33.ngrok-free.app/api/users/";
 
     // Request body for the API call
     const requestBody = {
@@ -32,9 +29,9 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     try {
       // Make a POST request to the sign-up API
       const response = await fetch(apiUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),
       });
@@ -45,17 +42,17 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       // Check if the response is successful
       if (response.ok) {
         // If successful, navigate to the next screen or show a success message
-        Alert.alert('Success', 'You have signed up successfully');
+        Alert.alert("Success", "You have signed up successfully");
         // You can navigate to the login screen or any other screen
         // navigation.navigate('Login');
       } else {
         // If there was an error, display an error message
-        Alert.alert('Error', result.message || 'Something went wrong');
+        Alert.alert("Error", result.message || "Something went wrong");
       }
     } catch (error) {
       // Handle any network or unexpected errors
-      Alert.alert('Error', 'Failed to connect to the server');
-  };
+      Alert.alert("Error", "Failed to connect to the server");
+    }
 
     // console.log("Sign Up", { phoneNumber, email, firstName, lastName });
     // Navigate to next screen if necessary
@@ -90,7 +87,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         </Text>
       </Text>
       {/* Input fields */}
-      <View style={[styles.inputContainer, {marginTop: 70}]}>
+      <View style={[styles.inputContainer, { marginTop: 70 }]}>
         <Text> Phone number</Text>
         <TextInput
           style={styles.input}

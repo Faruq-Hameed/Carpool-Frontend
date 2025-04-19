@@ -1,15 +1,21 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  StatusBar,
+  SafeAreaView,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
+import { AuthStackParamList } from "../navigation/AuthNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
 
-import { RootStackParamList } from "../navigation/AppNavigator";
-import { StackScreenProps } from '@react-navigation/stack';
-
-type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
+type Props = StackScreenProps<AuthStackParamList, "MainScreen">;
 const MainScreen: React.FC<Props> = ({ navigation }) => {
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#4CAF50" barStyle="light-content" />
@@ -32,7 +38,11 @@ const MainScreen: React.FC<Props> = ({ navigation }) => {
 
         <View style={styles.inputGroup}>
           <FontAwesome name="user" size={20} color="#4CAF50" />
-          <TextInput style={styles.input} placeholder="2" keyboardType="numeric" />
+          <TextInput
+            style={styles.input}
+            placeholder="2"
+            keyboardType="numeric"
+          />
         </View>
 
         <TouchableOpacity style={styles.searchButton}>
@@ -51,7 +61,7 @@ const MainScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View>
-      <TouchableOpacity style={styles.fab}>
+        <TouchableOpacity style={styles.fab}>
           <Ionicons name="home" size={24} color="#4CAF50" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.fab}>
@@ -68,59 +78,59 @@ const MainScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4CAF50',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    backgroundColor: "#4CAF50",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   searchCard: {
-    width: '85%',
-    backgroundColor: '#fff',
+    width: "85%",
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 20,
     marginTop: 40,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
   },
   inputGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 15,
   },
   input: {
     flex: 1,
     marginLeft: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    borderBottomColor: "#ddd",
     paddingVertical: 5,
     fontSize: 16,
   },
   searchButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
     borderRadius: 5,
     paddingVertical: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   searchButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   fabContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 30,
     right: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   fab: {
-    backgroundColor: '#E0F7FA',
+    backgroundColor: "#E0F7FA",
     borderRadius: 50,
     width: 60,
     height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 15,
   },
 });

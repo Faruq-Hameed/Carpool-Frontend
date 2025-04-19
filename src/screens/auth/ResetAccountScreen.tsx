@@ -8,11 +8,10 @@ import {
   Keyboard,
 } from "react-native";
 
+import { AuthStackParamList } from "../../navigation/AuthNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
 
-import { RootStackParamList } from "../navigation/AppNavigator";
-import { StackScreenProps } from '@react-navigation/stack';
-
-type Props = StackScreenProps<RootStackParamList, 'ResetAccount'>;
+type Props = StackScreenProps<AuthStackParamList, "ResetAccount">;
 const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState("");
 
@@ -27,10 +26,10 @@ const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
       <Text style={styles.title}>
         Please enter the email linked to your account.
       </Text>
-      <View >
-      {/* <View style={styles.subtitle}> */}
+      <View>
+        {/* <View style={styles.subtitle}> */}
         {/* <Text style={[styles.subtitle, styles.label]}> Email</Text> */}
-        <Text style={[ styles.label]}> Email</Text>
+        <Text style={[styles.label]}> Email</Text>
 
         <TextInput
           style={styles.input}
@@ -41,11 +40,7 @@ const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
         />
         <View style={styles.button}>
           {/* This is the real callback  */}
-          <Button
-            title="Login"
-            onPress={handleRecover}
-            color="#fff"
-          />
+          <Button title="Login" onPress={handleRecover} color="#fff" />
         </View>
       </View>
     </View>

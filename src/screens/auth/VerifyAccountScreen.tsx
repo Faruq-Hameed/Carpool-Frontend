@@ -3,9 +3,9 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import axios from "axios";
 
 import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../navigation/AppNavigator";
+import { AuthStackParamList } from "../../navigation/AuthNavigator";
 
-type Props = StackScreenProps<RootStackParamList, 'VerifyAccount'>;
+type Props = StackScreenProps<AuthStackParamList, "VerifyAccount">;
 const VerifyAccountScreen: React.FC<Props> = ({ navigation }) => {
   const [code1, setCode1] = useState("");
   const [code2, setCode2] = useState("");
