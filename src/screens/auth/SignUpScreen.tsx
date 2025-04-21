@@ -6,6 +6,10 @@ import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/formInput";
+import PassCodeInput from "../../components/PassCodeInput";
+import ShowPassCheckBox from "../../components/ShowPassCheckBox";
+import NavButton from "../../components/greenButton";
+import UnderlineButton from "../../components/UnderLineBtn";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
@@ -14,6 +18,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
+  const [passCode, setPassCode] = useState<string>("");
+  const [hidePasscode, setHidePasscode] = useState(true);
 
   // Handle sign up button press
   const handleSignUp = async () => {
@@ -67,86 +73,62 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         <Text h1>Create your account</Text>
         <Text>Enter your details to create your account</Text>
       </View>
-      {/*Input form container */}
+      {/* middle container */}
       <View>
-     
-        <FormInput
-          label="Surname"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-           <FormInput
-          label="surname"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        <FormInput
-          label="phonenumber"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        <FormInput
-          label="Surname"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        <FormInput
-          label="Surname"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-      </View>
-      <Text>
-        Have an account?{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
-          Login
-        </Text>
-      </Text>
-      {/* Input fields */}
-      <View>
-        <Text> Phone number</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Phone Number"
-          keyboardType="phone-pad"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text> Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text> First name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="First name"
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text> Last name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Last name"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        {/* Sign up button */}
-        <View style={styles.button}>
-          <Button title="Sign up" onPress={handleSignUp} color="#fff" />
+        {/*Input form container */}
+        <View>
+          <FormInput
+            label="Surname"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+          <FormInput
+            label="surname"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+          <FormInput
+            label="phonenumber"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+          />
+          <PassCodeInput
+            label="create 6 digit passcode"
+            genericPlaceholder="Create your 6 digit passcode"
+            value={passCode}
+            onChangeText={setPassCode}
+            hidePassCode={hidePasscode} //show password state
+          />
+          <ShowPassCheckBox
+            checked={hidePasscode}
+            onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
+          />
+        </View>
+        {/* Button container */}
+        <View>
+          <NavButton
+            title="create account"
+            onPress={() => navigation.navigate("SignUp")}
+          />
+          <UnderlineButton
+            title="Login"
+            onPress={() => navigation.navigate("Login")}
+          />
         </View>
       </View>
+      <Text>
+        Creating an account with us means you agree with our
+        <UnderlineButton
+          title="Terms of use"
+          bold={false}
+          onPress={() => console.log("Terms of use pressed")}
+        />
+        <UnderlineButton
+          title="Privacy policy"
+          bold={false}
+          onPress={() => console.log("Privacy policy pressed")}
+        />
+      </Text>
     </SafeAreaView>
   );
 };

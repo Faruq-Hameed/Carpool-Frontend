@@ -1,13 +1,23 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { Text } from "@rneui/themed";
 
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
+import FormInput from "../../components/formInput";
+import PassCodeInput from "../../components/PassCodeInput";
+import ShowPassCheckBox from "../../components/ShowPassCheckBox";
+import NavButton from "../../components/greenButton";
+import UnderlineButton from "../../components/UnderLineBtn";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // State variables for input fields
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [passCode, setPassCode] = useState<string>("");
+  const [hidePasscode, setHidePasscode] = useState(true);
   console.log({ hello: "hello" });
   const handleLogin = async () => {
     const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";
@@ -28,39 +38,47 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <Text style={styles.title}>
-        Don't have an account?{" "}
-        <Text onPress={() => navigation.navigate("SignUp")} style={styles.link}>
-          Register
-        </Text>
-      </Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.numberCode}
-          placeholder="+234"
-          keyboardType="phone-pad"
-          editable={false}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Phone Number"
-          keyboardType="phone-pad"
+    <SafeAreaView>
+      {/*upper container */}
+      <View>
+        <Text h1>Welcome Back</Text>
+        <Text>Enter your details to login</Text>
+      </View>
+      {/*lower container */}
+      <View>
+        <FormInput
+          label="phonenumber"
           value={phoneNumber}
           onChangeText={setPhoneNumber}
         />
-      </View>
-      <View style={styles.button}>
-        {/* This is the real callback  */}
-        {/* <Button title="Login" onPress={handleLogin} /> */}
-        <Button
-          title="Login"
-          onPress={() => navigation.navigate("VerifyAccount")}
-          color="#fff"
+        <PassCodeInput
+          value={passCode}
+          onChangeText={setPassCode}
+          hidePassCode={hidePasscode} //show password state
         />
+        {/*password show and forget password*/}
+        <View>
+          <ShowPassCheckBox
+            checked={hidePasscode}
+            onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
+          />
+          <UnderlineButton
+            title="forget password"
+            onPress={() => console.log("Forget password pressed")}
+          />
+        </View>
       </View>
-    </View>
+
+      {/* Button container */}
+      <View>
+        <NavButton title="Login" onPress={() => navigation.navigate("Login")} />
+        <NavButton
+          title="create an account"
+          onPress={() => navigation.navigate("SignUp")}
+        />
+        <View></View>
+      </View>
+    </SafeAreaView>
   );
 };
 
