@@ -51,6 +51,7 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
             }
           }}
           maxLength={4}
+          
         />
         {/* resend otp container */}
         <View>
