@@ -22,6 +22,7 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
   label,
   genericPlaceholder,
 }) => {
+  console.log({hidePassCode})
   return (
     <Spacer>
       <Input

@@ -18,7 +18,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [passCode, setPassCode] = useState<string>("");
   const [hidePasscode, setHidePasscode] = useState(true);
-  console.log({ hello: "hello" });
   const handleLogin = async () => {
     const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";
 

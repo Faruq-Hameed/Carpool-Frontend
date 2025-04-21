@@ -1,17 +1,11 @@
-//reusasble input component. Expecting title, placeholder, value, onChangeText, keyboardType
-
 import React from "react";
-import { View, StyleSheet } from "react-native";
 import { Input } from "@rneui/themed";
-
-import { width } from "../utils/constants/constants";
-import Spacer from "./Spacer";
 
 type FormInputProps = {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
-  keyboardType?: "default" | "email-address" | "phone-pad";
+  keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
 };
 
 /**  Reusable input component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -22,7 +16,6 @@ const FormInput: React.FC<FormInputProps> = ({
   keyboardType = "default",
 }) => {
   return (
-    <Spacer>
       <Input
         label={label}
         placeholder={`Enter your ${label}`}
@@ -32,7 +25,6 @@ const FormInput: React.FC<FormInputProps> = ({
         // containerStyle={styles.inputContainer}
         // inputContainerStyle={styles.input}
       />
-    </Spacer>
   );
 };
 
