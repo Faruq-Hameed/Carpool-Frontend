@@ -16,13 +16,13 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       {/* Display welcome image */}
-      <View style={styles.upperContainer}>
+      <View >
         <Image
           source={require("../../../assets/images/welcomeNew.png")}
           style={styles.image}
         />
         {/*Text container*/}
-        <View style={styles.textsContainer}>
+        <View>
           <Text h1 >
             Share Ride, Share Cost
           </Text>
@@ -39,7 +39,7 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
       </View>
 
       {/* Navigation buttons */}
-      <View style={styles.lowerContainer}>
+      <View >
         <NavButton
           title="Let’s get started"
           onPress={() => navigation.navigate("SignUp")}
@@ -66,24 +66,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5
 
   },
-  upperContainer: {
-   borderWidth: 2,
-   borderBlockColor: "red",
-   justifyContent: "space-between",
-   flex: 0.6,
-  },
+
   image: {
-   width: "100%",
+   width: 275,
     height: 220,
     borderRadius: 12,
     borderWidth: 2,
   },
-  textsContainer: {
-   borderWidth: 2,
-    borderBlockColor: "red",
-    paddingHorizontal: 5
-    
-  },
+
 
   dotsContainer: {
     flexDirection: "row",
@@ -105,12 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#C4C4C4",
     marginHorizontal: 4,
   },
-  lowerContainer: {
-    // paddingBottom: 24,
-    // gap: 12,
-    // borderWidth: 2,
-    // borderColor: "blue",
-  },
+
 });
 
 export default WelcomeScreen;

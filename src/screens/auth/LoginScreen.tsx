@@ -46,37 +46,42 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       </View>
       {/*lower container */}
       <View>
-        <FormInput
-          label="phonenumber"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-        />
-        <PassCodeInput
-          value={passCode}
-          onChangeText={setPassCode}
-          hidePassCode={hidePasscode} //show password state
-        />
-        {/*password show and forget password*/}
+        {/**Form inputs container */}
         <View>
-          <ShowPassCheckBox
-            checked={hidePasscode}
-            onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
+          <FormInput
+            label="phonenumber"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
           />
-          <UnderlineButton
-            title="forget password"
-            onPress={() => console.log("Forget password pressed")}
+          <PassCodeInput
+            value={passCode}
+            onChangeText={setPassCode}
+            hidePassCode={hidePasscode} //show password state
           />
+          {/*password show and forget password*/}
+          <View>
+            <ShowPassCheckBox
+              checked={hidePasscode}
+              onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
+            />
+            <UnderlineButton
+              title="forget password"
+              onPress={() => console.log("Forget password pressed")}
+            />
+          </View>
         </View>
-      </View>
-
-      {/* Button container */}
-      <View>
-        <NavButton title="Login" onPress={() => navigation.navigate("Login")} />
-        <NavButton
-          title="create an account"
-          onPress={() => navigation.navigate("SignUp")}
-        />
-        <View></View>
+        {/* Button container */}
+        <View>
+          <NavButton
+            title="Login"
+            onPress={() => navigation.navigate("Login")}
+          />
+          <NavButton
+            title="create an account"
+            onPress={() => navigation.navigate("SignUp")}
+          />
+          <View></View>
+        </View>
       </View>
     </SafeAreaView>
   );
