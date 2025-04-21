@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
-import { Label } from "../../components/label";
+import { View,  TextInput, StyleSheet, Alert } from "react-native";
+import { Text, Button } from "@rneui/themed";
 
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
@@ -58,28 +59,18 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     // Navigate to next screen if necessary
   };
 
-  // const handleSignUp = () => {
-  //   // Sample API call
-  //   axios.post('http://<your_ngrok_url>/api/users/', {
-  //     firstname,
-  //     lastname,
-  //     email,
-  //     phonenumber,
-  //   })
-  //   .then(response => {
-  //     console.log(response.data);
-  //     navigation.navigate('Login');
-  //   })
-  //   .catch(error => {
-  //     console.error(error);
-  //   });
-  // };
-
+ 
   return (
-    <View style={styles.container}>
-      {/* Display title */}
-      <Text style={styles.title}>Create your account</Text>
-      {/* Link to login screen */}
+    <SafeAreaView style={styles.container}>
+      {/*upper container. i.e create account*/}
+      <View>
+      <Text h1>Create your account</Text>
+      <Text >Enter your details to create your account</Text>
+      </View>
+      {/*Input form container */}
+      <View>
+        
+      </View>
       <Text>
         Have an account?{" "}
         <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
@@ -131,7 +122,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           <Button title="Sign up" onPress={handleSignUp} color="#fff" />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
