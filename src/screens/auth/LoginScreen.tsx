@@ -66,7 +66,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             />
             <UnderlineButton
               title="forget password"
-              onPress={() => console.log("Forget password pressed")}
+              onPress={() =>navigation.navigate("ForgotPasscode")} //api to be called here too
             />
           </View>
         </View>
@@ -74,7 +74,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <View>
           <NavButton
             title="Login"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("MainScreen")} //api to be called here too
           />
           <NavButton
             title="create an account"

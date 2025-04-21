@@ -7,78 +7,80 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import UpperTextsFrame from "../../components/upperTextsFrame";
 import { useNavigation } from "@react-navigation/native";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
+import { Input } from "@rneui/themed";
+import UnderlineButton from "../../components/UnderLineBtn";
+import Spacer from "../../components/Spacer";
 
 type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
-const EnterOTPScreen: React.FC<Props> = () => {
+const EnterOTPScreen: React.FC<Props> = ({ route }) => {
   const navigation = useTypedNavigation();
-  const phoneNumber = navigation.getState().routes[1].params?.phoneNumber;
-  const [code, setCode] = useState("");
+  let { phonenumber } = route.params;
+  const [code, setCode] = useState(["_", "_", "_", "_"]);
+  const [isInputComplete, setIsInputComplete] = useState(false);
+  const [timer, setTimer] = useState(30); // timer for resend OTP button
 
-  const handleRecover = () => {
-    // Handle account recovery
-    navigation.navigate("Welcome");
+  //turn the number turn the next 4 digit after first 5 digits to *
+  phonenumber = phonenumber.replace(/^(.{5})(.{4})/, "$1****");
+  /** function that runs every time the user types or deletes a character. */
+  const handleChangeText = (text: string) => {
+    const digits = text.replace(/[^0-9]/g, "").slice(0, 4); //remove non-numeric and trim to 4 digits
+    const newCode = Array(4).fill("_");
+    for (let i = 0; i < digits.length; i++) {
+      newCode[i] = digits[i];
+    }
+    setCode(newCode);
+    setIsInputComplete(!newCode.includes("_")); //this will be true if all 4 digits are filled
   };
-
+  //set resend otp interval if is greater than 0
+  setInterval(() => {
+    if (timer > 0) {
+      setTimer(timer - 1);
+    }
+  }, 1000);
   return (
-    <SafeAreaView >
-        <UpperTextsFrame
-        header="Forgot Passcode"
-        normalText="Enter the phone number linked to your account to regain access"
+    <SafeAreaView>
+      <UpperTextsFrame
+        header="Enter code"
+        normalText={`A 4 digit OTP was sent to ${phonenumber} to verify your phone number`}
       />
-      <Text style={styles.title}>Recover your account</Text>
-      <Text style={styles.subtitle}>
-        Please enter the 4 digit code we sent to your email.
-      </Text>
-      <TextInput
-        style={styles.codeInput}
-        keyboardType="numeric"
-        value={code}
-        onChangeText={setCode}
-        maxLength={4}
-      />
-      <Button
-        title="Verify my account"
-        onPress={handleRecover}
-        color="#4CAF50"
-      />
-      <Text style={styles.resendText}>Tap here to resend code in 50s</Text>
-    </SafeA>
+      <Spacer />
+      {/* OTP input container */}
+      <View>
+        <Input
+          keyboardType="numeric"
+          value={code.join()}
+          onChangeText={(text) => {
+            handleChangeText(text);
+            if (isInputComplete) {
+              console.log("code is complete");
+            }
+          }}
+          maxLength={4}
+        />
+        {/* resend otp container */}
+        <View>
+          <Text>
+            Didn’t receive code?
+            {/* if the timer is greater than 0, don't show resend otp option */}
+            {timer <= 0 ? (
+              <UnderlineButton
+                title="Resend OTP"
+                onPress={() => {
+                  // Call the API to resend OTP 
+                  setTimer(30); // reset timer to 30 seconds. After success response from API
+                  //also a loading state should be added a
+                  console.log("resend otp pressed");
+                }}
+              />
+            ) : null}
+          </Text>
+          <Text>{timer}s</Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  codeInput: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    textAlign: "center",
-    fontSize: 24,
-    letterSpacing: 10,
-  },
-  resendText: {
-    textAlign: "center",
-    marginTop: 20,
-    color: "#4CAF50",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default EnterOTPScreen;

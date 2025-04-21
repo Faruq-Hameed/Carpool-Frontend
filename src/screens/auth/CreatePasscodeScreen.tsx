@@ -9,20 +9,35 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/formInput";
 import NavButton from "../../components/greenButton";
 import UpperTextsFrame from "../../components/upperTextsFrame";
+import PassCodeInput from "../../components/PassCodeInput";
+import ShowPassCheckBox from "../../components/ShowPassCheckBox";
 
-type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
+type Props = StackScreenProps<AuthStackParamList, "CreatePasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   // State variables for input fields
+    // State variables for input fields
+    const [passCode, setPassCode] = useState<string>("");
+    const [hidePasscode, setHidePasscode] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   return (
     <SafeAreaView>
       {/*upper container */}
       <UpperTextsFrame
-        header="Forgot Passcode"
-        normalText="Enter the phone number linked to your account to regain access"
+        header="Create new passcode"
       />
       {/*lower container */}
       <View>
+      <PassCodeInput
+            label="create 6 digit passcode"
+            genericPlaceholder="Create your 6 digit passcode"
+            value={passCode}
+            onChangeText={setPassCode}
+            hidePassCode={hidePasscode} //show password state
+          />
+          <ShowPassCheckBox
+            checked={hidePasscode}
+            onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
+          />
         <FormInput
           label="phonenumber"
           keyboardType="numeric"
@@ -30,8 +45,8 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
           onChangeText={setPhoneNumber}
         />
         <NavButton
-          title="Send OTP"
-          onPress={() => navigation.navigate("EnterOTP", { phonenumber: phoneNumber })} // Pass the phone number to EnterOTPScreen
+          title="Confirm new passcode"
+          onPress={() => navigation.navigate("MainScreen")}
         />
       </View>
     </SafeAreaView>

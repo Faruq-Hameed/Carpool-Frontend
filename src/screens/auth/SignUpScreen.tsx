@@ -78,7 +78,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         <View>
           <NavButton
             title="create account"
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate("EnterOTP", {phonenumber: phoneNumber}) /*handleSignUp()*/} // Call the handleSignUp function when the button is pressed
           />
           <UnderlineButton
             title="Login"
