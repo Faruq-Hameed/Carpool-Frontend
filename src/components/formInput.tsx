@@ -9,7 +9,6 @@ import Spacer from "./Spacer";
 
 type FormInputProps = {
   label: string;
-  placeholder: string;
   value: string;
   onChangeText: (text: string) => void;
   keyboardType?: "default" | "email-address" | "phone-pad";
@@ -18,7 +17,6 @@ type FormInputProps = {
 /**  Reusable input component. Expecting title, placeholder, value, onChangeText, keyboardType */
 const FormInput: React.FC<FormInputProps> = ({
   label,
-  placeholder,
   value,
   onChangeText,
   keyboardType = "default",
@@ -27,7 +25,7 @@ const FormInput: React.FC<FormInputProps> = ({
     <Spacer>
       <Input
         label={label}
-        placeholder={placeholder}
+        placeholder={`Enter your ${label}`}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
@@ -37,3 +35,5 @@ const FormInput: React.FC<FormInputProps> = ({
     </Spacer>
   );
 };
+
+export default FormInput;

@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { View,  TextInput, StyleSheet, Alert } from "react-native";
+import { View, TextInput, StyleSheet, Alert } from "react-native";
 import { Text, Button } from "@rneui/themed";
 
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FormInput from "../../components/formInput";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   // State variables for input fields
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
 
   // Handle sign up button press
   const handleSignUp = async () => {
@@ -59,17 +60,41 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     // Navigate to next screen if necessary
   };
 
- 
   return (
     <SafeAreaView style={styles.container}>
       {/*upper container. i.e create account*/}
       <View>
-      <Text h1>Create your account</Text>
-      <Text >Enter your details to create your account</Text>
+        <Text h1>Create your account</Text>
+        <Text>Enter your details to create your account</Text>
       </View>
       {/*Input form container */}
       <View>
-        
+     
+        <FormInput
+          label="Surname"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+           <FormInput
+          label="surname"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <FormInput
+          label="phonenumber"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <FormInput
+          label="Surname"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <FormInput
+          label="Surname"
+          value={lastName}
+          onChangeText={setLastName}
+        />
       </View>
       <Text>
         Have an account?{" "}
@@ -78,7 +103,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         </Text>
       </Text>
       {/* Input fields */}
-      <View style={[styles.inputContainer, { marginTop: 70 }]}>
+      <View>
         <Text> Phone number</Text>
         <TextInput
           style={styles.input}
