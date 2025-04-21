@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
@@ -31,12 +31,7 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
     setCode(newCode);
     setIsInputComplete(!newCode.includes("_")); //this will be true if all 4 digits are filled
   };
-  //set resend otp interval if is greater than 0
-  setInterval(() => {
-    if (timer > 0) {
-      setTimer(timer - 1);
-    }
-  }, 1000);
+
   return (
     <SafeAreaView>
       <UpperTextsFrame
@@ -62,17 +57,18 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
           <Text>
             Didn’t receive code?
             {/* if the timer is greater than 0, don't show resend otp option */}
-            {timer <= 0 ? (
-              <UnderlineButton
-                title="Resend OTP"
-                onPress={() => {
-                  // Call the API to resend OTP 
-                  setTimer(30); // reset timer to 30 seconds. After success response from API
-                  //also a loading state should be added a
-                  console.log("resend otp pressed");
-                }}
-              />
-            ) : null}
+            {/* {timer <= 0 ? ( */}
+            <UnderlineButton
+              title="Resend OTP"
+              onPress={() => {
+                navigation.navigate("EnterOTP", { phonenumber }); //reload the screen
+                // Call the API to resend OTP
+                //also a loading state should be added a
+                console.log("resend otp pressed");
+              }}
+            />
+            {/* )  */}
+            {/* : null} */}
           </Text>
           <Text>{timer}s</Text>
         </View>
