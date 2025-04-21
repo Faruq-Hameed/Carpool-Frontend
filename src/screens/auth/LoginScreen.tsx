@@ -11,6 +11,7 @@ import PassCodeInput from "../../components/PassCodeInput";
 import ShowPassCheckBox from "../../components/ShowPassCheckBox";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
+import UpperTextsFrame from "../../components/upperTextsFrame";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
@@ -39,10 +40,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView>
       {/*upper container */}
-      <View>
-        <Text h1>Welcome Back</Text>
-        <Text>Enter your details to login</Text>
-      </View>
+      <UpperTextsFrame
+        header="Welcome Back"
+        normalText="Enter your details to login"
+      />
       {/*lower container */}
       <View>
         {/**Form inputs container */}

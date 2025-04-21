@@ -10,6 +10,7 @@ import PassCodeInput from "../../components/PassCodeInput";
 import ShowPassCheckBox from "../../components/ShowPassCheckBox";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
+import UpperTextsFrame from "../../components/upperTextsFrame";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
@@ -33,46 +34,15 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       email: email,
       phonenumber: phoneNumber,
     };
-
-    try {
-      // Make a POST request to the sign-up API
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      // Parse the JSON response
-      const result = await response.json();
-
-      // Check if the response is successful
-      if (response.ok) {
-        // If successful, navigate to the next screen or show a success message
-        Alert.alert("Success", "You have signed up successfully");
-        // You can navigate to the login screen or any other screen
-        // navigation.navigate('Login');
-      } else {
-        // If there was an error, display an error message
-        Alert.alert("Error", result.message || "Something went wrong");
-      }
-    } catch (error) {
-      // Handle any network or unexpected errors
-      Alert.alert("Error", "Failed to connect to the server");
-    }
-
-    // console.log("Sign Up", { phoneNumber, email, firstName, lastName });
-    // Navigate to next screen if necessary
   };
 
   return (
     <SafeAreaView style={styles.container}>
       {/*upper container. i.e create account*/}
-      <View>
-        <Text h1>Create your account</Text>
-        <Text>Enter your details to create your account</Text>
-      </View>
+      <UpperTextsFrame
+        header="Create your account"
+        normalText="Enter your details to create your account"
+      />
       {/* middle container */}
       <View>
         {/*Input form container */}

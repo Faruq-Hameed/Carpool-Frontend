@@ -9,6 +9,8 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import ResetAccountScreen from "../screens/auth/ResetAccountScreen";
 import VerifyAccountScreen from "../screens/auth/VerifyAccountScreen";
 import MainScreen from "../screens/MainScreen";
+import ForgotPasscodeScreen from "../screens/auth/ForgotPasscodeScreen";
+import EnterOTPScreen from "../screens/auth/EnterOTPScreen";
 
 // the auth stack parameter list
 export type AuthStackParamList = {
@@ -18,6 +20,8 @@ export type AuthStackParamList = {
   Login: undefined;
   VerifyAccount: undefined;
   ResetAccount: undefined;
+  ForgotPasscode: undefined;
+  EnterOTP: undefined;
   MainScreen: undefined;
 };
 
@@ -61,6 +65,16 @@ const AuthNavigator: React.FC = () => (
     <Stack.Screen
       name="ResetAccount"
       component={ResetAccountScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="ForgotPasscode"
+      component={ForgotPasscodeScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="EnterOTP"
+      component={EnterOTPScreen}
       options={{ headerShown: false }}
     />
     {/* Main screen, with header */}

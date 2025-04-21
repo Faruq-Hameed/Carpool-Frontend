@@ -3,9 +3,15 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
+import UpperTextsFrame from "../../components/upperTextsFrame";
+import { useNavigation } from "@react-navigation/native";
+import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 
-type Props = StackScreenProps<AuthStackParamList, "ResetAccount">;
-const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
+type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
+const EnterOTPScreen: React.FC<Props> = () => {
+  const navigation = useTypedNavigation();
+  const phoneNumber = navigation.getState().routes[1].params?.phoneNumber;
   const [code, setCode] = useState("");
 
   const handleRecover = () => {
@@ -14,7 +20,11 @@ const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView >
+        <UpperTextsFrame
+        header="Forgot Passcode"
+        normalText="Enter the phone number linked to your account to regain access"
+      />
       <Text style={styles.title}>Recover your account</Text>
       <Text style={styles.subtitle}>
         Please enter the 4 digit code we sent to your email.
@@ -32,7 +42,7 @@ const RecoverAccountScreen: React.FC<Props> = ({ navigation }) => {
         color="#4CAF50"
       />
       <Text style={styles.resendText}>Tap here to resend code in 50s</Text>
-    </View>
+    </SafeA>
   );
 };
 
@@ -71,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecoverAccountScreen;
+export default EnterOTPScreen;
