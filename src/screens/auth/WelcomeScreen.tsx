@@ -16,17 +16,15 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       {/* Display welcome image */}
-      <View >
+      <View>
         <Image
           source={require("../../../assets/images/welcomeNew.png")}
           style={styles.image}
         />
         {/*Text container*/}
         <View>
-          <Text h1 >
-            Share Ride, Share Cost
-          </Text>
-          <Text >
+          <Text h1>Share Ride, Share Cost</Text>
+          <Text>
             Split your transport cost when you carpool and keep your wallet
             happy
           </Text>
@@ -39,10 +37,14 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
       </View>
 
       {/* Navigation buttons */}
-      <View >
+      <View>
         <NavButton
           title="Let’s get started"
           onPress={() => navigation.navigate("SignUp")}
+        />
+        <NavButton //TEMPORARY
+          title="welcome Faruq Screen"
+          onPress={() => navigation.navigate("WelcomeUser")}
         />
         <NavButton
           title="Login"
@@ -63,17 +65,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     // borderWidth: 2,
     borderBlockColor: "red",
-    paddingHorizontal: 5
-
+    paddingHorizontal: 5,
   },
 
   image: {
-   width: 275,
+    width: 275,
     height: 220,
     borderRadius: 12,
     borderWidth: 2,
   },
-
 
   dotsContainer: {
     flexDirection: "row",
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#C4C4C4",
     marginHorizontal: 4,
   },
-
 });
 
 export default WelcomeScreen;

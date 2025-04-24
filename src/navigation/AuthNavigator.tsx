@@ -12,6 +12,7 @@ import MainScreen from "../screens/MainScreen";
 import ForgotPasscodeScreen from "../screens/auth/ForgotPasscodeScreen";
 import EnterOTPScreen from "../screens/auth/EnterOTPScreen";
 import CreatePasscodeScreen from "../screens/auth/CreatePasscodeScreen";
+import WelcomeUserScreen from "../screens/auth/WelcomeUserScreen";
 
 // the auth stack parameter list
 export type AuthStackParamList = {
@@ -24,6 +25,7 @@ export type AuthStackParamList = {
   ForgotPasscode: undefined;
   EnterOTP: { phonenumber: string };//to pass the phone number to the EnterOTPScreen from screen we came from
   CreatePasscode: undefined;
+  WelcomeUser: undefined;
   MainScreen: undefined;
 };
 
@@ -82,6 +84,11 @@ const AuthNavigator: React.FC = () => (
       <Stack.Screen
       name="CreatePasscode"
       component={CreatePasscodeScreen}
+      options={{ headerShown: false }}
+    />
+     <Stack.Screen
+      name="WelcomeUser"
+      component={WelcomeUserScreen}
       options={{ headerShown: false }}
     />
     {/* Main screen, with header */}
