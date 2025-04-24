@@ -71,7 +71,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             title="Login"
             onPress={() => navigation.navigate("MainScreen")} //api to be called here too
           />
-          <NavButton
+          <UnderlineButton
             title="create an account"
             onPress={() => navigation.navigate("SignUp")}
           />

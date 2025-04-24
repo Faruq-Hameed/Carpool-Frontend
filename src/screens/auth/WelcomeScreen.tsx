@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenProps } from "../../types/navigation";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import NavButton from "../../components/greenButton";
-import { Text } from "@rneui/base";
+import { Text } from "@rneui/themed";
 import { width } from "../../utils/constants/constants";
 
 /** Welcome screen is the first screen that the user sees when they open the app
@@ -16,17 +16,16 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       {/* Display welcome image */}
-      <View>
+      <View style={styles.imageContainer}>
         <Image
           source={require("../../../assets/images/welcomeNew.png")}
           style={styles.image}
         />
         {/*Text container*/}
-        <View>
-          <Text h1>Share Ride, Share Cost</Text>
-          <Text>
-            Split your transport cost when you carpool and keep your wallet
-            happy
+        <View style={styles.textsContainer}>
+          <Text h4 h4Style={{textAlign: "center"}}>Share Ride, Share Cost</Text>
+          <Text style = {{textAlign: "center"}}>
+          Split your transport cost when you carpool and keep your wallet happy. All within a secured, trusted platform
           </Text>
         </View>
         {/* Dots to indicate the current page */}
@@ -37,15 +36,15 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
       </View>
 
       {/* Navigation buttons */}
-      <View>
+      <View style={styles.buttonContainer}>
         <NavButton
           title="Let’s get started"
           onPress={() => navigation.navigate("SignUp")}
         />
-        <NavButton //TEMPORARY
+        {/* <NavButton //TEMPORARY
           title="welcome Faruq Screen"
           onPress={() => navigation.navigate("WelcomeUser")}
-        />
+        /> */}
         <NavButton
           title="Login"
           onPress={() => navigation.navigate("Login")}
@@ -63,18 +62,28 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: "space-between",
-    // borderWidth: 2,
-    borderBlockColor: "red",
-    paddingHorizontal: 5,
+   
+    paddingHorizontal: 8,
   },
-
+  imageContainer: {
+    paddingTop: 50,
+    height: 475,
+   justifyContent: "center",
+   
+  },
   image: {
-    width: 275,
-    height: 220,
-    borderRadius: 12,
-    borderWidth: 2,
+    width: 359,
+    height: 292,
+    margin: "auto",
+    marginBottom: 30,
+    
   },
-
+  textsContainer: {    
+    width: 303,
+    margin: "auto",
+    textAlignVertical: "center",
+    
+  },
   dotsContainer: {
     flexDirection: "row",
     justifyContent: "center",
@@ -94,6 +103,13 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "#C4C4C4",
     marginHorizontal: 4,
+  },
+
+  buttonContainer: {
+    margin: "auto",
+    width: 375,
+    // borderWidth: 1,
+    // borderBlockColor: "red"
   },
 });
 

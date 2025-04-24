@@ -1,7 +1,14 @@
 import React, { useRef } from "react";
-import { Text, TouchableOpacity, View, StyleSheet, Animated } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Animated,
+} from "react-native";
 
-interface UnderlineButtonProps { //reusable button component with underline animation
+interface UnderlineButtonProps {
+  //reusable button component with underline animation
   /** Reusable button component with underline animation */
   title: string;
   onPress: () => void;
@@ -36,7 +43,10 @@ const UnderlineButton: React.FC<UnderlineButtonProps> = ({
   };
 
   const underlineStyle = {
-    width: underlineWidth.interpolate({ inputRange: [0, 1], outputRange: [0, 100] }),
+    width: underlineWidth.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 100],
+    }),
     height: 2,
     backgroundColor: color,
     marginTop: 2,
@@ -50,12 +60,16 @@ const UnderlineButton: React.FC<UnderlineButtonProps> = ({
       activeOpacity={0.7}
       style={styles.wrapper}
     >
-      <Text style={{
-        color,
-        fontSize,
-        fontWeight: bold ? "600" : "400",
-        textAlign: "center",
-      }}>
+      <Text
+        style={{
+          textDecorationLine: "underline",
+          textDecorationStyle: "solid",
+          color,
+          fontSize,
+          fontWeight: bold ? "600" : "400",
+          textAlign: "center",
+        }}
+      >
         {title}
       </Text>
       <Animated.View style={underlineStyle} />

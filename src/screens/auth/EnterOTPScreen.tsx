@@ -10,27 +10,30 @@ import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import { Input } from "@rneui/themed";
 import UnderlineButton from "../../components/UnderLineBtn";
 import Spacer from "../../components/Spacer";
+import FormInput from "../../components/formInput";
+import NavButton from "../../components/greenButton";
 
 type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<Props> = ({ route }) => {
   const navigation = useTypedNavigation();
   let { phonenumber } = route.params;
-  const [code, setCode] = useState(["_", "_", "_", "_"]);
+  const [code, setCode] = useState("");
   const [isInputComplete, setIsInputComplete] = useState(false);
   const [timer, setTimer] = useState(30); // timer for resend OTP button
 
   //turn the number turn the next 4 digit after first 5 digits to *
   phonenumber = phonenumber.replace(/^(.{5})(.{4})/, "$1****");
-  /** function that runs every time the user types or deletes a character. */
   const handleChangeText = (text: string) => {
-    const digits = text.replace(/[^0-9]/g, "").slice(0, 4); //remove non-numeric and trim to 4 digits
-    const newCode = Array(4).fill("_");
-    for (let i = 0; i < digits.length; i++) {
-      newCode[i] = digits[i];
+    console.log("text", text);
+    setCode(text);
+    if(text.length === 4) {
+      // setIsInputComplete(!isInputComplete); // to be done later
     }
-    setCode(newCode);
-    setIsInputComplete(!newCode.includes("_")); //this will be true if all 4 digits are filled
   };
+  useEffect(() => {
+    handleChangeText(code);
+  }, []);
+ 
 
   return (
     <SafeAreaView>
@@ -40,44 +43,17 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
       />
       <Spacer />
       {/* OTP input container */}
-      <View>
-        <Input
-          keyboardType="numeric"
-          value={code.join()}
-          onChangeText={(text) => {
-            handleChangeText(text);
-            if (isInputComplete) {
-              console.log("code is complete");
-            }
-          }}
-          onSubmitEditing={() => {
-            // Call the API to verify OTP
-            console.log("next pressed");
-            navigation.navigate("MainScreen"); //if otp success
-          }}
-          maxLength={4}
-          returnKeyType="next"
-        />
-        <Button title="sub"/>
-        {/* resend otp container */}
-        <View>
-          <Text>
-            Didn’t receive code?
-            {/* if the timer is greater than 0, don't show resend otp option */}
-            {/* {timer <= 0 ? ( */}
-            <UnderlineButton
-              title="Resend OTP"
-              onPress={() => {
-                navigation.navigate("EnterOTP", { phonenumber }); //reload the screen
-                // Call the API to resend OTP
-                //also a loading state should be added a
-                console.log("resend otp pressed");
-              }}
-            />
-          </Text>
-          <Text>{timer}s</Text>
-        </View>
-      </View>
+    <FormInput 
+      label="Enter OTP"
+      value={code}
+      onChangeText={handleChangeText}
+      keyboardType="numeric"
+    />
+    <NavButton 
+      title="Verify"
+      onPress={() => navigation.navigate("MainScreen")} //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
+      // disabled={!isInputComplete} // Disable button if input is not complete //LATER
+    />
     </SafeAreaView>
   );
 };
