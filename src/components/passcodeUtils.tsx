@@ -12,7 +12,7 @@ interface PassCodeUtilsProps {
   setPassCode: React.Dispatch<React.SetStateAction<string>>;
   setHidePasscode: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
+/** PassCodeUtils component contains the ShowPassCheckBox and forgot password */
 const PassCodeUtils: React.FC<PassCodeUtilsProps> = ( //it should accept setPassCode, setHidePasscode
     props,
 
@@ -45,13 +45,3 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = ( //it should accept setPass
 };
 
 export default PassCodeUtils;
-{/* <View>
-<ShowPassCheckBox
-  checked={hidePasscode}
-  onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
-/>
-<UnderlineButton
-  title="forget password"
-  onPress={() =>navigation.navigate("ForgotPasscode")} //api to be called here too
-/>
-</View> */}

@@ -12,6 +12,7 @@ import ShowPassCheckBox from "../../components/ShowPassCheckBox";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
 import UpperTextsFrame from "../../components/upperTextsFrame";
+import PassCodeUtils from "../../components/passcodeUtils";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
@@ -59,16 +60,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             hidePassCode={hidePasscode} //show password state
           />
           {/*password show and forget password*/}
-          <View>
-            <ShowPassCheckBox
-              checked={hidePasscode}
-              onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
-            />
-            <UnderlineButton
-              title="forget password"
-              onPress={() =>navigation.navigate("ForgotPasscode")} //api to be called here too
-            />
-          </View>
+          <PassCodeUtils
+            setPassCode={setPassCode}
+            setHidePasscode={setHidePasscode} //show password state
+          />
         </View>
         {/* Button container */}
         <View>

@@ -50,9 +50,15 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
               console.log("code is complete");
             }
           }}
+          onSubmitEditing={() => {
+            // Call the API to verify OTP
+            console.log("next pressed");
+            navigation.navigate("MainScreen"); //if otp success
+          }}
           maxLength={4}
-          
+          returnKeyType="next"
         />
+        <Button title="sub"/>
         {/* resend otp container */}
         <View>
           <Text>
@@ -68,8 +74,6 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
                 console.log("resend otp pressed");
               }}
             />
-            {/* )  */}
-            {/* : null} */}
           </Text>
           <Text>{timer}s</Text>
         </View>

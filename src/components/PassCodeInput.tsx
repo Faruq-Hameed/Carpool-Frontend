@@ -34,6 +34,8 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
         secureTextEntry={hidePassCode} //hide passcode
         onChangeText={onChangeText}
         keyboardType="number-pad"
+        returnKeyLabel=""
+        returnKeyType="send"
         // containerStyle={styles.inputContainer}
         // inputContainerStyle={styles.input}
       />

@@ -32,7 +32,6 @@ const WelcomeUserScreen: React.FC<ScreenProps<"WelcomeUser">> = () => {
         onChangeText={setPassCode}
         hidePassCode={hidePasscode} //show password state
       />
-      {/*lower container */}
       <PassCodeUtils
         setPassCode={setPassCode}
         setHidePasscode={setHidePasscode} //show password state
