@@ -44,7 +44,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         normalText="Enter your details to create your account"
       />
       {/* middle container */}
-      <View>
+      <View style= {styles.middleContainer}>
         {/*Input form container */}
         <View>
           <FormInput
@@ -107,39 +107,17 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "space-between",
     // alignItems: "center",
-    padding: 20,
     backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  link: {
-    color: "#4CAF50",
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: "column",
-    height: 70,
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-    padding: 10,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#ced4da",
-    borderRadius: 5,
-  },
-  button: {
-    width: "100%",
-    backgroundColor: "#4CAF50",
-    borderRadius: 8,
-    padding: 10,
-  },
+  middleContainer: {
+    width: 343,
+    margin: "auto",
+    // justifyContent: "center",
+    borderWidth: 2,
+    borderBlockColor: "green",
+  }
 });
 
 export default SignUpScreen;
