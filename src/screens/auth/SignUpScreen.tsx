@@ -86,7 +86,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </View>
-      <Text>
+      <Text style= {styles.lowerContainer}>
         Creating an account with us means you agree with our
         <UnderlineButton
           title="Terms of use"
@@ -107,16 +107,21 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "space-between",
-    // alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    // paddingBottom: 24,
   },
   middleContainer: {
     width: 343,
     margin: "auto",
+    bottom: 20,
     // justifyContent: "center",
     borderWidth: 2,
     borderBlockColor: "green",
+  },
+  lowerContainer: {
+textAlign: "center"
   }
 });
 
