@@ -1,5 +1,6 @@
 import React from "react";
 import { Input } from "@rneui/themed";
+import { StyleSheet } from "react-native";
 
 type FormInputProps = {
   label: string;
@@ -18,6 +19,7 @@ const FormInput: React.FC<FormInputProps> = ({
   return (
       <Input
         label={label}
+        labelStyle={styles.label}
         placeholder={`Enter your ${label}`}
         value={value}
         onChangeText={onChangeText}
@@ -27,5 +29,12 @@ const FormInput: React.FC<FormInputProps> = ({
       />
   );
 };
+
+const styles= StyleSheet.create({
+  label: {
+    fontSize: 24, //to be confirmed later if correct with other themed text
+    fontWeight: 400,
+  },
+})
 
 export default FormInput;
