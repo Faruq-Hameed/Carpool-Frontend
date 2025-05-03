@@ -19,6 +19,7 @@ const FormInput: React.FC<FormInputProps> = ({
   return (
       <Input
         label={label}
+        style={styles.box}
         labelStyle={styles.label}
         placeholder={`Enter your ${label}`}
         value={value}
@@ -31,6 +32,9 @@ const FormInput: React.FC<FormInputProps> = ({
 };
 
 const styles= StyleSheet.create({
+  box: {borderWidth: 1
+
+  },
   label: {
     fontSize: 24, //to be confirmed later if correct with other themed text
     fontWeight: 400,
