@@ -44,7 +44,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         normalText="Enter your details to create your account"
       />
       {/* middle container */}
-      <View style= {styles.middleContainer}>
+      <View style={styles.middleContainer}>
         {/*Input form container */}
         <View>
           <FormInput
@@ -78,7 +78,12 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         <View>
           <NavButton
             title="create account"
-            onPress={() => navigation.navigate("EnterOTP", {phonenumber: phoneNumber}) /*handleSignUp()*/} // Call the handleSignUp function when the button is pressed
+            onPress={
+              () =>
+                navigation.navigate("EnterOTP", {
+                  phonenumber: phoneNumber,
+                }) /*handleSignUp()*/
+            } // Call the handleSignUp function when the button is pressed
           />
           <UnderlineButton
             title="Login"
@@ -86,7 +91,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </View>
-      <Text style= {styles.lowerContainer}>
+      <Text style={styles.lowerContainer}>
         Creating an account with us means you agree with our
         <UnderlineButton
           title="Terms of use"
@@ -117,12 +122,13 @@ const styles = StyleSheet.create({
     margin: "auto",
     bottom: 20,
     // justifyContent: "center",
-    borderWidth: 2,
-    borderBlockColor: "green",
+    // borderWidth: 2,
+    // borderBlockColor: "green",
   },
   lowerContainer: {
-textAlign: "center"
-  }
+    textAlign: "center",
+
+  },
 });
 
 export default SignUpScreen;

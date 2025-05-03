@@ -1,11 +1,10 @@
 //green button component for navigation
 import React from "react";
-import { Button, Text } from "@rneui/base";
+import { Button, Text } from "@rneui/themed";
 
 import { Dimensions, StyleSheet, View } from "react-native";
 import Spacer from "./Spacer";
 
-const screenWidth =  Dimensions.get("window").width; // Get the screen width
 /**Reusable button nav component */
 const NavButton = ({
   title,

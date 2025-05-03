@@ -20,8 +20,9 @@ const UpperTextsFrame: React.FC<{
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 2,
     margin: "auto",
+    marginTop: 20,
+    marginBottom: 20,
     lineHeight:2,
     padding: 0,
   },

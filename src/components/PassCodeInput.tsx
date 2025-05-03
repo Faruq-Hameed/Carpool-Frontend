@@ -24,9 +24,14 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
 }) => {
   // console.log({hidePassCode})
   return (
-    <Spacer>
+    // <Spacer>
       <Input
         label={label? label : "Passcode"}
+        style={styles.inputStyle}
+        inputContainerStyle={
+          styles.inputContainer
+        }
+        labelStyle={styles.label}
         placeholder={
           genericPlaceholder ? genericPlaceholder : `Enter your ${label}`
         }
@@ -39,8 +44,31 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
         // containerStyle={styles.inputContainer}
         // inputContainerStyle={styles.input}
       />
-    </Spacer>
+    // </Spacer>
   );
 };
+
+const styles= StyleSheet.create({
+  inputStyle: {
+    // letterSpacing: 4,
+    fontSize: 16, 
+   flex: 1,
+
+  },
+  inputContainer: {borderWidth: 1,
+    borderColor: '#404040',  
+    height: 48,
+    borderRadius: 4,
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+    marginTop: 5,
+  },
+  label: {
+    fontSize: 16, 
+    fontWeight: 400,
+    fontFamily: "popping",
+    color: "#1A1A1A",
+  },
+})
 
 export default PassCodeInput;

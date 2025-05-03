@@ -38,6 +38,8 @@ const FormInput: React.FC<FormInputProps> = ({
 const styles= StyleSheet.create({
   inputStyle: {
     // letterSpacing: 4,
+    fontSize: 16, 
+
   },
   inputContainer: {borderWidth: 1,
     borderColor: '#404040',  
@@ -48,7 +50,7 @@ const styles= StyleSheet.create({
     marginTop: 5,
   },
   label: {
-    fontSize: 24, //to be confirmed later if correct with other themed text
+    fontSize: 16, 
     fontWeight: 400,
     fontFamily: "popping",
     color: "#1A1A1A",
