@@ -19,9 +19,13 @@ const FormInput: React.FC<FormInputProps> = ({
   return (
       <Input
         label={label}
-        style={styles.box}
+        style={styles.inputStyle}
+        inputContainerStyle={
+          styles.inputContainer
+        }
         labelStyle={styles.label}
         placeholder={`Enter your ${label}`}
+        placeholderTextColor={"#404040"}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
@@ -32,12 +36,22 @@ const FormInput: React.FC<FormInputProps> = ({
 };
 
 const styles= StyleSheet.create({
-  box: {borderWidth: 1
-
+  inputStyle: {
+    // letterSpacing: 4,
+  },
+  inputContainer: {borderWidth: 1,
+    borderColor: '#404040',  
+    height: 48,
+    borderRadius: 4,
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+    marginTop: 5,
   },
   label: {
     fontSize: 24, //to be confirmed later if correct with other themed text
     fontWeight: 400,
+    fontFamily: "popping",
+    color: "#1A1A1A",
   },
 })
 

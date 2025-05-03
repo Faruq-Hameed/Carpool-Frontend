@@ -26,10 +26,12 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   header: {
-    textAlign: "center"
+    textAlign: "center",
+    color: "#262626",
   },
   normalText: {
-    textAlign: "center"
+    textAlign: "center",
+    color: "#333333",
   }
 
 });

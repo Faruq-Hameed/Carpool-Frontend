@@ -48,12 +48,12 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         {/*Input form container */}
         <View>
           <FormInput
-            label="Surname"
+            label="surname"
             value={lastName}
             onChangeText={setLastName}
           />
           <FormInput
-            label="surname"
+            label="firstname"
             value={firstName}
             onChangeText={setFirstName}
           />
