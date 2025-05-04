@@ -24,7 +24,7 @@ const ShowPassCheckBox: React.FC<CheckBoxProps> = ({
         borderWidth: 0,
         padding: 0,
       }}
-      textStyle={{ fontWeight: "400", fontSize: 14 }}
+      textStyle={{ fontWeight: "400", fontSize: 14, color: "#333333" }}
     />
   );
 };

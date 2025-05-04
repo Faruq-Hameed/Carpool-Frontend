@@ -4,8 +4,6 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Input } from "@rneui/themed";
 
-import Spacer from "./Spacer";
-
 type PassCodeInputProps = {
   value: string;
   onChangeText: (text: string) => void;
@@ -35,6 +33,7 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
         placeholder={
           genericPlaceholder ? genericPlaceholder : `Enter your ${label}`
         }
+        placeholderTextColor={"#404040"}
         value={value}
         secureTextEntry={hidePassCode} //hide passcode
         onChangeText={onChangeText}
@@ -68,6 +67,7 @@ const styles= StyleSheet.create({
     fontWeight: 400,
     fontFamily: "popping",
     color: "#1A1A1A",
+
   },
 })
 

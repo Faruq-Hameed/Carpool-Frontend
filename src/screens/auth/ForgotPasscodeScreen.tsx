@@ -15,7 +15,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       {/*upper container */}
       <UpperTextsFrame
         header="Forgot Passcode"
@@ -24,7 +24,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
       {/*lower container */}
       <View>
         <FormInput
-          label="phonenumber"
+          label="Phone number"
           keyboardType="numeric"
           value={phoneNumber}
           onChangeText={setPhoneNumber}
@@ -39,5 +39,10 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 // Styles for the sign-up screen
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+  paddingHorizontal: 16,
+
+  }
+});
 export default ForgotPasscodeScreen;

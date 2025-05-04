@@ -48,27 +48,28 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         {/*Input form container */}
         <View>
           <FormInput
-            label="surname"
+            label="Surname"
             value={lastName}
             onChangeText={setLastName}
           />
           <FormInput
-            label="firstname"
+            label="Firstname"
             value={firstName}
             onChangeText={setFirstName}
           />
           <FormInput
-            label="phonenumber"
+            label="Phone number"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
           />
           <PassCodeInput
-            label="create 6 digit passcode"
+            label="Create 6 digit passcode"
             genericPlaceholder="Create your 6 digit passcode"
             value={passCode}
             onChangeText={setPassCode}
             hidePassCode={hidePasscode} //show password state
           />
+          <Text style={styles.hint}>Your passcode must be 6 digits long</Text>
           <ShowPassCheckBox
             checked={hidePasscode}
             onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
@@ -77,7 +78,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         {/* Button container */}
         <View>
           <NavButton
-            title="create account"
+            title="Create account"
             onPress={
               () =>
                 navigation.navigate("EnterOTP", {
@@ -127,7 +128,15 @@ const styles = StyleSheet.create({
   },
   lowerContainer: {
     textAlign: "center",
-
+  },
+  hint: {
+    // textAlign: "center",
+    color: '#404040',  
+    fontSize: 14,
+    // borderWidth: 1,
+    // borderBlockColor: "red",
+    bottom: 20,
+    paddingHorizontal: 8,
   },
 });
 

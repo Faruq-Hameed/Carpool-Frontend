@@ -39,7 +39,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       {/*upper container */}
       <UpperTextsFrame
         header="Welcome Back"
@@ -50,17 +50,18 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         {/**Form inputs container */}
         <View>
           <FormInput
-            label="phonenumber"
+            label="Phone number"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
           />
-          <PassCodeInput
+          {/* <PassCodeInput
             value={passCode}
             onChangeText={setPassCode}
             hidePassCode={hidePasscode} //show password state
-          />
+          /> */}
           {/*password show and forget password*/}
           <PassCodeUtils
+          label="passcode"
             setPassCode={setPassCode}
             setHidePasscode={setHidePasscode} //show password state
           />
@@ -85,46 +86,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 // Styles for the sign-up screen
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
-    paddingVertical: 100,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-    borderStyle: "solid",
-  },
-  link: {
-    color: "#4CAF50",
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    height: 50,
-    width: "100%",
-    borderWidth: 1,
-    borderColor: "#ced4da",
-    borderRadius: 5,
-    marginBottom: 40,
-    marginTop: 50,
-  },
-  numberCode: {
-    padding: 10,
-  },
-  input: {
-    marginBottom: 10,
-    borderLeftWidth: 1,
-    height: "100%",
-    borderLeftColor: "#ced4da",
-    paddingLeft: 10,
-  },
-  button: {
-    width: "100%",
-    backgroundColor: "#4CAF50",
-    borderRadius: 8,
-    padding: 10,
-  },
+    // flex: 1,
+    // padding: 20,
+    // paddingVertical: 100,
+    // backgroundColor: "#fff",
+  paddingHorizontal: 16,
+  }
 });
 export default LoginScreen;

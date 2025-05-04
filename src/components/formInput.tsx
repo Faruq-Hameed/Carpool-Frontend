@@ -54,6 +54,7 @@ const styles= StyleSheet.create({
     fontWeight: 400,
     fontFamily: "popping",
     color: "#1A1A1A",
+    // textTransform: "capitalize",
   },
 })
 

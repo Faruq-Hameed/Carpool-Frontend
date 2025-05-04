@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import PassCodeInput from "./PassCodeInput";
 import ShowPassCheckBox from "./ShowPassCheckBox";
 
@@ -11,11 +10,12 @@ import { useTypedNavigation } from "../hooks/useTypedNavigation";
 interface PassCodeUtilsProps {
   setPassCode: React.Dispatch<React.SetStateAction<string>>;
   setHidePasscode: React.Dispatch<React.SetStateAction<boolean>>;
+  label: string;
 }
 /** PassCodeUtils component contains the ShowPassCheckBox and forgot password */
-const PassCodeUtils: React.FC<PassCodeUtilsProps> = ( //it should accept setPassCode, setHidePasscode
-    props,
-
+const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
+  //it should accept setPassCode, setHidePasscode
+  props
 ) => {
   // State variables for input fields
   const [passCode, setPassCode] = useState<string>("");
@@ -23,20 +23,21 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = ( //it should accept setPass
   const navigation = useTypedNavigation<"Login">();
 
   return (
-    <View>
+    <View >
       <PassCodeInput
+        label={props.label}
         value={passCode}
         onChangeText={setPassCode}
         hidePassCode={hidePasscode} //show password state
       />
       {/*password show and forget password*/}
-      <View>
+      <View style={styles.flexItems}>
         <ShowPassCheckBox
           checked={hidePasscode}
           onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
         />
         <UnderlineButton
-          title="forget password"
+          title="Forget passcode?"
           onPress={() => navigation.navigate("ForgotPasscode")} //api to be called here too
         />
       </View>
@@ -44,4 +45,12 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = ( //it should accept setPass
   );
 };
 
+const styles = StyleSheet.create({
+
+ flexItems:{
+  flexDirection: "row",
+  justifyContent: "space-between",
+  paddingRight: 10,
+ }
+});
 export default PassCodeUtils;
