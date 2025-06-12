@@ -12,7 +12,7 @@ import MainScreen from "../screens/MainScreen";
 import ForgotPasscodeScreen from "../screens/auth/ForgotPasscodeScreen";
 import EnterOTPScreen from "../screens/auth/EnterOTPScreen";
 import CreatePasscodeScreen from "../screens/auth/CreatePasscodeScreen";
-import WelcomeUserScreen from "../screens/auth/WelcomeUserScreen";
+// import WelcomeUserScreen from "../screens/auth/WelcomeUserScreen";
 
 // the auth stack parameter list
 export type AuthStackParamList = {
@@ -86,11 +86,7 @@ const AuthNavigator: React.FC = () => (
       component={CreatePasscodeScreen}
       options={{ headerShown: false }}
     />
-     <Stack.Screen
-      name="WelcomeUser"
-      component={WelcomeUserScreen}
-      options={{ headerShown: false }}
-    />
+
     {/* Main screen, with header */}
     <Stack.Screen
       name="MainScreen"

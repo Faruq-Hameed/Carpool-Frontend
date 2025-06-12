@@ -13,6 +13,7 @@ import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
 import UpperTextsFrame from "../../components/upperTextsFrame";
 import PassCodeUtils from "../../components/passcodeUtils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
@@ -70,7 +71,12 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <View>
           <NavButton
             title="Login"
-            onPress={() => navigation.navigate("MainScreen")} //api to be called here too
+            onPress={() =>{
+              //TEMP SET THE TOKEN TO STORAGE
+              AsyncStorage.setItem("userToken", "tOKEN12345");
+              console.log("Login button pressed");
+              //  navigation.navigate("MainScreen")
+              }} //api to be called here too
           />
           <UnderlineButton
             title="create an account"

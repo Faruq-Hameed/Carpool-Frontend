@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler'; // This MUST be at the very top
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider, createTheme } from "@rneui/themed";
@@ -6,7 +7,10 @@ import {
   Poppins_400Regular,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+
 import AuthNavigator from "./src/navigation/AuthNavigator";
+import RootStackNavigator from './AppNavigator';
+import MainNavigator from './src/navigation/MainNavigator';
 
 const theme = createTheme({
   components: {
@@ -46,7 +50,9 @@ export default function App(): React.ReactElement {
     //  the navigation container to manage navigation state
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <AuthNavigator />
+        {/* <AuthNavigator /> */}
+        {/* <MainNavigator /> */}
+        <RootStackNavigator />
       </NavigationContainer>
     </ThemeProvider>
   );
