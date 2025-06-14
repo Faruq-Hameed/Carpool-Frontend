@@ -7,6 +7,7 @@ type FormInputProps = {
   value: string;
   onChangeText: (text: string) => void;
   keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
+  placeholder?: string;
 };
 
 /**  Reusable input component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -15,6 +16,7 @@ const FormInput: React.FC<FormInputProps> = ({
   value,
   onChangeText,
   keyboardType = "default",
+  placeholder = "",
 }) => {
   return (
       <Input
@@ -24,7 +26,7 @@ const FormInput: React.FC<FormInputProps> = ({
           styles.inputContainer
         }
         labelStyle={styles.label}
-        placeholder={`Enter your ${label}`}
+        placeholder={ placeholder || `Enter your ${label}`}
         placeholderTextColor={"#404040"}
         value={value}
         onChangeText={onChangeText}

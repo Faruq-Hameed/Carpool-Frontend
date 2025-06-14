@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Alert } from "react-native";
-import { Text, Button } from "@rneui/themed";
+import { Text, Input } from "@rneui/themed";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
@@ -23,9 +23,9 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
  
   return (
     <SafeAreaView style={styles.container}>
-      {/*upper container. i.e create account*/}
+      {/*upper container. */}
       <UpperTextsFrame
-        header="Account Verification"
+        header="Personal Information"
         normalText="Only your name will be visible to other users"
       />
       {/* middle container */}
@@ -52,6 +52,13 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
             value={dob}
             onChangeText={setDob}
           />
+
+          <FormInput //THIS WILL BE UPDATED LATER TO A DATE PICKER
+          label="Date of birth"
+          value={dob}
+          onChangeText={setDob}
+          placeholder="-- -- ----"
+        />
           <FormInput
             label="Email"
             value={email}
@@ -65,9 +72,9 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
             title="Next"
             onPress={
               () =>
-                console.log("Next pressed")
+               navigation.navigate("EnterNIN") // Navigate to the next screen
               
-            } // Call the handleSignUp function when the button is pressed
+            } // Call the  function when the button is pressed
           />
        
         </View>
@@ -77,7 +84,7 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
   );
 };
 
-// Styles for the sign-up screen
+// Styles for the screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
