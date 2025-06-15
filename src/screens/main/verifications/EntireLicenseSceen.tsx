@@ -4,13 +4,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Text,
   StyleSheet,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
+import { Text } from "@rneui/themed";
 
 import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
-import UpperTextsFrame from "../../../components/upperTextsFrame";
 import FormInput from "../../../components/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
@@ -20,40 +19,17 @@ import VerificationHeader from "../../../components/verifications/VerificationHe
 // type Props = StackScreenProps<MainTabParamList, "DashBoard">;
 type Props = StackScreenProps<VerificationStackParamList, "EnterNIN">;
 
-const EnterNINScreen: React.FC<Props> = ({ navigation }) => {
-  const [NIN, SetNin] = useState<string>("");
-  const [profilePhoto, SetProfilePhoto] = useState<string>("");
+const EnterLicenseScreen: React.FC<Props> = ({ navigation }) => {
+  const [licenseNo, SetLicenseNo] = useState<string>("");
+  const [licensePhoto, SetLicensePhoto] = useState<string>("");
 
   return (
     <SafeAreaView style={styles.container}>
       <VerificationHeader />
-      {/*upper container. */}
-      <PersonalInfoHeader />
-      {/* middle container */}
-      <View style={styles.middleContainer}>
-        {/*Input form container */}
-        <View>
-          <FormInput label="NIN" value={NIN} onChangeText={SetNin} />
-          <Text>Profile photo</Text>
-          <Text>
-            Please provide a clear portrait picture ( not a full body picture)
-            of yourself. It should show your full face with no sunglasses or
-            hats.
-          </Text>
-          <FormInput
-            label="Profile Photo"
-            value={profilePhoto}
-            onChangeText={SetProfilePhoto}
-          />
-        </View>
-        {/* Button container */}
-        <View>
-          <NavButton
-            title="Next"
-            onPress={() => console.log("Next pressed")} // Call the  function when the button is pressed
-          />
-        </View>
-      </View>
+      <Text h2>
+
+      </Text>
+        
     </SafeAreaView>
   );
 };
@@ -89,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EnterNINScreen;
+export default EnterLicenseScreen;

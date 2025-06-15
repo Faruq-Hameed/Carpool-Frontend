@@ -1,9 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Header } from "@rneui/themed"; //TO BE USED LATER
 
 import PersonalInfoScreen from "../screens/main/verifications/PersonalInfoScreen";
 import EnterNINScreen from "../screens/main/verifications/EnterNINScreen";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 
 // the verification stack parameter list
@@ -28,13 +29,14 @@ const VerificationNavigator: React.FC = () => (
     <Stack.Screen
       name="PersonalInfo"
       component={PersonalInfoScreen}
-      options={{ headerShown: false }}
+      options={{ headerShown: false, 
+       }} 
     />
     {/* NIN screen, no header */}
     <Stack.Screen
       name="EnterNIN"
       component={EnterNINScreen}
-      options={{ headerShown: false }}
+      options={{ headerShown: false, title: "Account Verification" }}
     />
 
   </Stack.Navigator>

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Alert } from "react-native";
-import { Text, Input } from "@rneui/themed";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
+import { Text, Input, Header, Icon } from "@rneui/themed";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
@@ -8,26 +14,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import UpperTextsFrame from "../../../components/upperTextsFrame";
 import FormInput from "../../../components/formInput";
 import NavButton from "../../../components/greenButton";
+import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
+import VerificationHeader from "../../../components/verifications/VerificationHeader";
+import VerificationStepsBar from "../../../components/verifications/ProgressBar";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
 const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
-   // State variables for input fields
-   const [phoneNumber, setPhoneNumber] = useState<string>("");
-   const [firstName, setFirstName] = useState<string>("");
-   const [lastName, setLastName] = useState<string>("");
-    const [dob, setDob] = useState<string>("");
-   const [email, setEmail] = useState<string>("");
+  // State variables for input fields
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [dob, setDob] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
-  
- 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Account verification header */}
+      <VerificationHeader />
+      <VerificationStepsBar currentStep={2}/>
       {/*upper container. */}
-      <UpperTextsFrame
-        header="Personal Information"
-        normalText="Only your name will be visible to other users"
-      />
+      <PersonalInfoHeader />
       {/* middle container */}
       <View style={styles.middleContainer}>
         {/*Input form container */}
@@ -47,39 +54,26 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
             value={phoneNumber}
             onChangeText={setPhoneNumber}
           />
-          <FormInput
+          <FormInput label="Date of birth" value={dob} onChangeText={setDob} />
+
+          <FormInput //THIS WILL BE UPDATED LATER TO A DATE PICKER
             label="Date of birth"
             value={dob}
             onChangeText={setDob}
+            placeholder="-- -- ----"
           />
-
-          <FormInput //THIS WILL BE UPDATED LATER TO A DATE PICKER
-          label="Date of birth"
-          value={dob}
-          onChangeText={setDob}
-          placeholder="-- -- ----"
-        />
-          <FormInput
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-   
+          <FormInput label="Email" value={email} onChangeText={setEmail} />
         </View>
         {/* Button container */}
         <View>
           <NavButton
             title="Next"
             onPress={
-              () =>
-               navigation.navigate("EnterNIN") // Navigate to the next screen
-              
+              () => navigation.navigate("EnterNIN") // Navigate to the next screen
             } // Call the  function when the button is pressed
           />
-       
         </View>
       </View>
-  
     </SafeAreaView>
   );
 };
@@ -91,6 +85,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
+    borderWidth: 2,
+    borderColor: "red",
     // paddingBottom: 24,
   },
   middleContainer: {
@@ -101,18 +97,8 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderBlockColor: "green",
   },
-  lowerContainer: {
-    textAlign: "center",
-  },
-  hint: {
-    // textAlign: "center",
-    color: '#404040',  
-    fontSize: 14,
-    // borderWidth: 1,
-    // borderBlockColor: "red",
-    bottom: 20,
-    paddingHorizontal: 8,
-  },
+
+
 });
 
 export default PersonalInfoScreen;
