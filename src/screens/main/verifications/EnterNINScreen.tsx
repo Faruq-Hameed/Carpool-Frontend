@@ -14,7 +14,8 @@ import UpperTextsFrame from "../../../components/upperTextsFrame";
 import FormInput from "../../../components/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
-import VerificationHeader from "../../../components/verifications/VerificationHeader";
+import VerificationHeader from "../../../components/NavigationHeader";
+import VerificationStepsBar from "../../../components/verifications/ProgressBar";
 
 // const LoginScreen: React.FC<Props> = ({ navigation }) => {
 // type Props = StackScreenProps<MainTabParamList, "DashBoard">;
@@ -26,7 +27,8 @@ const EnterNINScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <VerificationHeader />
+      <VerificationHeader  title="Account Verification"/>
+      <VerificationStepsBar currentStep={2} />
       {/*upper container. */}
       <PersonalInfoHeader />
       {/* middle container */}
@@ -50,7 +52,9 @@ const EnterNINScreen: React.FC<Props> = ({ navigation }) => {
         <View>
           <NavButton
             title="Next"
-            onPress={() => console.log("Next pressed")} // Call the  function when the button is pressed
+            onPress={
+              () => navigation.navigate("EntireLicense") // Navigate to the next screen
+            }
           />
         </View>
       </View>
@@ -64,8 +68,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     backgroundColor: "#fff",
-    paddingHorizontal: 16,
     // paddingBottom: 24,
+    borderWidth: 2,
+    borderBlockColor: "red",
   },
   middleContainer: {
     width: 343,

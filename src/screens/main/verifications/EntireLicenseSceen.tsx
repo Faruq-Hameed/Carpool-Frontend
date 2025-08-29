@@ -13,11 +13,12 @@ import { VerificationStackParamList } from "../../../navigation/VerificationNavi
 import FormInput from "../../../components/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
-import VerificationHeader from "../../../components/verifications/VerificationHeader";
+import VerificationHeader from "../../../components/NavigationHeader";
+import VerificationStepsBar from "../../../components/verifications/ProgressBar";
 
 // const LoginScreen: React.FC<Props> = ({ navigation }) => {
 // type Props = StackScreenProps<MainTabParamList, "DashBoard">;
-type Props = StackScreenProps<VerificationStackParamList, "EnterNIN">;
+type Props = StackScreenProps<VerificationStackParamList, "EntireLicense">;
 
 const EnterLicenseScreen: React.FC<Props> = ({ navigation }) => {
   const [licenseNo, SetLicenseNo] = useState<string>("");
@@ -26,10 +27,8 @@ const EnterLicenseScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <VerificationHeader />
-      <Text h2>
-
-      </Text>
-        
+      <VerificationStepsBar currentStep={3} />
+      <Text h2>Enter License Details</Text>
     </SafeAreaView>
   );
 };
@@ -41,27 +40,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
-    // paddingBottom: 24,
-  },
-  middleContainer: {
-    width: 343,
-    margin: "auto",
-    bottom: 20,
-    // justifyContent: "center",
-    // borderWidth: 2,
-    // borderBlockColor: "green",
-  },
-  lowerContainer: {
-    textAlign: "center",
-  },
-  hint: {
-    // textAlign: "center",
-    color: "#404040",
-    fontSize: 14,
-    // borderWidth: 1,
-    // borderBlockColor: "red",
-    bottom: 20,
-    paddingHorizontal: 8,
   },
 });
 

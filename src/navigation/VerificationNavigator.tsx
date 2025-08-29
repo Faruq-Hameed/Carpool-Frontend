@@ -5,12 +5,16 @@ import { Header } from "@rneui/themed"; //TO BE USED LATER
 
 import PersonalInfoScreen from "../screens/main/verifications/PersonalInfoScreen";
 import EnterNINScreen from "../screens/main/verifications/EnterNINScreen";
+import EnterLicenseScreen from "../screens/main/verifications/EntireLicenseSceen";
 
 
 // the verification stack parameter list
 export type VerificationStackParamList = {
   PersonalInfo: undefined;
   EnterNIN: undefined;
+  EntireLicense: undefined; 
+  ConfirmImage: undefined;
+  VehicleInformation: undefined;
 };
 
 // a typed stack navigator
@@ -36,7 +40,13 @@ const VerificationNavigator: React.FC = () => (
     <Stack.Screen
       name="EnterNIN"
       component={EnterNINScreen}
-      options={{ headerShown: false, title: "Account Verification" }}
+      options={{ headerShown: false }}
+    />
+    {/* Entire Driver License */}
+    <Stack.Screen 
+    name="EntireLicense"
+    component = {EnterLicenseScreen}
+    options={{ headerShown: false,}}
     />
 
   </Stack.Navigator>

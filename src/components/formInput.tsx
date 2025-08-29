@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "@rneui/themed";
 import { StyleSheet } from "react-native";
+import { getResponsiveWidth } from "../helpers/getScreenDimension";
 
 type FormInputProps = {
   label: string;
@@ -37,27 +38,30 @@ const FormInput: React.FC<FormInputProps> = ({
   );
 };
 
-const styles= StyleSheet.create({
+const styles = StyleSheet.create({
   inputStyle: {
     // letterSpacing: 4,
-    fontSize: 16, 
-
+    fontSize: 16,
   },
-  inputContainer: {borderWidth: 1,
-    borderColor: '#404040',  
+  inputContainer: {
+    borderWidth: 1,
+    borderColor: "#404040",
     height: 48,
     borderRadius: 4,
     paddingHorizontal: 16,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginTop: 5,
+    width: getResponsiveWidth(0.9),
   },
   label: {
-    fontSize: 16, 
+    fontSize: 16,
     fontWeight: 400,
     fontFamily: "popping",
     color: "#1A1A1A",
+    // alignSelf: "center"
+
     // textTransform: "capitalize",
   },
-})
+});
 
 export default FormInput;

@@ -26,9 +26,13 @@ const theme = createTheme({
       },
       h3Style: {
         fontFamily: "Poppins_700Bold",
+        fontSize: 24,
+        lineHeight: 32,
       },
       h4Style: {
         fontFamily: "Poppins_700Bold",
+        fontSize: 18,
+        lineHeight: 32,
       },
     },
     Button: {

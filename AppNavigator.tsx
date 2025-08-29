@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthNavigator from './src/navigation/AuthNavigator';
-import MainNavigator from './src/navigation/MainNavigator';
-import VerificationStack from './src/navigation/VerificationNavigator';
-
+//ONLY AUTH NAVIGATION IS WORKING, TAB AND CO AREN'T WRITTEN YET
 //root stack navigator parameter list
 export type RootStackParamList = {
   AuthStack: undefined;
@@ -31,6 +28,7 @@ export default function RootStackNavigator() {
   const checkAuthStatus = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
+      console.log({token})
       setIsAuthenticated(!!token);
     } catch (error) {
       console.log('Auth check error:', error);
@@ -47,17 +45,21 @@ export default function RootStackNavigator() {
 
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      {isAuthenticated ? (
+     
+      {!isAuthenticated ? (
         // Auth Stack - Shows when user is not authenticated
-        // <RootStack.Screen name="AuthStack" component={AuthNavigator} />
-        <RootStack.Screen name="AuthStack" component={VerificationStack} />
+        <RootStack.Screen name="AuthStack" component={AuthNavigator} />
+        // <RootStack.Screen name="MainStack" component={MainNavigator} />
       ) : (
+        // <RootStack.Screen name="AuthStack" component={VerificationStack} />
         // Main Stack - Shows when user is authenticated
         // <RootStack.Screen name="MainStack" component={MainNavigator} />
-        <RootStack.Screen
-          name="VerificationStack"
-          component={VerificationStack}
-        />
+        <RootStack.Screen name="VerificationStack" component={AuthNavigator}/>
+
+        // <RootStack.Screen
+        //   name="VerificationStack"
+        //   component={VerificationStack}
+        // />
       )}
     </RootStack.Navigator>
   );

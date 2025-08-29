@@ -15,8 +15,9 @@ import UpperTextsFrame from "../../../components/upperTextsFrame";
 import FormInput from "../../../components/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
-import VerificationHeader from "../../../components/verifications/VerificationHeader";
+import VerificationHeader from "../../../components/NavigationHeader";
 import VerificationStepsBar from "../../../components/verifications/ProgressBar";
+import NavigationHeader from "../../../components/NavigationHeader";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
@@ -31,8 +32,9 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* Account verification header */}
-      <VerificationHeader />
-      <VerificationStepsBar currentStep={2}/>
+      {/* <VerificationHeader /> */}
+      <NavigationHeader title="Account Verification" goBack={false} />
+      <VerificationStepsBar currentStep={1} />
       {/*upper container. */}
       <PersonalInfoHeader />
       {/* middle container */}
@@ -85,8 +87,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
-    borderWidth: 2,
-    borderColor: "red",
+    // borderWidth: 2,
+    // borderColor: "red",
     // paddingBottom: 24,
   },
   middleContainer: {
@@ -97,8 +99,6 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderBlockColor: "green",
   },
-
-
 });
 
 export default PersonalInfoScreen;

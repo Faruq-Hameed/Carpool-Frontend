@@ -92,11 +92,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 // Styles for the sign-up screen
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // padding: 20,
-    // paddingVertical: 100,
-    // backgroundColor: "#fff",
-  paddingHorizontal: 16,
+    flex: 1,
+    alignItems: "center"
   }
 });
 export default LoginScreen;

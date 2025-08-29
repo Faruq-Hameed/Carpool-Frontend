@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Alert } from "react-native";
+import { View, TextInput, StyleSheet, Alert, ScrollView } from "react-native";
 import { Text, Button } from "@rneui/themed";
 
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
@@ -38,6 +38,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+    <ScrollView>
       {/*upper container. i.e create account*/}
       <UpperTextsFrame
         header="Create your account"
@@ -105,7 +106,9 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           onPress={() => console.log("Privacy policy pressed")}
         />
       </Text>
+    </ScrollView>
     </SafeAreaView>
+
   );
 };
 
@@ -115,26 +118,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    // paddingBottom: 24,
+    paddingHorizontal: "8%",
   },
   middleContainer: {
-    width: 343,
-    margin: "auto",
+    marginTop: 20,
     bottom: 20,
-    // justifyContent: "center",
-    // borderWidth: 2,
-    // borderBlockColor: "green",
   },
   lowerContainer: {
     textAlign: "center",
   },
   hint: {
-    // textAlign: "center",
     color: '#404040',  
     fontSize: 14,
-    // borderWidth: 1,
-    // borderBlockColor: "red",
     bottom: 20,
     paddingHorizontal: 8,
   },

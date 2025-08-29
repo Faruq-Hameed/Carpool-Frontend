@@ -4,6 +4,7 @@ import { Button, Text } from "@rneui/themed";
 
 import { Dimensions, StyleSheet, View } from "react-native";
 import Spacer from "./Spacer";
+import { getResponsiveWidth } from "../helpers/getScreenDimension";
 
 /**Reusable button nav component */
 const NavButton = ({
@@ -34,15 +35,14 @@ const NavButton = ({
           color: titleColor,
         }}
         buttonStyle={{
-          margin: "auto",
           backgroundColor: bgColor,
           borderRadius: 4,
           borderWidth: 2,
           borderColor: "#126415",
           height: 56,
-          width: 343, 
+          overflow: 'hidden',
+          width: getResponsiveWidth(0.9),
         }}
-
       />
     </Spacer>
   );

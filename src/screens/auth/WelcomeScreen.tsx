@@ -8,6 +8,7 @@ import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import NavButton from "../../components/greenButton";
 import { Text } from "@rneui/themed";
 import { width } from "../../utils/constants/constants";
+import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 
 /** Welcome screen is the first screen that the user sees when they open the app
 It displays a welcome message and a button to navigate to the SignUp screen */
@@ -23,9 +24,12 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
         />
         {/*Text container*/}
         <View style={styles.textsContainer}>
-          <Text h4 h4Style={{textAlign: "center"}}>Share Ride, Share Cost</Text>
-          <Text style = {{textAlign: "center"}}>
-          Split your transport cost when you carpool and keep your wallet happy. All within a secured, trusted platform
+          <Text h3 h3Style={{ textAlign: "center" }}>
+            Share Ride, Share Cost
+          </Text>
+          <Text style={{ textAlign: "center" }}>
+            Split your transport cost when you carpool and keep your wallet
+            happy. All within a secured, trusted platform
           </Text>
         </View>
         {/* Dots to indicate the current page */}
@@ -60,29 +64,28 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
 // Styles for the welcome screen
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
+    flex: 1, //use entire height
     justifyContent: "space-between",
-   
-    paddingHorizontal: 8,
+    alignItems: "center",
+    paddingHorizontal: "8%",
+
   },
   imageContainer: {
     paddingTop: 50,
     height: 475,
-   justifyContent: "center",
-   
+    justifyContent: "center",
   },
   image: {
-    width: 359,
+    width: getResponsiveWidth(0.91),
+    // width:"auto",
     height: 292,
     margin: "auto",
     marginBottom: 30,
-    
   },
-  textsContainer: {    
+  textsContainer: {
     width: 303,
     margin: "auto",
     textAlignVertical: "center",
-    
   },
   dotsContainer: {
     flexDirection: "row",
@@ -106,10 +109,7 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    margin: "auto",
-    width: 375,
-    // borderWidth: 1,
-    // borderBlockColor: "red"
+    margin: "auto", //this keeps the container up
   },
 });
 
