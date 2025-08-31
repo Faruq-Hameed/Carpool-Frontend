@@ -7,7 +7,7 @@ import { ScreenProps } from "../../types/navigation";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import NavButton from "../../components/greenButton";
 import { Text } from "@rneui/themed";
-import { width } from "../../utils/constants/constants";
+import { width } from "../../utils/constants";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 
 /** Welcome screen is the first screen that the user sees when they open the app

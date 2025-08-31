@@ -1,63 +1,123 @@
-import 'react-native-gesture-handler'; // This MUST be at the very top
+import "react-native-gesture-handler"; // This MUST be at the very top
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider, createTheme } from "@rneui/themed";
+import { View, Text, ActivityIndicator } from "react-native";
 import {
   useFonts,
   Poppins_400Regular,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import AuthNavigator from "./src/navigation/AuthNavigator";
-import RootStackNavigator from './AppNavigator';
-import MainNavigator from './src/navigation/MainNavigator';
+import RootStackNavigator from "./AppNavigator";
+import AuthProvider from "./src/contexts/AuthContext";
 
 const theme = createTheme({
+  lightColors: {
+    primary: "#126415",
+    secondary: "#777",
+    success: "#4CAF50",
+    warning: "#FF9800",
+    error: "#F44336",
+  },
+  darkColors: {
+    primary: "#126415",
+    secondary: "#777",
+    success: "#4CAF50",
+    warning: "#FF9800",
+    error: "#F44336",
+  },
   components: {
     Text: {
       style: {
         fontFamily: "Poppins_400Regular",
+        color: "#000",
       },
       h1Style: {
         fontFamily: "Poppins_700Bold",
+        fontSize: 32,
+        fontWeight: "bold",
       },
       h2Style: {
         fontFamily: "Poppins_700Bold",
+        fontSize: 28,
+        fontWeight: "bold",
       },
       h3Style: {
         fontFamily: "Poppins_700Bold",
         fontSize: 24,
         lineHeight: 32,
+        fontWeight: "bold",
       },
       h4Style: {
         fontFamily: "Poppins_700Bold",
         fontSize: 18,
-        lineHeight: 32,
+        lineHeight: 24,
+        fontWeight: "bold",
       },
     },
     Button: {
       titleStyle: {
         fontFamily: "Poppins_700Bold",
+        fontWeight: "bold",
+      },
+      buttonStyle: {
+        backgroundColor: "#126415",
+        borderRadius: 8,
       },
     },
   },
 });
+
+// Loading component
+const LoadingScreen = () => (
+  <View style={{ 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#fff'
+  }}>
+    <ActivityIndicator size="large" color="#126415" />
+    <Text style={{ 
+      marginTop: 16, 
+      fontSize: 16, 
+      color: '#666',
+      fontFamily: 'Poppins_400Regular'
+    }}>
+      Loading...
+    </Text>
+  </View>
+);
+
 // Root component for the app
-// This component wraps the entire app and manages navigation state
 export default function App(): React.ReactElement {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold,
   });
-  if (!fontsLoaded) return <></>; //this should return loading state
+
+  // Handle font loading error
+  if (fontError) {
+    console.error("Font loading error:", fontError);
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Error loading fonts</Text>
+      </View>
+    );
+  }
+
+  // Show loading screen while fonts are loading
+  if (!fontsLoaded) {
+    return <LoadingScreen />;
+  }
+
   return (
-    //  the navigation container to manage navigation state
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        {/* <AuthNavigator /> */}
-        {/* <MainNavigator /> */}
-        <RootStackNavigator />
-      </NavigationContainer>
+      <AuthProvider>
+        <NavigationContainer>
+          <RootStackNavigator />
+        </NavigationContainer>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

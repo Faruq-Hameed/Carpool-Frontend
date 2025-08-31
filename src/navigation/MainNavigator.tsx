@@ -1,10 +1,16 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import VerificationStack from './VerificationNavigator';
-import MainScreen from '../screens/MainScreen';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import type { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+
+import {
+  HomeScreen,
+  OfferRideScreen,
+  HistoryScreen,
+  MessageScreen,
+  ProfileScreen,
+} from "../screens/main/dashboard/";
 //NOTHING IN THIS ENTIRE FLE WORKS FOR NOW!!!
 export type DashboardTabParamList = {
   Home: undefined;
@@ -19,8 +25,8 @@ const Tab = createBottomTabNavigator<DashboardTabParamList>();
 const screenOptions: BottomTabNavigationOptions = {
   headerShown: false,
   tabBarLabelStyle: { fontSize: 12 },
-  tabBarActiveTintColor: '#126415',
-  tabBarInactiveTintColor: '#777',
+  tabBarActiveTintColor: "#126415",
+  tabBarInactiveTintColor: "#777",
 };
 
 const DashboardTabs = () => {
@@ -28,7 +34,7 @@ const DashboardTabs = () => {
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
         name="Home"
-        component={MainScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="home-outline" size={size} color={color} />
@@ -37,7 +43,8 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Offer"
-        component={VerificationStack}
+        component={OfferRideScreen}
+        // component={VerificationStack}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="car-outline" size={size} color={color} />
@@ -46,7 +53,7 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="History"
-        component={VerificationStack}
+        component={HistoryScreen}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="time-outline" size={size} color={color} />
@@ -55,7 +62,7 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Messages"
-        component={VerificationStack}
+        component={MessageScreen}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="chatbubble-outline" size={size} color={color} />
@@ -64,7 +71,8 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={VerificationStack}
+        // component={VerificationStack}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="person-outline" size={size} color={color} />

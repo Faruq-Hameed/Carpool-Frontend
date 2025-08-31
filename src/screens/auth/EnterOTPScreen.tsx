@@ -27,8 +27,8 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
   const handleChangeText = (text: string) => {
     console.log("text", text);
     setCode(text);
-    if (text.length === 4) {
-      // setIsInputComplete(!isInputComplete); // to be done later
+    if (code.length === 4) {
+      setIsInputComplete(!isInputComplete); // to be done later
     }
   };
   useEffect(() => {
@@ -53,7 +53,7 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
         <NavButton
           title="Verify"
           onPress={() => navigation.navigate("MainScreen")} //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
-          // disabled={!isInputComplete} // Disable button if input is not complete //LATER
+          disabled={!isInputComplete} // Disable button if input is not complete //LATER
         />
       </View>
     </SafeAreaView>

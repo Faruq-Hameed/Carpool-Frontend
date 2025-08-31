@@ -1,51 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text } from "react-native";
 
-import AuthNavigator from './src/navigation/AuthNavigator';
-//ONLY AUTH NAVIGATION IS WORKING, TAB AND CO AREN'T WRITTEN YET
-//root stack navigator parameter list
+import AuthNavigator from "./src/navigation/AuthNavigator";
+import DashboardTabs from "./src/navigation/MainNavigator";
+//ONLY AUTH WORKING!!
 export type RootStackParamList = {
   AuthStack: undefined;
   MainStack: undefined;
-  VerificationStack: undefined; //PLACEHOLDER
+  DashboardStack: undefined;
+  VerificationStack: undefined;
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
-// RootNavigator component. This is the main entry point for the app's navigation.
-// It determines which screens to show based on the user's authentication status.
-//It uses a stack navigator to switch between the authentication stack and the main app stack.
 export default function RootStackNavigator() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Check authentication status on app load
   useEffect(() => {
     checkAuthStatus();
   }, []);
 
   const checkAuthStatus = async () => {
     try {
-      const token = await AsyncStorage.getItem('userToken');
-      console.log({token})
+      const token = await AsyncStorage.getItem("userToken");
+      console.log({ token });
       setIsAuthenticated(!!token);
     } catch (error) {
-      console.log('Auth check error:', error);
+      console.log("Auth check error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   if (isLoading) {
-    // I WILL ADD A SPLASH SCREEN HERE LATER
-    console.log('Loading...');
-    return null;
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-     
       {!isAuthenticated ? (
         // Auth Stack - Shows when user is not authenticated
         <RootStack.Screen name="AuthStack" component={AuthNavigator} />

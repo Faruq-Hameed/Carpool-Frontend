@@ -1,7 +1,5 @@
-//reusasble input component. Expecting title, placeholder, value, onChangeText, keyboardType
-
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Input } from "@rneui/themed";
 import { getResponsiveWidth } from "../helpers/getScreenDimension";
 
