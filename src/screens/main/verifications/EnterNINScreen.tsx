@@ -11,7 +11,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
 import UpperTextsFrame from "../../../components/upperTextsFrame";
-import FormInput from "../../../components/formInput";
+import FormInput from "../../../components/forms/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
 import VerificationHeader from "../../../components/NavigationHeader";
@@ -27,7 +27,7 @@ const EnterNINScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <VerificationHeader  title="Account Verification"/>
+      <VerificationHeader title="Account Verification" />
       <VerificationStepsBar currentStep={2} />
       {/*upper container. */}
       <PersonalInfoHeader />

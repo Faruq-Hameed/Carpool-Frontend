@@ -6,7 +6,7 @@ import { Text } from "@rneui/themed";
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormInput from "../../components/formInput";
+import FormInput from "../../components/forms/formInput";
 import NavButton from "../../components/greenButton";
 import UpperTextsFrame from "../../components/upperTextsFrame";
 
@@ -31,7 +31,9 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         />
         <NavButton
           title="Send OTP"
-          onPress={() => navigation.navigate("EnterOTP", { phonenumber: phoneNumber })} // Pass the phone number to EnterOTPScreen
+          onPress={() =>
+            navigation.navigate("EnterOTP", { phonenumber: phoneNumber })
+          } // Pass the phone number to EnterOTPScreen
         />
       </View>
     </SafeAreaView>
@@ -41,8 +43,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 // Styles for the sign-up screen
 const styles = StyleSheet.create({
   container: {
-  paddingHorizontal: 16,
-
-  }
+    paddingHorizontal: 16,
+  },
 });
 export default ForgotPasscodeScreen;

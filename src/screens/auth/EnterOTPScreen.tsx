@@ -10,7 +10,7 @@ import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import { Input } from "@rneui/themed";
 import UnderlineButton from "../../components/UnderLineBtn";
 import Spacer from "../../components/Spacer";
-import FormInput from "../../components/formInput";
+import FormInput from "../../components/forms/formInput";
 import NavButton from "../../components/greenButton";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 

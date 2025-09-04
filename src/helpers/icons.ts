@@ -1,0 +1,9 @@
+export const icons = {
+  headset: require("@assets/icons/headset.png"),
+  arrowRight: require("@assets/icons/ArrowRight.png"),
+  lockLaminated: require("@assets/icons/LockLaminated.png"),
+  userGear: require("@assets/icons/UserGear.png"),
+  wallet: require("@assets/icons/Wallet.png"),
+};
+
+export type IconName = keyof typeof icons;

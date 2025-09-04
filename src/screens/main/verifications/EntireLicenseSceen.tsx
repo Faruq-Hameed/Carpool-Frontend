@@ -10,7 +10,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { Text } from "@rneui/themed";
 
 import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
-import FormInput from "../../../components/formInput";
+import FormInput from "../../../components/forms/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
 import VerificationHeader from "../../../components/NavigationHeader";

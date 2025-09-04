@@ -1,7 +1,7 @@
 import React from "react";
 // import Text from "../../components/Text";
 import { StackScreenProps } from "@react-navigation/stack";
-import { DashboardTabParamList } from "../../navigation/MainNavigator";
+import { DashboardTabParamList } from "../../navigation/DashboardNavigator";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { Text } from "@rneui/themed";
 

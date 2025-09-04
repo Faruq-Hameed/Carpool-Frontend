@@ -3,8 +3,8 @@ import { StyleSheet, View } from "react-native";
 import PassCodeInput from "./PassCodeInput";
 import ShowPassCheckBox from "./ShowPassCheckBox";
 
-import UnderlineButton from "./UnderLineBtn";
-import { useTypedNavigation } from "../hooks/useTypedNavigation";
+import UnderlineButton from "../UnderLineBtn";
+import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 
 /**  Reusable PassCodeInput component. Expecting title, placeholder, value, onChangeText, keyboardType */
 interface PassCodeUtilsProps {
@@ -23,7 +23,7 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
   const navigation = useTypedNavigation<"Login">();
 
   return (
-    <View >
+    <View>
       <PassCodeInput
         label={props.label}
         value={passCode}
@@ -46,11 +46,10 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
 };
 
 const styles = StyleSheet.create({
-
- flexItems:{
-  flexDirection: "row",
-  justifyContent: "space-between",
-  paddingRight: 10,
- }
+  flexItems: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingRight: 10,
+  },
 });
 export default PassCodeUtils;

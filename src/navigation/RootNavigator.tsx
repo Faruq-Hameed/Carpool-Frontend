@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text } from "react-native";
 import AuthNavigator from "./AuthNavigator";
-import DashboardTabs from "./MainNavigator";
+import DashboardTabs from "./DashboardNavigator";
 import { useAuth } from "../hooks/useAuth";
 
 // import AuthNavigator from "./src/navigation/AuthNavigator";

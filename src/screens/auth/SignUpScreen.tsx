@@ -5,9 +5,9 @@ import { Text, Button } from "@rneui/themed";
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormInput from "../../components/formInput";
-import PassCodeInput from "../../components/PassCodeInput";
-import ShowPassCheckBox from "../../components/ShowPassCheckBox";
+import FormInput from "../../components/forms/formInput";
+import PassCodeInput from "../../components/forms/PassCodeInput";
+import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
 import UpperTextsFrame from "../../components/upperTextsFrame";
@@ -38,77 +38,76 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-    <ScrollView>
-      {/*upper container. i.e create account*/}
-      <UpperTextsFrame
-        header="Create your account"
-        normalText="Enter your details to create your account"
-      />
-      {/* middle container */}
-      <View style={styles.middleContainer}>
-        {/*Input form container */}
-        <View>
-          <FormInput
-            label="Surname"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-          <FormInput
-            label="Firstname"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <FormInput
-            label="Phone number"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-          />
-          <PassCodeInput
-            label="Create 6 digit passcode"
-            genericPlaceholder="Create your 6 digit passcode"
-            value={passCode}
-            onChangeText={setPassCode}
-            hidePassCode={hidePasscode} //show password state
-          />
-          <Text style={styles.hint}>Your passcode must be 6 digits long</Text>
-          <ShowPassCheckBox
-            checked={hidePasscode}
-            onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
-          />
+      <ScrollView>
+        {/*upper container. i.e create account*/}
+        <UpperTextsFrame
+          header="Create your account"
+          normalText="Enter your details to create your account"
+        />
+        {/* middle container */}
+        <View style={styles.middleContainer}>
+          {/*Input form container */}
+          <View>
+            <FormInput
+              label="Surname"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+            <FormInput
+              label="Firstname"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            <FormInput
+              label="Phone number"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+            />
+            <PassCodeInput
+              label="Create 6 digit passcode"
+              genericPlaceholder="Create your 6 digit passcode"
+              value={passCode}
+              onChangeText={setPassCode}
+              hidePassCode={hidePasscode} //show password state
+            />
+            <Text style={styles.hint}>Your passcode must be 6 digits long</Text>
+            <ShowPassCheckBox
+              checked={hidePasscode}
+              onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
+            />
+          </View>
+          {/* Button container */}
+          <View>
+            <NavButton
+              title="Create account"
+              onPress={
+                () =>
+                  navigation.navigate("EnterOTP", {
+                    phonenumber: phoneNumber,
+                  }) /*handleSignUp()*/
+              } // Call the handleSignUp function when the button is pressed
+            />
+            <UnderlineButton
+              title="Login"
+              onPress={() => navigation.navigate("Login")}
+            />
+          </View>
         </View>
-        {/* Button container */}
-        <View>
-          <NavButton
-            title="Create account"
-            onPress={
-              () =>
-                navigation.navigate("EnterOTP", {
-                  phonenumber: phoneNumber,
-                }) /*handleSignUp()*/
-            } // Call the handleSignUp function when the button is pressed
+        <Text style={styles.lowerContainer}>
+          Creating an account with us means you agree with our
+          <UnderlineButton
+            title="Terms of use"
+            bold={false}
+            onPress={() => console.log("Terms of use pressed")}
           />
           <UnderlineButton
-            title="Login"
-            onPress={() => navigation.navigate("Login")}
+            title="Privacy policy"
+            bold={false}
+            onPress={() => console.log("Privacy policy pressed")}
           />
-        </View>
-      </View>
-      <Text style={styles.lowerContainer}>
-        Creating an account with us means you agree with our
-        <UnderlineButton
-          title="Terms of use"
-          bold={false}
-          onPress={() => console.log("Terms of use pressed")}
-        />
-        <UnderlineButton
-          title="Privacy policy"
-          bold={false}
-          onPress={() => console.log("Privacy policy pressed")}
-        />
-      </Text>
-    </ScrollView>
+        </Text>
+      </ScrollView>
     </SafeAreaView>
-
   );
 };
 
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   hint: {
-    color: '#404040',  
+    color: "#404040",
     fontSize: 14,
     bottom: 20,
     paddingHorizontal: 8,

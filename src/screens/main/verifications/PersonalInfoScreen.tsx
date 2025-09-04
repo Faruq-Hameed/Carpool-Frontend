@@ -12,7 +12,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UpperTextsFrame from "../../../components/upperTextsFrame";
-import FormInput from "../../../components/formInput";
+import FormInput from "../../../components/forms/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
 import VerificationHeader from "../../../components/NavigationHeader";

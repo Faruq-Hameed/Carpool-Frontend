@@ -31,7 +31,8 @@ const theme = createTheme({
     Text: {
       style: {
         fontFamily: "Poppins_400Regular",
-        color: "#000",
+        color: "#333333",
+        fontSize: 16,
       },
       h1Style: {
         fontFamily: "Poppins_700Bold",

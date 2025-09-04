@@ -1,46 +1,38 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import { Input } from "@rneui/themed";
-import { getResponsiveWidth } from "../helpers/getScreenDimension";
+import { StyleSheet } from "react-native";
+import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 
-type PassCodeInputProps = {
+type FormInputProps = {
+  label: string;
   value: string;
   onChangeText: (text: string) => void;
-  hidePassCode: boolean;
-  label?: string;
-  genericPlaceholder?: string;
+  keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
+  placeholder?: string;
 };
 
-/**  Reusable PassCodeInput component. Expecting title, placeholder, value, onChangeText, keyboardType */
-const PassCodeInput: React.FC<PassCodeInputProps> = ({
+/**  Reusable input component. Expecting title, placeholder, value, onChangeText, keyboardType */
+const FormInput: React.FC<FormInputProps> = ({
+  label,
   value,
   onChangeText,
-  hidePassCode = true,
-  label,
-  genericPlaceholder,
+  keyboardType = "default",
+  placeholder = "",
 }) => {
-  // console.log({hidePassCode})
   return (
-    // <Spacer>
     <Input
-      label={label ? label : "Passcode"}
+      label={label}
       style={styles.inputStyle}
       inputContainerStyle={styles.inputContainer}
       labelStyle={styles.label}
-      placeholder={
-        genericPlaceholder ? genericPlaceholder : `Enter your ${label}`
-      }
+      placeholder={placeholder || `Enter your ${label}`}
       placeholderTextColor={"#404040"}
       value={value}
-      secureTextEntry={hidePassCode} //hide passcode
       onChangeText={onChangeText}
-      keyboardType="number-pad"
-      returnKeyLabel=""
-      returnKeyType="send"
+      keyboardType={keyboardType}
       // containerStyle={styles.inputContainer}
       // inputContainerStyle={styles.input}
     />
-    // </Spacer>
   );
 };
 
@@ -48,7 +40,6 @@ const styles = StyleSheet.create({
   inputStyle: {
     // letterSpacing: 4,
     fontSize: 16,
-    flex: 1,
   },
   inputContainer: {
     borderWidth: 1,
@@ -65,7 +56,10 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontFamily: "popping",
     color: "#1A1A1A",
+    // alignSelf: "center"
+
+    // textTransform: "capitalize",
   },
 });
 
-export default PassCodeInput;
+export default FormInput;

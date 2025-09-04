@@ -6,19 +6,19 @@ import { Text } from "@rneui/themed";
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormInput from "../../components/formInput";
-import PassCodeInput from "../../components/PassCodeInput";
-import ShowPassCheckBox from "../../components/ShowPassCheckBox";
+import FormInput from "../../components/forms/formInput";
+import PassCodeInput from "../../components/forms/PassCodeInput";
+import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
 import UpperTextsFrame from "../../components/upperTextsFrame";
-import PassCodeUtils from "../../components/passcodeUtils";
+import PassCodeUtils from "../../components/forms/passcodeUtils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../../hooks/useAuth";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const {handleLogin} = useAuth()
+  const { handleLogin } = useAuth();
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [passCode, setPassCode] = useState<string>("");
@@ -64,7 +64,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           /> */}
           {/*password show and forget password*/}
           <PassCodeUtils
-          label="passcode"
+            label="passcode"
             setPassCode={setPassCode}
             setHidePasscode={setHidePasscode} //show password state
           />
@@ -73,11 +73,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <View>
           <NavButton
             title="Login"
-            onPress={() =>{
+            onPress={() => {
               //TEMP SET THE TOKEN TO STORAGE
               handleLogin("token12345");
               //  navigation.navigate("MainScreen")
-              }} //api to be called here too
+            }} //api to be called here too
           />
           <UnderlineButton
             title="create an account"
@@ -94,7 +94,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 export default LoginScreen;
