@@ -6,13 +6,13 @@ import { Header } from "@rneui/themed"; //TO BE USED LATER
 import PersonalInfoScreen from "../screens/main/verifications/PersonalInfoScreen";
 import EnterNINScreen from "../screens/main/verifications/EnterNINScreen";
 import EnterLicenseScreen from "../screens/main/verifications/EntireLicenseSceen";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // the verification stack parameter list
 export type VerificationStackParamList = {
   PersonalInfo: undefined;
   EnterNIN: undefined;
-  EntireLicense: undefined; 
+  EntireLicense: undefined;
   ConfirmImage: undefined;
   VehicleInformation: undefined;
 };
@@ -24,8 +24,6 @@ const Stack = createStackNavigator<VerificationStackParamList>();
 
 const tab = createBottomTabNavigator<VerificationStackParamList>();
 
-
-
 // the Verification navigation stack
 const VerificationNavigator: React.FC = () => (
   <Stack.Navigator initialRouteName="PersonalInfo">
@@ -33,8 +31,7 @@ const VerificationNavigator: React.FC = () => (
     <Stack.Screen
       name="PersonalInfo"
       component={PersonalInfoScreen}
-      options={{ headerShown: false, 
-       }} 
+      options={{ headerShown: false }}
     />
     {/* NIN screen, no header */}
     <Stack.Screen
@@ -43,16 +40,19 @@ const VerificationNavigator: React.FC = () => (
       options={{ headerShown: false }}
     />
     {/* Entire Driver License */}
-    <Stack.Screen 
-    name="EntireLicense"
-    component = {EnterLicenseScreen}
-    options={{ headerShown: false,}}
+    <Stack.Screen
+      name="EntireLicense"
+      component={EnterLicenseScreen}
+      options={{ headerShown: false }}
     />
-
   </Stack.Navigator>
 );
 
-export default function App() {
-  return <VerificationNavigator />;
-}
-// export default VerificationNavigator;
+// export default function App() {
+//   return (
+//     <SafeAreaView>
+//       <VerificationNavigator />
+//     </SafeAreaView>
+//   );
+// }
+export default VerificationNavigator;

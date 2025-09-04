@@ -9,8 +9,8 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import RootStackNavigator from "./AppNavigator";
 import AuthProvider from "./src/contexts/AuthContext";
+import RootStackNavigator from "./src/navigation/RootNavigator";
 
 const theme = createTheme({
   lightColors: {

@@ -4,13 +4,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import type { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 
+import VerificationNavigator from "./VerificationNavigator"
+
 import {
   HomeScreen,
   OfferRideScreen,
   HistoryScreen,
   MessageScreen,
   ProfileScreen,
-} from "../screens/main/dashboard/";
+} from "../screens/dashboard/";
 //NOTHING IN THIS ENTIRE FLE WORKS FOR NOW!!!
 export type DashboardTabParamList = {
   Home: undefined;
@@ -71,8 +73,8 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        // component={VerificationStack}
-        component={ProfileScreen}
+        component={VerificationNavigator}
+        // component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="person-outline" size={size} color={color} />

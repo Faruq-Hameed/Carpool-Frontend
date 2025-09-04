@@ -14,30 +14,32 @@ import UnderlineButton from "../../components/UnderLineBtn";
 import UpperTextsFrame from "../../components/upperTextsFrame";
 import PassCodeUtils from "../../components/passcodeUtils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../../hooks/useAuth";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const {handleLogin} = useAuth()
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [passCode, setPassCode] = useState<string>("");
   const [hidePasscode, setHidePasscode] = useState(true);
-  const handleLogin = async () => {
-    const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";
+  // const handleLogin = async () => {
+  //   const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";
 
-    try {
-      const response = await axios.post(apiUrl, {
-        phonenumber: phoneNumber,
-      });
-      // Alert.alert("Success", response.data.message);
-      // Navigate to Verify Account screen
-      navigation.navigate("VerifyAccount");
-    } catch (error) {
-      // Handle any network or unexpected errors
-      //   error.response
-      //     ? Alert.alert("Error", error.response.data.message)
-      //     : error.message;
-    }
-  };
+  //   try {
+  //     const response = await axios.post(apiUrl, {
+  //       phonenumber: phoneNumber,
+  //     });
+  //     // Alert.alert("Success", response.data.message);
+  //     // Navigate to Verify Account screen
+  //     navigation.navigate("VerifyAccount");
+  //   } catch (error) {
+  //     // Handle any network or unexpected errors
+  //     //   error.response
+  //     //     ? Alert.alert("Error", error.response.data.message)
+  //     //     : error.message;
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,8 +75,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             title="Login"
             onPress={() =>{
               //TEMP SET THE TOKEN TO STORAGE
-              AsyncStorage.setItem("userToken", "tOKEN12345");
-              console.log("Login button pressed");
+              handleLogin("token12345");
               //  navigation.navigate("MainScreen")
               }} //api to be called here too
           />

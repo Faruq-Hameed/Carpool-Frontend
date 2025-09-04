@@ -9,6 +9,7 @@ export interface User { //this should be  import { User } from '@/models/user'
 const intialState = {
   currentUser: {} as User,
   isLoggedIn: false,
+  token: null,
 };
 export type InitialState = typeof intialState;
 

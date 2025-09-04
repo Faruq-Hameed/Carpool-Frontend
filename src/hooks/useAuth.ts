@@ -1,85 +1,88 @@
-import { useState, useEffect, useContext } from 'react';
-
-import authContext from '../contexts/AuthContext/context';
-import { actionTypes } from '../contexts/AuthContext/reducer';
-import { getUser, getUserToken, storeUserToken, clearStoreUser, setUser, storeAsyncStorage } from '../utils/asyncStorage';
-import { User } from '../contexts/AuthContext';
+import { useState, useEffect, useContext } from "react";
+import authContext from "../contexts/AuthContext/context";
+import { actionTypes } from "../contexts/AuthContext/reducer";
+import {
+  getUserToken,
+  storeUserToken,
+  clearStoreUser,
+  setUser,
+} from "../utils/asyncStorage";
+import { User } from "../contexts/AuthContext";
 
 function useAuth() {
   const context = useContext(authContext);
-  const state = context?.state;
-  const dispatch = context?.dispatch;
-  const [token, setToken] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState('');
 
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  const { state, dispatch } = context;
+  const [loading, setLoading] = useState(false);
+
+  /** Update current user in context */
   function setCurrentUser(user: User) {
     dispatch({ type: actionTypes.SET_CURRENT_USER, payload: user });
   }
 
-  function setUserSession(status: boolean) {
-    dispatch({ type: actionTypes.UPDATE_USER_SESSION, payload: status });
+  /** Update login status in context */
+  function setLoginStatus(status: boolean) {
+    dispatch({ type: actionTypes.SET_LOGIN_STATUS, payload: status });
   }
 
+  /** Check if a token exists when hook mounts */
   useEffect(() => {
-    userToken();
+    fetchUserToken();
   }, []);
 
-  async function userToken() {
+  //fetch user token from AsyncStorage and set login status
+  async function fetchUserToken() {
     setLoading(true);
-    const uData = await getUser();
     const userToken = await getUserToken();
-    setToken(userToken!);
-    setUserData(uData);
-    setCurrentUser(uData);
+
+    if (userToken) {
+      setLoginStatus(true);
+    } else {
+      setLoginStatus(false);
+    }
+
     setLoading(false);
   }
 
-
+  /** Save token to AsyncStorage */
   function saveAuthTokenToStorage(token: string) {
     storeUserToken(token);
   }
 
+  /** Logout user */
   async function logout() {
     try {
       await clearStoreUser();
-      // await AsyncStorage.removeItem('isLoggedIn');
       dispatch({ type: actionTypes.LOGOUT, payload: null });
     } catch (error) {
-      return error;
+      console.error("Logout error:", error);
     }
   }
 
-  /**Save user data after login, when user data is fetched from api and other time when anything change in */
-  const saveUser = async (user: User) => {
+  /** Save user data to storage + context */
+  async function saveUser(user: User) {
     await setUser(user);
     setCurrentUser(user);
-  };
+  }
 
-  function handleLogin(result: any) {
-    const { user, token } = result || {};
-    storeAsyncStorage('email', user?.email); // storage
-    saveAuthTokenToStorage(token?.access_token); // storage
-    saveUser(user); // react state
-
-    // if (user?.is_phone_verified && user?.access_code) {
-    //   // return storeAsyncStorage('isLoggedIn', 'true');
-    //   return setUserSession(true);
-    // }
-
-    return;
+  /** Handle login success (save token + mark logged in) */
+  function handleLogin(token: string) {
+    saveAuthTokenToStorage(token);
+    setLoginStatus(true);
   }
 
   return {
     currentUser: state.currentUser,
     isLoggedIn: state.isLoggedIn,
-    saveAuthTokenToStorage,
-    token,
     loading,
     logout,
     saveUser,
     handleLogin,
-    setUserSession,
+    setLoginStatus,
   };
 }
 

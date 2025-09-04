@@ -1,9 +1,10 @@
 import type { InitialState } from '.';
 
 export const actionTypes = {
-  SET_CURRENT_USER: 'SET_CURRENT_USER',
-  UPDATE_USER_SESSION: 'UPDATE_USER_SESSION', //i.e to isLoggedIn true or false
-  LOGOUT: 'LOGOUT',
+  SET_CURRENT_USER: "SET_CURRENT_USER",
+  SET_LOGIN_STATUS: "SET_LOGIN_STATUS",
+  LOGOUT: "LOGOUT",
+  SET_TOKEN: "SET_TOKEN",
 };
 
 export function authReducer(
@@ -15,7 +16,10 @@ export function authReducer(
     case actionTypes.SET_CURRENT_USER:
       return { ...state, currentUser: payload };
 
-    case actionTypes.UPDATE_USER_SESSION:
+    case actionTypes.SET_TOKEN:
+      return { ...state, token: payload };
+    
+    case actionTypes.SET_LOGIN_STATUS:
       return { ...state, isLoggedIn: payload };
 
     case actionTypes.LOGOUT:
@@ -23,6 +27,7 @@ export function authReducer(
         ...state,
         currentUser: null,
         isLoggedIn: false,
+        token: null,
       };
 
     default:
