@@ -56,6 +56,7 @@ const theme = createTheme({
         lineHeight: 24,
         fontWeight: "bold",
       },
+      
     },
     Button: {
       titleStyle: {

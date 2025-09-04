@@ -4,6 +4,8 @@ export const icons = {
   lockLaminated: require("@assets/icons/LockLaminated.png"),
   userGear: require("@assets/icons/UserGear.png"),
   wallet: require("@assets/icons/Wallet.png"),
+  whiteWallet: require("@assets/icons/WalletW.png"),
+  star: require("@assets/icons/Star.png")
 };
 
 export type IconName = keyof typeof icons;
