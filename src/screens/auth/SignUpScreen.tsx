@@ -10,7 +10,7 @@ import PassCodeInput from "../../components/forms/PassCodeInput";
 import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
-import UpperTextsFrame from "../../components/upperTextsFrame";
+import UpperTextsFrame from "../../components/navigations/upperTextsFrame";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {

@@ -13,7 +13,7 @@ import { VerificationStackParamList } from "../../../navigation/VerificationNavi
 import FormInput from "../../../components/forms/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
-import VerificationHeader from "../../../components/NavigationHeader";
+import VerificationHeader from "../../../components/navigations/NavigationHeader";
 import VerificationStepsBar from "../../../components/verifications/ProgressBar";
 
 // const LoginScreen: React.FC<Props> = ({ navigation }) => {

@@ -1,16 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import LightStackFrame from "../../../components/NavigationChildFrame";
+import { StyleSheet } from "react-native";
+import LightStackFrame from "../../../components/navigations/NavigationChildFrame";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileSummary from "./components/ProfileSummary";
-import { useNavigation } from "@react-navigation/native";
 import { useProfileNavigation } from "@/hooks/useTypedNavigation";
+import Spacer from "@/components/Spacer";
 
 const Profile: React.FC = () => {
   const navigation = useProfileNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ProfileSummary />
+      <Spacer />
       <LightStackFrame
         title="Account Verification"
         onPress={() => {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    padding: 18,
+    padding: 10,
   },
 });
 

@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon, Text } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
-import { getResponsiveWidth } from "../helpers/getScreenDimension";
+import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 // import { width } from '../utils/constants/constants';
 
 /**Reusable texts component frame with header and optional normal text */

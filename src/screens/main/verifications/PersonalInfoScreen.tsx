@@ -11,13 +11,13 @@ import { Text, Input, Header, Icon } from "@rneui/themed";
 import { StackScreenProps } from "@react-navigation/stack";
 import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UpperTextsFrame from "../../../components/upperTextsFrame";
+import UpperTextsFrame from "../../../components/navigations/upperTextsFrame";
 import FormInput from "../../../components/forms/formInput";
 import NavButton from "../../../components/greenButton";
 import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
-import VerificationHeader from "../../../components/NavigationHeader";
+import VerificationHeader from "../../../components/navigations/NavigationHeader";
 import VerificationStepsBar from "../../../components/verifications/ProgressBar";
-import NavigationHeader from "../../../components/NavigationHeader";
+import NavigationHeader from "../../../components/navigations/NavigationHeader";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 

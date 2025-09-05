@@ -4,6 +4,7 @@ import HomeScreen from "./Home";
 import ProfileScreen from "./profile/index"
 import OfferRideScreen from "./OfferRide";
 import MessageScreen from "./Messages";
+import DeleteAccountScreen from "./profile/settings/DeleteAccountScreen";
 
 export {
   HistoryScreen,
@@ -11,4 +12,5 @@ export {
   ProfileScreen,
   OfferRideScreen,
   MessageScreen,
+  DeleteAccountScreen
 };

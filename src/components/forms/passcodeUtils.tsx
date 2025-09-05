@@ -11,6 +11,7 @@ interface PassCodeUtilsProps {
   setPassCode: React.Dispatch<React.SetStateAction<string>>;
   setHidePasscode: React.Dispatch<React.SetStateAction<boolean>>;
   label: string;
+  hideForgetPassword?: boolean //maybe to show the forget password link or not
 }
 /** PassCodeUtils component contains the ShowPassCheckBox and forgot password */
 const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
@@ -19,7 +20,7 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
 ) => {
   // State variables for input fields
   const [passCode, setPassCode] = useState<string>("");
-  const [hidePasscode, setHidePasscode] = useState(true);
+  const [hidePasscode, setHidePasscode] = useState(true); // THIS NOT YET WORKING AS EXPECTED
   const navigation = useTypedNavigation<"Login">();
 
   return (
@@ -36,10 +37,10 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
           checked={hidePasscode}
           onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
         />
-        <UnderlineButton
+        {!props.hideForgetPassword && (<UnderlineButton
           title="Forget passcode?"
           onPress={() => navigation.navigate("ForgotPasscode")} //api to be called here too
-        />
+        />)}
       </View>
     </View>
   );

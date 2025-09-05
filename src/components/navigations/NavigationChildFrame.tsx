@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { AppIcon } from "./AppIcon";
+import { AppIcon } from "../AppIcon";
 import { IconName } from "@/helpers/icons";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
-import Text from "./Text";
+import Text from "../Text";
 
 interface NavigationChildFrameProps {
   title: string;
@@ -22,7 +22,7 @@ const NavigationChildFrame: React.FC<NavigationChildFrameProps> = ({
   onPress,
   leftIcon,
   rightIcon = "arrowRight",
-  textsStyle,
+  textsStyle: StyleProp,
   // children
 }) => {
   return (
@@ -43,18 +43,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F6EE",
     marginBottom: 5,
     // borderWidth: 2,
-    width: getResponsiveWidth(0.9),
+    // width: getResponsiveWidth(0.9),
+    width: "100%",
     alignItems: "center",
     padding: 10,
-    height: 60,
+    height: 65,
     borderRadius: 4,
   },
   leftContainer: {
     flexDirection: "row",
     columnGap: 15,
     justifyContent: "space-between",
-    alignItems: "center"
-
+    alignItems: "center",
   },
 });
 

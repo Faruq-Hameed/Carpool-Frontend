@@ -8,7 +8,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
 import NavButton from "../../components/greenButton";
-import UpperTextsFrame from "../../components/upperTextsFrame";
+import UpperTextsFrame from "../../components/navigations/upperTextsFrame";
 import PassCodeInput from "../../components/forms/PassCodeInput";
 import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
 

@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
-import UpperTextsFrame from "../../components/upperTextsFrame";
+import UpperTextsFrame from "../../components/navigations/upperTextsFrame";
 import PassCodeUtils from "../../components/forms/passcodeUtils";
 import { useAuth } from "../../hooks/useAuth";
 

@@ -4,7 +4,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UpperTextsFrame from "../../components/upperTextsFrame";
+import UpperTextsFrame from "../../components/navigations/upperTextsFrame";
 import { useNavigation } from "@react-navigation/native";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import { Input } from "@rneui/themed";
