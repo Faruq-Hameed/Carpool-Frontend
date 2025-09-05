@@ -1,19 +1,16 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import type { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
-
-import VerificationNavigator from "./VerificationNavigator";
 
 import {
   HomeScreen,
   OfferRideScreen,
   HistoryScreen,
   MessageScreen,
-  ProfileScreen,
 } from "../screens/dashboard";
-//NOTHING IN THIS ENTIRE FLE WORKS FOR NOW!!!
+import ProfileStackNavigator from "./ProfileStackNavigator";
+
 export type DashboardTabParamList = {
   Home: undefined;
   Offer: undefined;
@@ -46,7 +43,6 @@ const DashboardTabs = () => {
       <Tab.Screen
         name="Offer"
         component={OfferRideScreen}
-        // component={VerificationStack}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="car-outline" size={size} color={color} />
@@ -73,8 +69,7 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        // component={VerificationNavigator}
-        component={ProfileScreen}
+        component={ProfileStackNavigator}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="person-outline" size={size} color={color} />

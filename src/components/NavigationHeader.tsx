@@ -23,7 +23,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({
           onPress={() => navigation.goBack()}
           style={styles.iconContainer}
         >
-          <Icon name="arrow-back" size={20} color="#000" />
+          <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
       ) : null}
       <Text h3 style={styles.title}>
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     width: 343,
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "red",
+    // borderWidth: 1,
+    // borderColor: "red",
     alignSelf: "center",
     marginBottom: 5,
   },

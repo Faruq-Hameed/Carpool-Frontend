@@ -5,7 +5,9 @@ export const icons = {
   userGear: require("@assets/icons/UserGear.png"),
   wallet: require("@assets/icons/Wallet.png"),
   whiteWallet: require("@assets/icons/WalletW.png"),
-  star: require("@assets/icons/Star.png")
+  star: require("@assets/icons/Star.png"),
+  delete: require("@assets/icons/Trash.png"),
+  signOut: require("@assets/icons/SignOut.png"),
 };
 
 export type IconName = keyof typeof icons;

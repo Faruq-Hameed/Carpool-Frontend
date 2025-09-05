@@ -17,6 +17,7 @@ import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<Props> = ({ route }) => {
   const navigation = useTypedNavigation();
+  navigation.navigate("EnterOTP", { phonenumber: "" });
   let { phonenumber } = route.params;
   const [code, setCode] = useState("");
   const [isInputComplete, setIsInputComplete] = useState(false);

@@ -1,19 +1,13 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { Text } from "@rneui/themed";
-
+import { View, StyleSheet, Alert } from "react-native";
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
-import PassCodeInput from "../../components/forms/PassCodeInput";
-import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
 import NavButton from "../../components/greenButton";
 import UnderlineButton from "../../components/UnderLineBtn";
 import UpperTextsFrame from "../../components/upperTextsFrame";
 import PassCodeUtils from "../../components/forms/passcodeUtils";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../../hooks/useAuth";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;

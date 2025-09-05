@@ -5,7 +5,7 @@ import { IconName } from "@/helpers/icons";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 import Text from "./Text";
 
-interface LightStackFrameProps {
+interface NavigationChildFrameProps {
   title: string;
   onPress: () => void;
   leftIcon: IconName;
@@ -17,7 +17,7 @@ interface LightStackFrameProps {
 /** 
 
 /**Light background color frame. It is used as in profile that leads to various screens.*/
-const LightStackFrame: React.FC<LightStackFrameProps> = ({
+const NavigationChildFrame: React.FC<NavigationChildFrameProps> = ({
   title,
   onPress,
   leftIcon,
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LightStackFrame;
+export default NavigationChildFrame;
