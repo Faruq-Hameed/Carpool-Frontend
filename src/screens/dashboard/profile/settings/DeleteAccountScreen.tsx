@@ -9,9 +9,11 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import LowerActionButtons from "../components/LowerActionButtons";
 import DeleteConfirmationModal from "./DeleteConfirmation";
+import { useProfileNavigation } from "@/hooks/useTypedNavigation";
 
 const DeleteAccountScreen: React.FC = () => {
   const { logout } = useAuth();
+  const navigation = useProfileNavigation();
 
   const [modalVisible, setModalVisible] = useState(false); //This determines if the delete confirmation modal will show up
   const [reason, setReason] = useState<string>("");
@@ -39,6 +41,7 @@ const DeleteAccountScreen: React.FC = () => {
         <LowerActionButtons
           upperBtnTitle="Do not Delete"
           onUpperBtnPress={() => {
+            navigation.goBack() //go back to account setting screen
             setModalVisible(false);
           }}
           lowerBtnColour="#CC0000"
@@ -49,7 +52,7 @@ const DeleteAccountScreen: React.FC = () => {
           width={0.9}
         />
       </View>
-      {modalVisible && <DeleteConfirmationModal />}
+      {modalVisible && <DeleteConfirmationModal visibleState={true} />}
     </SafeAreaView>
   );
 };

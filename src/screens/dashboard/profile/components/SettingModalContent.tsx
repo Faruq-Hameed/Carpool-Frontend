@@ -6,7 +6,7 @@ import Spacer from "@/components/Spacer";
 import SmallSpacer from "@/components/SmallSpacer";
 import LowerActionButtons from "./LowerActionButtons";
 
-interface ModalContentProp {
+interface SettingModalContentProp {
   headerText: string;
   description: string;
   upperBtnTitle: string;
@@ -16,7 +16,7 @@ interface ModalContentProp {
   lowerBtnColour?: string;
 }
 /**Reusable modal container  used during account delete and signout*/
-const ModalContent: React.FC<ModalContentProp> = ({
+const SettingModalContent: React.FC<SettingModalContentProp> = ({
   headerText,
   description,
   upperBtnTitle,
@@ -40,22 +40,6 @@ const ModalContent: React.FC<ModalContentProp> = ({
         lowerBtnTitle={lowerBtnTitle}
         onLowerBtnPress={onLowerBtnPress}
       />
-      {/* <View>
-        <NavButton
-          title={upperBtnTitle}
-          width={0.85}
-          onPress={onUpperBtnPress}
-        />
-        <NavButton
-          title={lowerBtnTitle}
-          width={0.85}
-          onPress={onLowerBtnPress}
-          btnType="clear"
-          bgColor="#FFFFFF"
-          titleColor={lowerBtnColour ?? "#126415"}
-          borderColor={lowerBtnColour}
-        />
-      </View> */}
     </View>
   );
 };
@@ -69,11 +53,6 @@ const styles = StyleSheet.create({
     width: "98%",
     alignItems: "center",
   },
-  // frame: {
-  //   borderRadius: 5,
-  //   backgroundColor: "#FFFFFF",
-  //   borderWidth: 2,
-  // },
 });
 
-export default ModalContent;
+export default SettingModalContent;

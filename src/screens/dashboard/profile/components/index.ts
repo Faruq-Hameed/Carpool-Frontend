@@ -1,7 +1,7 @@
-import ModalContent from "./ModalContent";
+import SettingModalContent from "./SettingModalContent";
 import ProfileSummary from "./ProfileSummary";
 
 export {
-    ModalContent,
+    SettingModalContent,
     ProfileSummary
 }

@@ -8,6 +8,8 @@ import {
   setUser,
 } from "../utils/asyncStorage";
 import { User } from "../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { useProfileNavigation } from "./useTypedNavigation";
 
 function useAuth() {
   const context = useContext(authContext);

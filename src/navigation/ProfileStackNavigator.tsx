@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { DeleteAccountScreen, ProfileScreen } from "@/screens/dashboard";
 import VerificationNavigator from "./VerificationNavigator";
 import AccountSettingScreen from "@/screens/dashboard/profile/settings/AccountSettingScreen";
-import SignOutScreen from "@/screens/dashboard/profile/settings/SignOut";
+import SignOutScreen from "@/screens/dashboard/profile/settings/SignOutModal";
 
 // the auth stack parameter list
 export type ProfileStackParamList = {
@@ -44,11 +44,11 @@ const ProfileStackNavigator: React.FC = () => (
     />
 
     {/* Account settings stack navigator */}
-    <Stack.Screen
+    {/* <Stack.Screen
       name="SignOut"
       component={SignOutScreen}
       options={{ headerShown: false }}
-    />
+    /> */}
 
      <Stack.Screen
       name="DeleteAccount"

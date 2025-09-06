@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
@@ -8,8 +8,10 @@ import { DashboardTabParamList } from "@/navigation/DashboardNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Spacer from "@/components/Spacer";
 import { useProfileNavigation } from "@/hooks/useTypedNavigation";
+import SignOutModal from "./SignOutModal";
 
 const AccountSettingScreen: React.FC = ({}) => {
+  const [modalVisible, setModalVisible] = useState(false); //This determines if the delete confirmation modal will show up
   const navigation = useProfileNavigation();
 
   return (
@@ -19,13 +21,14 @@ const AccountSettingScreen: React.FC = ({}) => {
       <NavigationChildFrame
         title="Sign Out"
         leftIcon="signOut"
-        onPress={() => navigation.navigate("SignOut")}
+        onPress={() => setModalVisible(true)}
       />
       <NavigationChildFrame
         title="Delete my account"
         leftIcon="delete"
         onPress={() => navigation.navigate("DeleteAccount")}
       />
+      {modalVisible && <SignOutModal visibleState={true} />}
     </SafeAreaView>
   );
 };

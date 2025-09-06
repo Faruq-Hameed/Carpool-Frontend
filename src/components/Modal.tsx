@@ -15,20 +15,21 @@ interface ModalContainerProps {
 const ModalContainer1: React.FC<{
   content: ReactNode;
   //   isModalVisible: boolean;
-  onModalClose: () => boolean;
+  // onModalClose: () => boolean;
 }> = ({
   content,
   // isModalVisible,
-  onModalClose,
+  // onModalClose,
 }) => {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View>
-      {onModalClose() && (
+      {/* {onModalClose() && ( */}
         <Modal
           animationType="fade"
           transparent={true}
-          visible={onModalClose()}
+          // visible={onModalClose()}
+          visible={true}
           //   onRequestClose={() => setModalVisible(false)}
         >
           {/* Modal container this can be made to be dynamic too */}
@@ -36,7 +37,7 @@ const ModalContainer1: React.FC<{
             <View style={styles.modalContentContainer}>{content}</View>
           </View>
         </Modal>
-      )}
+      {/* )} */}
     </View>
   );
 };
