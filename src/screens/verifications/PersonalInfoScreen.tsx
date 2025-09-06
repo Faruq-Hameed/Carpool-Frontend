@@ -9,15 +9,15 @@ import {
 import { Text, Input, Header, Icon } from "@rneui/themed";
 
 import { StackScreenProps } from "@react-navigation/stack";
-import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
+import { VerificationStackParamList } from "../../navigation/VerificationNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UpperTextsFrame from "../../../components/navigations/upperTextsFrame";
-import FormInput from "../../../components/forms/formInput";
-import NavButton from "../../../components/greenButton";
-import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
-import VerificationHeader from "../../../components/navigations/NavigationHeader";
-import VerificationStepsBar from "../../../components/verifications/ProgressBar";
-import NavigationHeader from "../../../components/navigations/NavigationHeader";
+import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
+import FormInput from "../../components/forms/formInput";
+import NavButton from "../../components/buttons/greenButton";
+import PersonalInfoHeader from "../../components/verifications/PersonalInfoHeader";
+import VerificationHeader from "../../components/navigation/NavigationHeader";
+import VerificationStepsBar from "../../components/verifications/ProgressBar";
+import NavigationHeader from "../../components/navigation/NavigationHeader";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
@@ -56,14 +56,13 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
             value={phoneNumber}
             onChangeText={setPhoneNumber}
           />
-          <FormInput label="Date of birth" value={dob} onChangeText={setDob} />
-
+          {/* 
           <FormInput //THIS WILL BE UPDATED LATER TO A DATE PICKER
             label="Date of birth"
             value={dob}
             onChangeText={setDob}
             placeholder="-- -- ----"
-          />
+          /> */}
           <FormInput label="Email" value={email} onChangeText={setEmail} />
         </View>
         {/* Button container */}

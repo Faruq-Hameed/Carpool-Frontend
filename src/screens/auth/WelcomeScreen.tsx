@@ -5,7 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenProps } from "../../types/navigation";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
-import NavButton from "../../components/greenButton";
+import NavButton from "../../components/buttons/greenButton";
 import { Text } from "@rneui/themed";
 import { width } from "../../utils/constants";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: "8%",
-
   },
   imageContainer: {
     paddingTop: 50,

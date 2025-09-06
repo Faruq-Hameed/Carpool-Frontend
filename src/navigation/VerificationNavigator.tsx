@@ -2,14 +2,18 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Header } from "@rneui/themed"; //TO BE USED LATER
-
-import PersonalInfoScreen from "../screens/main/verifications/PersonalInfoScreen";
-import EnterNINScreen from "../screens/main/verifications/EnterNINScreen";
-import EnterLicenseScreen from "../screens/main/verifications/EntireLicenseSceen";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  EnterLicenseScreen,
+  EnterNINScreen,
+  PersonalInfoScreen,
+  VerificationTypeScreen,
+  IdentityVerificationScreen,
+} from "@/screens/verifications";
 
 // the verification stack parameter list
 export type VerificationStackParamList = {
+  VerificationType: undefined;
+  IdentityVerification: undefined;
   PersonalInfo: undefined;
   EnterNIN: undefined;
   EntireLicense: undefined;
@@ -26,8 +30,19 @@ const tab = createBottomTabNavigator<VerificationStackParamList>();
 
 // the Verification navigation stack
 const VerificationNavigator: React.FC = () => (
-  <Stack.Navigator initialRouteName="PersonalInfo">
-    {/* PersonalInfo screen, no header */}
+  <Stack.Navigator initialRouteName="VerificationType">
+    <Stack.Screen
+      name="VerificationType"
+      component={VerificationTypeScreen}
+      options={{ headerShown: false }}
+    />
+    {/*Identity verification info screen */}
+    <Stack.Screen
+      name="IdentityVerification"
+      component={IdentityVerificationScreen}
+      options={{ headerShown: false }}
+    />
+    {/*PersonalInfo screen */}
     <Stack.Screen
       name="PersonalInfo"
       component={PersonalInfoScreen}

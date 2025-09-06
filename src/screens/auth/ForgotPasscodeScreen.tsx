@@ -7,8 +7,8 @@ import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/greenButton";
-import UpperTextsFrame from "../../components/navigations/upperTextsFrame";
+import NavButton from "../../components/buttons/greenButton";
+import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {

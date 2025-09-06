@@ -1,9 +1,9 @@
 import FormInput from "@/components/forms/formInput";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
-import NavigationHeader from "@/components/navigations/NavigationHeader";
+import NavigationHeader from "@/components/navigation/NavigationHeader";
 import SmallSpacer from "@/components/SmallSpacer";
 import Spacer from "@/components/Spacer";
-import Text from "@/components/Text";
+import Text from "@/components/texts/Text";
 import { useAuth } from "@/hooks/useAuth";
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
@@ -41,7 +41,7 @@ const DeleteAccountScreen: React.FC = () => {
         <LowerActionButtons
           upperBtnTitle="Do not Delete"
           onUpperBtnPress={() => {
-            navigation.goBack() //go back to account setting screen
+            navigation.goBack(); //go back to account setting screen
             setModalVisible(false);
           }}
           lowerBtnColour="#CC0000"

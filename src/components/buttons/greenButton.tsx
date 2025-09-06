@@ -3,8 +3,8 @@ import React from "react";
 import { Button, Text } from "@rneui/themed";
 
 import { Dimensions, StyleSheet, View } from "react-native";
-import Spacer from "./Spacer";
-import { getResponsiveWidth } from "../helpers/getScreenDimension";
+import Spacer from "../Spacer";
+import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 
 /**Reusable button nav component */
 const NavButton = ({

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
-import { SettingModalContent } from "../components";
-import Modal from "@/components/Modal";
+import { PseudoModalScreen } from "../components";
+import Modal from "@/components/modals/CustomModal";
 import { useAuth } from "@/hooks/useAuth";
 
 /** Sign out modal  that pops up when user click Sign out in Account setting
@@ -20,7 +20,7 @@ const SignOutModal: React.FC<{ visibleState: boolean }> = (visibleState) => {
       <Modal
         // onModalClose={() => modalVisible}
         content={
-          <SettingModalContent
+          <PseudoModalScreen
             headerText="Sign out"
             description="Are you sure you want to sign out of your account?"
             upperBtnTitle="No, take me back"

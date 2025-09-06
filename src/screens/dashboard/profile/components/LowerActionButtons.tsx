@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Text from "@/components/Text";
-import NavButton from "@/components/greenButton";
+import Text from "@/components/texts/Text";
+import NavButton from "@/components/buttons/greenButton";
 import Spacer from "@/components/Spacer";
 import SmallSpacer from "@/components/SmallSpacer";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Text from "@components/Text";
+import Text from "@/components/texts/Text";
 import { AppIcon } from "@/components/AppIcon";
 
 const ProfileSummary: React.FC<{}> = () => {
@@ -24,12 +24,17 @@ const ProfileSummary: React.FC<{}> = () => {
         <View style={styles.walletContainer}>
           {/* /*Actual amount will be used*/}
           <AppIcon name="whiteWallet" />
-          <Text style={styles.balance} h4 h4Style={styles.rating}> N10,000.00</Text>
+          <Text style={styles.balance} h4 h4Style={styles.rating}>
+            {" "}
+            N10,000.00
+          </Text>
         </View>
 
         <View style={styles.ratingContainer}>
           <AppIcon name="star" />
-          <Text style={styles.rating} h4 h4Style={styles.rating}>4/5</Text>
+          <Text style={styles.rating} h4 h4Style={styles.rating}>
+            4/5
+          </Text>
         </View>
       </View>
     </View>
@@ -80,19 +85,19 @@ const styles = StyleSheet.create({
     color: "white",
   },
   balance: {
-   fontSize: 14,
+    fontSize: 14,
     fontWeight: 600,
     color: "#FFFFFF",
   },
-  ratingContainer:{
+  ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
     columnGap: 5,
   },
-  rating:{
+  rating: {
     fontSize: 14,
-    fontWeight: 600
-  }
+    fontWeight: 600,
+  },
 });
 
 export default ProfileSummary;

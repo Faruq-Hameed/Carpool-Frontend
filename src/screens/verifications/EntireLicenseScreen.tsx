@@ -9,12 +9,12 @@ import {
 import { StackScreenProps } from "@react-navigation/stack";
 import { Text } from "@rneui/themed";
 
-import { VerificationStackParamList } from "../../../navigation/VerificationNavigator";
-import FormInput from "../../../components/forms/formInput";
-import NavButton from "../../../components/greenButton";
-import PersonalInfoHeader from "../../../components/verifications/PersonalInfoHeader";
-import VerificationHeader from "../../../components/navigations/NavigationHeader";
-import VerificationStepsBar from "../../../components/verifications/ProgressBar";
+import { VerificationStackParamList } from "../../navigation/VerificationNavigator";
+import FormInput from "../../components/forms/formInput";
+import NavButton from "../../components/buttons/greenButton";
+import PersonalInfoHeader from "../../components/verifications/PersonalInfoHeader";
+import VerificationHeader from "../../components/navigation/NavigationHeader";
+import VerificationStepsBar from "../../components/verifications/ProgressBar";
 
 // const LoginScreen: React.FC<Props> = ({ navigation }) => {
 // type Props = StackScreenProps<MainTabParamList, "DashBoard">;

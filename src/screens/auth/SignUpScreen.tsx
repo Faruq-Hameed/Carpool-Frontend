@@ -8,9 +8,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
 import PassCodeInput from "../../components/forms/PassCodeInput";
 import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
-import NavButton from "../../components/greenButton";
-import UnderlineButton from "../../components/UnderLineBtn";
-import UpperTextsFrame from "../../components/navigations/upperTextsFrame";
+import NavButton from "../../components/buttons/greenButton";
+import UnderlineButton from "../../components/buttons/UnderLineBtn";
+import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {

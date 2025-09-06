@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import PassCodeInput from "./PassCodeInput";
 import ShowPassCheckBox from "./ShowPassCheckBox";
 
-import UnderlineButton from "../UnderLineBtn";
+import UnderlineButton from "../buttons/UnderLineBtn";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 
 /**  Reusable PassCodeInput component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -11,7 +11,7 @@ interface PassCodeUtilsProps {
   setPassCode: React.Dispatch<React.SetStateAction<string>>;
   setHidePasscode: React.Dispatch<React.SetStateAction<boolean>>;
   label: string;
-  hideForgetPassword?: boolean //maybe to show the forget password link or not
+  hideForgetPassword?: boolean; //maybe to show the forget password link or not
 }
 /** PassCodeUtils component contains the ShowPassCheckBox and forgot password */
 const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
@@ -37,10 +37,12 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
           checked={hidePasscode}
           onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
         />
-        {!props.hideForgetPassword && (<UnderlineButton
-          title="Forget passcode?"
-          onPress={() => navigation.navigate("ForgotPasscode")} //api to be called here too
-        />)}
+        {!props.hideForgetPassword && (
+          <UnderlineButton
+            title="Forget passcode?"
+            onPress={() => navigation.navigate("ForgotPasscode")} //api to be called here too
+          />
+        )}
       </View>
     </View>
   );

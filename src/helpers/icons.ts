@@ -8,6 +8,11 @@ export const icons = {
   star: require("@assets/icons/Star.png"),
   delete: require("@assets/icons/Trash.png"),
   signOut: require("@assets/icons/SignOut.png"),
+  verificationBadge: require("@assets/icons/VerificationBadge1.png"),
+  carProfile: require("@assets/icons/CarProfile.png"),
+  userFocus: require("@assets/icons/UserFocus.png"),
+  caretRight: require("@assets/icons/CaretRight.png"),
+  info: require("@assets/icons/Info.png"),
 };
 
 export type IconName = keyof typeof icons;

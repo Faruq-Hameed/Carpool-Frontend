@@ -1,7 +1,4 @@
-import SettingModalContent from "./SettingModalContent";
+import PseudoModalScreen from "@/components/modals/PseudoModalScreen";
 import ProfileSummary from "./ProfileSummary";
 
-export {
-    SettingModalContent,
-    ProfileSummary
-}
+export { PseudoModalScreen, ProfileSummary };

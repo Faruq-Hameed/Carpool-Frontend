@@ -4,14 +4,14 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UpperTextsFrame from "../../components/navigations/upperTextsFrame";
+import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 import { useNavigation } from "@react-navigation/native";
 import { useTypedNavigation } from "../../hooks/useTypedNavigation";
 import { Input } from "@rneui/themed";
-import UnderlineButton from "../../components/UnderLineBtn";
+import UnderlineButton from "../../components/buttons/UnderLineBtn";
 import Spacer from "../../components/Spacer";
 import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/greenButton";
+import NavButton from "../../components/buttons/greenButton";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 
 type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;

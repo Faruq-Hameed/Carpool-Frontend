@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Text from "@/components/Text";
-import NavButton from "@/components/greenButton";
+import Text from "@/components/texts/Text";
+import NavButton from "@/components/buttons/greenButton";
 import Spacer from "@/components/Spacer";
 import SmallSpacer from "@/components/SmallSpacer";
-import LowerActionButtons from "./LowerActionButtons";
+import LowerActionButtons from "../../screens/dashboard/profile/components/LowerActionButtons";
 
-interface SettingModalContentProp {
+interface PseudoModalScreenProp {
   headerText: string;
   description: string;
   upperBtnTitle: string;
@@ -15,8 +15,8 @@ interface SettingModalContentProp {
   onLowerBtnPress: () => void;
   lowerBtnColour?: string;
 }
-/**Reusable modal container  used during account delete and signout*/
-const SettingModalContent: React.FC<SettingModalContentProp> = ({
+/**Reusable modal container. Full modal that appears like a screen*/
+const PseudoModalScreen: React.FC<PseudoModalScreenProp> = ({
   headerText,
   description,
   upperBtnTitle,
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingModalContent;
+export default PseudoModalScreen;

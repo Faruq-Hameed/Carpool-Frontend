@@ -1,18 +1,8 @@
 import React, { ReactNode, useState } from "react";
-import { View, SafeAreaView, StyleSheet, Modal } from "react-native";
-
-interface ModalContainerProps {
-  headerText: string;
-  description: string;
-  upperBtnTitle: string;
-  lowerBtnTitle: string;
-  onUpperBtnPress: () => void;
-  onLowerBtnPress: () => void;
-  lowerBtnColour?: string;
-}
+import { View, StyleSheet, Modal } from "react-native";
 
 /**Reusable modal container */
-const ModalContainer1: React.FC<{
+const CustomModal: React.FC<{
   content: ReactNode;
   //   isModalVisible: boolean;
   // onModalClose: () => boolean;
@@ -63,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModalContainer1;
+export default CustomModal;
