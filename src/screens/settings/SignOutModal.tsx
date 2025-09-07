@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
-import { PseudoModalScreen } from "../components";
+import { PseudoModalScreen } from "../dashboard/profile/components";
 import Modal from "@/components/modals/CustomModal";
 import { useAuth } from "@/hooks/useAuth";
 
-/** SignOutModal 
+/** SignOutModal
  * A modal that confirms if the user wants to sign out
- * @param param0 {visible, onClose} 
+ * @param param0 {visible, onClose}
  * @returns A modal that confirms if the user wants to sign out
  */
 const SignOutModal: React.FC<{ visible: boolean; onClose: () => void }> = ({

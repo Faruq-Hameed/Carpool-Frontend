@@ -1,15 +1,15 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
-import AuthNavigator from "./AuthNavigator";
-import DashboardTabs from "./DashboardNavigator";
+
 import { useAuth } from "../hooks/useAuth";
-import { ProfileStackNavigator, VerificationNavigator } from ".";
+import {AuthNavigator,DashboardTabs, ProfileStackNavigator, VerificationNavigator } from ".";
 
 export type RootStackParamList = {
   AuthStack: undefined;
   DashboardStack: undefined;
   AccountVerification: undefined;
+  ProfileStack:undefined
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -32,8 +32,9 @@ export default function RootStackNavigator() {
       ) : (
         <RootStack.Screen name="DashboardStack" component={DashboardTabs} />
       )}
-      {/* Global navigation route */}
+      {/* Global navigation routes */}
       <RootStack.Screen name="AccountVerification" component={VerificationNavigator} />
+      <RootStack.Screen name="ProfileStack" component={ProfileStackNavigator} />
     </RootStack.Navigator>
   );
 }

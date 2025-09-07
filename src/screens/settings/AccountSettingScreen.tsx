@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { StyleSheet} from "react-native";
 
 import NavigationHeader from "@/components/navigation/NavigationHeader";
 import NavigationChildFrame from "@/components/navigation/NavigationChildFrame";
-import { DashboardTabParamList } from "@/navigation/DashboardNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Spacer from "@/components/Spacer";
 import { useProfileNavigation } from "@/hooks/useTypedNavigation";

@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useProfileNavigation } from "@/hooks/useTypedNavigation";
 import { StyleSheet } from "react-native";
 
-import { PseudoModalScreen } from "../components";
+import { PseudoModalScreen } from "../dashboard/profile/components";
 import Modal from "@/components/modals/CustomModal";
 import { useAuth } from "@/hooks/useAuth";
 
 /** Delete confirmation  that pops up when user click delete in delete account screen
  * With initial state, the modal will be visible when the component mounts
- * @param visibleState - initial boolean state of the modal without this
+ * @param visible - initial boolean state of the modal without this
  * calling the modal again won't make it visible.
+ * @param onClose 
  * @returns - Modal component with content and buttons
  */
 const DeleteConfirmationModal: React.FC<{
@@ -30,7 +31,7 @@ const DeleteConfirmationModal: React.FC<{
           upperBtnTitle="Do not Delete"
           onUpperBtnPress={() => {
             navigation.goBack(); //go back to account setting screen
-           onClose();
+            onClose();
           }}
           lowerBtnTitle="Yes, delete my account"
           //   handle delete api and logout will be called

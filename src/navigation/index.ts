@@ -1,4 +1,13 @@
-import ProfileStackNavigator, { ProfileStackParamList } from "./ProfileStackNavigator";
+import ProfileStackNavigator, {
+  ProfileStackParamList,
+} from "./ProfileStackNavigator";
 import VerificationNavigator from "./VerificationNavigator";
+import DashboardTabs from "./DashboardNavigator";
+import AuthNavigator from "./AuthNavigator";
 
-export { ProfileStackNavigator, VerificationNavigator };
+export {
+  AuthNavigator,
+  DashboardTabs,
+  ProfileStackNavigator,
+  VerificationNavigator,
+};

@@ -63,11 +63,4 @@ const VerificationNavigator: React.FC = () => (
   </Stack.Navigator>
 );
 
-// export default function App() {
-//   return (
-//     <SafeAreaView>
-//       <VerificationNavigator />
-//     </SafeAreaView>
-//   );
-// }
 export default VerificationNavigator;

@@ -1,19 +1,15 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { DeleteAccountScreen, ProfileScreen } from "@/screens/dashboard";
-import VerificationNavigator from "./VerificationNavigator";
-import AccountSettingScreen from "@/screens/dashboard/profile/settings/AccountSettingScreen";
-import SignOutScreen from "@/screens/dashboard/profile/settings/SignOutModal";
+import {AccountSettingScreen, DeleteAccountScreen} from "@/screens/settings";
 
 // the profile stack parameter list
 export type ProfileStackParamList = {
-  ProfileScreen: undefined;
-  AccountVerification: undefined;
+  // ProfileScreen: undefined;
+  // AccountVerification: undefined;
   Wallet: undefined;
   Support: undefined;
   AccountSetting: undefined;
   Privacy: undefined;
-  SignOut: undefined;
   DeleteAccount: undefined;
 };
 
@@ -23,18 +19,18 @@ const Stack = createStackNavigator<ProfileStackParamList>();
 // the auth navigation stack
 const ProfileStackNavigator: React.FC = () => (
   <Stack.Navigator
-    initialRouteName="ProfileScreen"
+    // initialRouteName="ProfileScreen"
     screenOptions={{ headerShown: false }}
   >
     {/* Profile screen */}
-    <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+    {/* <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
 
     {/* Account verification stack navigator */}
-    <Stack.Screen
+    {/* <Stack.Screen
       name="AccountVerification"
       component={VerificationNavigator}
       options={{ headerShown: false }}
-    />
+    /> */}
 
     {/* Account settings stack navigator */}
     <Stack.Screen
@@ -50,7 +46,7 @@ const ProfileStackNavigator: React.FC = () => (
       options={{ headerShown: false }}
     /> */}
 
-     <Stack.Screen
+    <Stack.Screen
       name="DeleteAccount"
       component={DeleteAccountScreen}
       options={{ headerShown: false }}

@@ -7,7 +7,7 @@ import Text from "@/components/texts/Text";
 import { useAuth } from "@/hooks/useAuth";
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
-import LowerActionButtons from "../components/LowerActionButtons";
+import LowerActionButtons from "../dashboard/profile/components/LowerActionButtons";
 import DeleteConfirmationModal from "./DeleteConfirmation";
 import { useProfileNavigation } from "@/hooks/useTypedNavigation";
 
@@ -47,12 +47,18 @@ const DeleteAccountScreen: React.FC = () => {
           lowerBtnColour="#CC0000"
           lowerBtnTitle="Yes, delete my account"
           onLowerBtnPress={() => {
-            setModalVisible(true);
+            logout()
+            setModalVisible(true); //though this shouldn't be needed since the stack get unmounted
           }}
           width={0.9}
         />
       </View>
-      {modalVisible && <DeleteConfirmationModal visibleState={true} />}
+      {modalVisible && (
+        <DeleteConfirmationModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+        />
+      )}
     </SafeAreaView>
   );
 };
