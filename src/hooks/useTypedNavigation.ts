@@ -3,8 +3,14 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../navigation/AuthNavigator";
 import { ProfileStackParamList } from "@/navigation/ProfileStackNavigator";
 import { VerificationStackParamList } from "@/navigation/VerificationNavigator";
+import { RootStackParamList } from "@/navigation/RootNavigator";
 
-//
+type RootNavigationKey = keyof RootStackParamList;
+/**Use this hook to get the navigation prop of the RootStack navigator. */
+export function useRootNavigation<RouteName extends RootNavigationKey>() {
+  return useNavigation<StackNavigationProp<RootStackParamList, RouteName>>();
+}
+
 type NavigationKey = keyof AuthStackParamList;
 
 export function useTypedNavigation<RouteName extends NavigationKey>() {

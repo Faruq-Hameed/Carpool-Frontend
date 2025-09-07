@@ -8,17 +8,19 @@ import {
   OfferRideScreen,
   HistoryScreen,
   MessageScreen,
+  ProfileScreen,
 } from "../screens/dashboard";
-import ProfileStackNavigator, { ProfileStackParamList } from "./ProfileStackNavigator";
-import { NavigatorScreenParams } from "@react-navigation/native";
+import ProfileStackNavigator from "./ProfileStackNavigator";
 
 export type DashboardTabParamList = {
   Home: undefined;
   Offer: undefined;
   History: undefined;
   Messages: undefined;
-  /**TypeScript knows that the "Profile" tab isn’t just a screen — it’s a nested stack that can take screen + params. */
-  Profile:  NavigatorScreenParams<ProfileStackParamList>; //nested navigator
+  //   /**TypeScript knows that the "Profile" tab isn’t just a screen — it’s a nested stack that can take screen + params. */
+  // Profile:  NavigatorScreenParams<ProfileStackParamList>; //nested navigator
+
+  Profile: undefined;
 };
 
 const Tab = createBottomTabNavigator<DashboardTabParamList>();
@@ -71,7 +73,8 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileStackNavigator}
+        // component={ProfileStackNavigator}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="person-outline" size={size} color={color} />

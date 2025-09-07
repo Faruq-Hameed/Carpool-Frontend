@@ -4,10 +4,12 @@ import { View, Text } from "react-native";
 import AuthNavigator from "./AuthNavigator";
 import DashboardTabs from "./DashboardNavigator";
 import { useAuth } from "../hooks/useAuth";
+import { ProfileStackNavigator, VerificationNavigator } from ".";
 
 export type RootStackParamList = {
   AuthStack: undefined;
   DashboardStack: undefined;
+  AccountVerification: undefined;
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -30,6 +32,8 @@ export default function RootStackNavigator() {
       ) : (
         <RootStack.Screen name="DashboardStack" component={DashboardTabs} />
       )}
+      {/* Global navigation route */}
+      <RootStack.Screen name="AccountVerification" component={VerificationNavigator} />
     </RootStack.Navigator>
   );
 }

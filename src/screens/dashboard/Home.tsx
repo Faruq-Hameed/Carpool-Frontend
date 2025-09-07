@@ -7,13 +7,13 @@ import ProfileSummary from "./profile/components/ProfileSummary";
 import { PseudoModalScreen } from "./profile/components";
 import CustomModal from "@/components/modals/CustomModal";
 import VerificationNavigator from "@/navigation/VerificationNavigator";
-import { useProfileNavigation } from "@/hooks/useTypedNavigation";
+import { useProfileNavigation, useRootNavigation } from "@/hooks/useTypedNavigation";
 
 // Use BottomTabScreenProps instead of StackScreenProps for tab navigation
 type Props = BottomTabScreenProps<DashboardTabParamList, "Home">;
 
 const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
-  const profileNavigation = useProfileNavigation(); //THIS WHAT  WANTED TO USE BUT FAILED
+  const rootNavigation = useRootNavigation(); 
   const [modalVisible, setModalVisible] = useState(false);
  const [hasModalShown, setHasShown] = useState(false); // track if modal was shown once
 
@@ -40,11 +40,13 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
               description="For everyone’s safety, only verified users can join or offer rides on Share."
               upperBtnTitle="OK, Let’s do it now"
               onUpperBtnPress={() => {
-                navigation.navigate("Profile", {
-                  screen: "AccountVerification", //go to verification //NEED O LEARN NESTED ROUTE
-                });
+              //   navigation.navigate("Profile", {
+              //     screen: "AccountVerification", //go to verification //NEED O LEARN NESTED ROUTE
+              //   }
+              // );
                 
                 // profileNavigation.navigate("AccountVerification"); //go to verification //NEED O LEARN NESTED ROUTE
+               rootNavigation.navigate("AccountVerification");
                 setModalVisible(false);
               }}
               lowerBtnTitle="Maybe later"

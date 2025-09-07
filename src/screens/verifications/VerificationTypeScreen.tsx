@@ -15,7 +15,7 @@ const VerificationTypeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
-        <UpperTextsFrame header="Account Verification" />
+        <UpperTextsFrame header="Account Verification" goBack />
         <Spacer />
 
         <AppIcon name="verificationBadge" size={122} />
