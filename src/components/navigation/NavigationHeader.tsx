@@ -6,13 +6,15 @@ import { Icon } from "@rneui/base";
 
 type NavigationHeaderProps = {
   title: string;
-  goBack?: boolean; // Optional prop to control back navigation incase of screens without back button
+  goBack?: boolean; // Optional prop to control back navigation in case of screens without back button
+  // onGoBack?:()=>void; //go to other screen if we route from nested stack to here which go back cannot work
 };
 
 /** The reusable header component for  screens  */
 const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   title,
   goBack = true,
+  // onGoBack
 }) => {
   const navigation = useNavigation();
 
@@ -26,6 +28,13 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({
           <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
       ) : null}
+        {/* {onGoBack ? (
+        <TouchableOpacity
+          onPress={onGoBack}
+          style={styles.iconContainer}
+        >
+        </TouchableOpacity>
+      ) : null} */}
       <Text h3 style={styles.title}>
         {title}
       </Text>

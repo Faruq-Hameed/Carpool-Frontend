@@ -14,7 +14,7 @@ const AccountSettingScreen: React.FC = ({}) => {
 
   return (
     <SafeAreaView style={style.container}>
-      <NavigationHeader title="Account Setting" />
+      <NavigationHeader title="Account Setting" goBack/>
       <Spacer />
       <NavigationChildFrame
         title="Sign Out"

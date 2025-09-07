@@ -1,10 +1,11 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import {AccountSettingScreen, DeleteAccountScreen} from "@/screens/settings";
+import { ProfileScreen } from "@/screens/dashboard";
 
 // the profile stack parameter list
 export type ProfileStackParamList = {
-  // ProfileScreen: undefined;
+  ProfileScreen: undefined;
   // AccountVerification: undefined;
   Wallet: undefined;
   Support: undefined;
@@ -19,11 +20,11 @@ const Stack = createStackNavigator<ProfileStackParamList>();
 // the auth navigation stack
 const ProfileStackNavigator: React.FC = () => (
   <Stack.Navigator
-    // initialRouteName="ProfileScreen"
+    initialRouteName="ProfileScreen"
     screenOptions={{ headerShown: false }}
   >
     {/* Profile screen */}
-    {/* <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
+    <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
 
     {/* Account verification stack navigator */}
     {/* <Stack.Screen

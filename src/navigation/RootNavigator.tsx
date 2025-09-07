@@ -3,13 +3,21 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 
 import { useAuth } from "../hooks/useAuth";
-import {AuthNavigator,DashboardTabs, ProfileStackNavigator, VerificationNavigator } from ".";
+import {
+  AuthNavigator,
+  DashboardTabs,
+  ProfileStackNavigator,
+  VerificationNavigator,
+} from ".";
+import { NavigatorScreenParams } from "@react-navigation/native";
+import { ProfileStackParamList } from "./ProfileStackNavigator";
 
 export type RootStackParamList = {
   AuthStack: undefined;
   DashboardStack: undefined;
   AccountVerification: undefined;
-  ProfileStack:undefined
+  /**Making ts allow me to access it’s a nested stack that can take screen + params. */
+  ProfileStack: NavigatorScreenParams<ProfileStackParamList>;
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -33,7 +41,10 @@ export default function RootStackNavigator() {
         <RootStack.Screen name="DashboardStack" component={DashboardTabs} />
       )}
       {/* Global navigation routes */}
-      <RootStack.Screen name="AccountVerification" component={VerificationNavigator} />
+      <RootStack.Screen
+        name="AccountVerification"
+        component={VerificationNavigator}
+      />
       <RootStack.Screen name="ProfileStack" component={ProfileStackNavigator} />
     </RootStack.Navigator>
   );
