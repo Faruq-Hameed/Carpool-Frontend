@@ -3,30 +3,25 @@ import { View, StyleSheet, Modal } from "react-native";
 
 /**Reusable modal container */
 const CustomModal: React.FC<{
-  content: ReactNode;
-  //   isModalVisible: boolean;
-  // onModalClose: () => boolean;
-}> = ({
-  content,
-  // isModalVisible,
-  // onModalClose,
-}) => {
+  visible: boolean;
+  children: ReactNode;
+  onClose: () => void;
+}> = ({ visible, children, onClose }) => {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View>
       {/* {onModalClose() && ( */}
-        <Modal
-          animationType="fade"
-          transparent={true}
-          // visible={onModalClose()}
-          visible={true}
-          //   onRequestClose={() => setModalVisible(false)}
-        >
-          {/* Modal container this can be made to be dynamic too */}
-          <View style={styles.modalBackground}>
-            <View style={styles.modalContentContainer}>{content}</View>
-          </View>
-        </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={visible}//visibility based on child's request
+           onRequestClose={onClose} // handle Android back button
+      >
+        {/* Modal container this can be made to be dynamic too */}
+        <View style={styles.modalBackground}>
+          <View style={styles.modalChildrenContainer}>{children}</View>
+        </View>
+      </Modal>
       {/* )} */}
     </View>
   );
@@ -43,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
   },
-  modalContentContainer: {
+  modalChildrenContainer: {
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 10,

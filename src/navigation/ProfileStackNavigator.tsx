@@ -5,7 +5,7 @@ import VerificationNavigator from "./VerificationNavigator";
 import AccountSettingScreen from "@/screens/dashboard/profile/settings/AccountSettingScreen";
 import SignOutScreen from "@/screens/dashboard/profile/settings/SignOutModal";
 
-// the auth stack parameter list
+// the profile stack parameter list
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
   AccountVerification: undefined;

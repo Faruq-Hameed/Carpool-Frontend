@@ -28,7 +28,12 @@ const AccountSettingScreen: React.FC = ({}) => {
         leftIcon="delete"
         onPress={() => navigation.navigate("DeleteAccount")}
       />
-      {modalVisible && <SignOutModal visibleState={true} />}
+      {modalVisible && (
+        <SignOutModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+        />
+      )}
     </SafeAreaView>
   );
 };
