@@ -1,7 +1,6 @@
 import FormInput from "@/components/forms/formInput";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 import NavigationHeader from "@/components/navigation/NavigationHeader";
-import SmallSpacer from "@/components/SmallSpacer";
 import Spacer from "@/components/Spacer";
 import Text from "@/components/texts/Text";
 import { useAuth } from "@/hooks/useAuth";
