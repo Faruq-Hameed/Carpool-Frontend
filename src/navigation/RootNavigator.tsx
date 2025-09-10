@@ -38,14 +38,20 @@ export default function RootStackNavigator() {
       {!isLoggedIn ? (
         <RootStack.Screen name="AuthStack" component={AuthNavigator} />
       ) : (
-        <RootStack.Screen name="DashboardStack" component={DashboardTabs} />
+        <>
+          {/* Dashboard screens and global are only available when user is login */}
+          <RootStack.Screen name="DashboardStack" component={DashboardTabs} />
+          {/* Global navigation routes */}
+          <RootStack.Screen
+            name="AccountVerification"
+            component={VerificationNavigator}
+          />
+          <RootStack.Screen
+            name="ProfileStack"
+            component={ProfileStackNavigator}
+          />
+        </>
       )}
-      {/* Global navigation routes */}
-      <RootStack.Screen
-        name="AccountVerification"
-        component={VerificationNavigator}
-      />
-      <RootStack.Screen name="ProfileStack" component={ProfileStackNavigator} />
     </RootStack.Navigator>
   );
 }
