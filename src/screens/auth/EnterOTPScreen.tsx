@@ -17,7 +17,6 @@ import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<Props> = ({ route }) => {
   const navigation = useTypedNavigation();
-  navigation.navigate("EnterOTP", { phonenumber: "" });
   let { phonenumber } = route.params;
   const [code, setCode] = useState("");
   const [isInputComplete, setIsInputComplete] = useState(false);
@@ -28,8 +27,10 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
   const handleChangeText = (text: string) => {
     console.log("text", text);
     setCode(text);
-    if (code.length === 4) {
-      setIsInputComplete(!isInputComplete); // to be done later
+      console.log("code length: ", code.length);
+
+    if (code.length === 4) { //NOT WORKING AS EXPECTED
+      setIsInputComplete(true); // to be done later
     }
   };
   useEffect(() => {
@@ -50,6 +51,7 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
           value={code}
           onChangeText={handleChangeText}
           keyboardType="numeric"
+          maxLength={4}
         />
         <NavButton
           title="Verify"

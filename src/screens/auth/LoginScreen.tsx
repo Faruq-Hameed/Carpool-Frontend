@@ -9,7 +9,8 @@ import UnderlineButton from "../../components/buttons/UnderLineBtn";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 import PassCodeUtils from "../../components/forms/passcodeUtils";
 import { useAuth } from "../../hooks/useAuth";
-
+//I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
+//ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { handleLogin } = useAuth();

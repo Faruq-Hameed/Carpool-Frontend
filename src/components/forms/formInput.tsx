@@ -9,6 +9,7 @@ type FormInputProps = {
   onChangeText: (text: string) => void;
   keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
   placeholder?: string;
+  maxLength?: number;
 };
 
 /**  Reusable input component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -18,6 +19,7 @@ const FormInput: React.FC<FormInputProps> = ({
   onChangeText,
   keyboardType = "default",
   placeholder = "",
+  maxLength,
 }) => {
   return (
     <Input
@@ -30,6 +32,10 @@ const FormInput: React.FC<FormInputProps> = ({
       value={value}
       onChangeText={onChangeText}
       keyboardType={keyboardType}
+      {...(maxLength && { maxLength })}
+      autoCapitalize="none"
+      autoCorrect={false}
+      // leftIcon={{ type: 'font-awesome', name: 'chevron-left', color: '#404040', size: 16 }}
       // containerStyle={styles.inputContainer}
       // inputContainerStyle={styles.input}
     />

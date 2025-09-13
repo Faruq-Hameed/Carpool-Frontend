@@ -73,8 +73,8 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        // component={ProfileStackNavigator}
-        component={ProfileScreen}
+        component={ProfileStackNavigator}
+        // component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="person-outline" size={size} color={color} />

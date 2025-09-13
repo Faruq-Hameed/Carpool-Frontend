@@ -3,12 +3,13 @@ import { StyleSheet } from "react-native";
 import LightStackFrame from "../../../components/navigation/NavigationChildFrame";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileSummary from "./components/ProfileSummary";
-import { useRootNavigation } from "@/hooks/useTypedNavigation";
+import { useProfileNavigation, useRootNavigation } from "@/hooks/useTypedNavigation";
 import Spacer from "@/components/Spacer";
 
 /**Profile Screen when tap from the dashboard */
 const Profile: React.FC = () => {
   const rootNavigation = useRootNavigation();
+  const profileNavigation = useProfileNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ProfileSummary />
@@ -25,9 +26,10 @@ const Profile: React.FC = () => {
       <LightStackFrame
         title="Account Settings"
         onPress={() => {
-          rootNavigation.navigate("ProfileStack", {
-            screen: "AccountSetting",
-          });
+          // rootNavigation.navigate("ProfileStack", { //DEEP NESTED LEFT FOR REMINDER INCASE NEEDED
+          //   screen: "AccountSetting",
+          // });
+          profileNavigation.navigate("AccountSetting");
         }}
         leftIcon="userGear"
       />
