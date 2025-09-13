@@ -14,6 +14,7 @@ import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 It displays a welcome message and a button to navigate to the SignUp screen */
 const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
   const navigation = useTypedNavigation<"Welcome">();
+  console.log("Screen width: ", width);
   return (
     <SafeAreaView style={styles.mainContainer}>
       {/* Display welcome image */}

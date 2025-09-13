@@ -13,9 +13,11 @@ import Spacer from "../../components/Spacer";
 import FormInput from "../../components/forms/formInput";
 import NavButton from "../../components/buttons/greenButton";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
+import { useAuth } from "@/hooks/useAuth";
 
 type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<Props> = ({ route }) => {
+  const { handleLogin } = useAuth();
   const navigation = useTypedNavigation();
   let { phonenumber } = route.params;
   const [code, setCode] = useState("");
@@ -27,9 +29,10 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
   const handleChangeText = (text: string) => {
     console.log("text", text);
     setCode(text);
-      console.log("code length: ", code.length);
+    console.log("code length: ", code.length);
 
-    if (code.length === 4) { //NOT WORKING AS EXPECTED
+    if (code.length === 3) {
+      //NOT WORKING AS EXPECTED
       setIsInputComplete(true); // to be done later
     }
   };
@@ -55,7 +58,9 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
         />
         <NavButton
           title="Verify"
-          onPress={() => navigation.navigate("MainScreen")} //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
+          onPress={
+            () => handleLogin("token12345") //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
+          }
           disabled={!isInputComplete} // Disable button if input is not complete //LATER
         />
       </View>
