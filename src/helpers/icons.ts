@@ -12,6 +12,7 @@ export const icons = {
   carProfile: require("@assets/icons/CarProfile.png"),
   userFocus: require("@assets/icons/UserFocus.png"),
   caretRight: require("@assets/icons/CaretRight.png"),
+  caretRightW: require("@assets/icons/CaretRightW.png"),
   info: require("@assets/icons/Info.png"),
 };
 

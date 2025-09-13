@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Text } from "@rneui/base";
-import { useTypedNavigation } from "../../hooks/useTypedNavigation";
+import { useAuthNavigation } from "../../hooks/useTypedNavigation";
 import { ScreenProps } from "../../types/navigation";
 
-
-// 
+//
 /** a screen that shows when your app first loads */
-const SplashScreen: React.FC<ScreenProps<'Splash'>> = () => {
-  const navigation = useTypedNavigation<"Splash">(); //this is the current screen in the stack
+const SplashScreen: React.FC<ScreenProps<"Splash">> = () => {
+  const navigation = useAuthNavigation<"Splash">(); //this is the current screen in the stack
   // Navigate to the Welcome screen after 2 seconds
-  useEffect(() => { // This effect runs when the component mounts. It simulate a loading time of 2 seconds before navigating to the Welcome screen
+  useEffect(() => {
+    // This effect runs when the component mounts. It simulate a loading time of 2 seconds before navigating to the Welcome screen
     setTimeout(() => {
       navigation.navigate("Welcome");
     }, 2000);
@@ -24,7 +24,9 @@ const SplashScreen: React.FC<ScreenProps<'Splash'>> = () => {
         style={styles.logo}
       />
       {/* Display logo text */}
-      <Text h2 style={styles.text}>Share</Text>
+      <Text h2 style={styles.text}>
+        Share
+      </Text>
     </View>
   );
 };
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    fontFamily: "Poppins"
+    fontFamily: "Poppins",
   },
 });
 

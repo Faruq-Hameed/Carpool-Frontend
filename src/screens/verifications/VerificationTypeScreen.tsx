@@ -11,7 +11,7 @@ import InfoTextFrame from "@/components/texts/InfoText";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 
 const VerificationTypeScreen: React.FC = () => {
-  const navigation = useVerificationNavigation()
+  const navigation = useVerificationNavigation();
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
   },
-
 });
 
 export default VerificationTypeScreen;

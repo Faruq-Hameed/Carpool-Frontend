@@ -46,7 +46,7 @@ const DeleteAccountScreen: React.FC = () => {
           lowerBtnColour="#CC0000"
           lowerBtnTitle="Yes, delete my account"
           onLowerBtnPress={() => {
-            setModalVisible(true); 
+            setModalVisible(true);
           }}
           width={0.9}
         />

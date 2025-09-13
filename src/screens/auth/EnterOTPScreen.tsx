@@ -6,20 +6,22 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 import { useNavigation } from "@react-navigation/native";
-import { useTypedNavigation } from "../../hooks/useTypedNavigation";
+import { useAuthNavigation } from "../../hooks/useTypedNavigation";
 import { Input } from "@rneui/themed";
 import UnderlineButton from "../../components/buttons/UnderLineBtn";
 import Spacer from "../../components/Spacer";
 import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/greenButton";
+import NavButton from "../../components/buttons/GreenButton";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 import { useAuth } from "@/hooks/useAuth";
+import { EnterOTPProps } from "@/helpers/enterOtpProp";
 
-type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
-const EnterOTPScreen: React.FC<Props> = ({ route }) => {
+// type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
+const EnterOTPScreen: React.FC<EnterOTPProps> = ({route}) => { //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
   const { handleLogin } = useAuth();
-  const navigation = useTypedNavigation();
-  let { phonenumber } = route.params;
+  const navigation = useAuthNavigation();
+  let { phonenumber, onVerify } = route.params;
+  
   const [code, setCode] = useState("");
   const [isInputComplete, setIsInputComplete] = useState(false);
   const [timer, setTimer] = useState(30); // timer for resend OTP button
@@ -58,8 +60,8 @@ const EnterOTPScreen: React.FC<Props> = ({ route }) => {
         />
         <NavButton
           title="Verify"
-          onPress={
-            () => handleLogin("token12345") //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
+          onPress={() =>onVerify("code")
+            // () => handleLogin("token12345") //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
           }
           disabled={!isInputComplete} // Disable button if input is not complete //LATER
         />

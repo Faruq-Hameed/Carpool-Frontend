@@ -7,7 +7,7 @@ import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/greenButton";
+import NavButton from "../../components/buttons/GreenButton";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 import PassCodeInput from "../../components/forms/PassCodeInput";
 import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";

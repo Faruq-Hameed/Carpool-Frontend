@@ -5,9 +5,11 @@ import { Button, Text } from "@rneui/themed";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Spacer from "../Spacer";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
+import { AppIcon } from "../AppIcon";
+import { IconName } from "@/helpers/icons";
 
 /**Reusable button nav component */
-const NavButton = ({
+const GreenNavButton = ({
   title,
   onPress, //call a function when the button is pressed
   titleColor = "#FFFFFF", //default title color is white
@@ -16,6 +18,8 @@ const NavButton = ({
   disabled = false, //default button is not disabled
   borderColor, //button border color
   width,
+  iconRight = false,
+  iconName, // from the icons list
 }: {
   title: string;
   onPress: () => void;
@@ -25,6 +29,8 @@ const NavButton = ({
   disabled?: boolean;
   borderColor?: string;
   width?: number;
+  iconRight?: boolean;
+  iconName?: IconName;
 }) => {
   return (
     <Spacer>
@@ -33,6 +39,20 @@ const NavButton = ({
         disabled={disabled}
         onPress={onPress}
         type={btnType}
+        icon={
+          iconName ? (
+            <AppIcon
+              name={iconName}
+              size={24}
+              // Optional: wrap in a View for spacing
+              // style={{
+              //   marginLeft: iconRight ? 8 : 0,
+              //   marginRight: iconRight ? 0 : 8,
+              // }}
+            />
+          ) : undefined
+        }
+        iconRight={iconRight}
         titleStyle={{
           fontSize: 16,
           fontWeight: "bold",
@@ -52,4 +72,4 @@ const NavButton = ({
   );
 };
 
-export default NavButton;
+export default GreenNavButton;

@@ -12,10 +12,10 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { VerificationStackParamList } from "../../navigation/VerificationNavigator";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/greenButton";
-import PersonalInfoHeader from "../../components/verifications/PersonalInfoHeader";
+import NavButton from "../../components/buttons/GreenButton";
+import PersonalInfoHeader from "./components/PersonalInfoHeader";
 import VerificationHeader from "../../components/navigation/NavigationHeader";
-import VerificationStepsBar from "../../components/verifications/ProgressBar";
+import VerificationStepsBar from "./components/ProgressBar";
 
 // const LoginScreen: React.FC<Props> = ({ navigation }) => {
 // type Props = StackScreenProps<MainTabParamList, "DashBoard">;

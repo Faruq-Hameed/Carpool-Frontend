@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Text, Input, Header, Icon } from "@rneui/themed";
 
@@ -13,15 +15,18 @@ import { VerificationStackParamList } from "../../navigation/VerificationNavigat
 import { SafeAreaView } from "react-native-safe-area-context";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/greenButton";
-import PersonalInfoHeader from "../../components/verifications/PersonalInfoHeader";
+import NavButton from "../../components/buttons/GreenButton";
+import PersonalInfoHeader from "./components/PersonalInfoHeader";
 import VerificationHeader from "../../components/navigation/NavigationHeader";
-import VerificationStepsBar from "../../components/verifications/ProgressBar";
+import VerificationStepsBar from "./components/ProgressBar";
 import NavigationHeader from "../../components/navigation/NavigationHeader";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useRootNavigation } from "@/hooks/useTypedNavigation";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
-const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
+const PersonalInfoScreen: React.FC<Props> = () => {
+  const navigation = useRootNavigation();
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
@@ -34,47 +39,63 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
       {/* Account verification header */}
       {/* <VerificationHeader /> */}
       <NavigationHeader title="Account Verification" goBack={false} />
-      <VerificationStepsBar currentStep={1} />
+      {/* <VerificationStepsBar currentStep={1} /> */}
       {/*upper container. */}
       <PersonalInfoHeader />
       {/* middle container */}
-      <View style={styles.middleContainer}>
-        {/*Input form container */}
-        <View>
-          <FormInput
-            label="Surname"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-          <FormInput
-            label="Firstname"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <FormInput
-            label="Phone number"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-          />
-          {/* 
-          <FormInput //THIS WILL BE UPDATED LATER TO A DATE PICKER
-            label="Date of birth"
-            value={dob}
-            onChangeText={setDob}
-            placeholder="-- -- ----"
-          /> */}
-          <FormInput label="Email" value={email} onChangeText={setEmail} />
+      <KeyboardAwareScrollView
+        // contentContainerStyle={{ padding: 16 }}
+        extraScrollHeight={100} //this makes sure the input is visible above the keyboard
+        enableOnAndroid={true}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+      >
+        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  THIS CAN HANDLE KEYPAD DISMISS TOO*/}
+        <View style={styles.formContainer}>
+          {/*Input form container */}
+          <View style={styles.formInputsContainer}>
+            <FormInput
+              label="Surname"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+            <FormInput
+              label="Firstname"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            <FormInput label="Email" value={email} onChangeText={setEmail} />
+            <FormInput
+              label="Phone number"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+              keyboardType="numeric"
+            />
+          </View>
+          {/* Button container */}
+          <View>
+            <NavButton
+              title="Next"
+              onPress={
+                () =>
+                  navigation.navigate("AuthStack", {
+                    screen: "EnterOTP",
+                    params: {
+                      phonenumber: phoneNumber,
+                      onVerify: (code: string) => console.log("Verified with code:", code),
+                    },
+                  })
+                // Navigate to the next screen
+                // rootNavigation.navigate("ProfileStack", { //DEEP NESTED LEFT FOR REMINDER INCASE NEEDED
+                //   screen: "AccountSetting",
+                // });
+              } // Call the  function when the button is pressed
+            />
+          </View>
         </View>
-        {/* Button container */}
-        <View>
-          <NavButton
-            title="Next"
-            onPress={
-              () => navigation.navigate("EnterNIN") // Navigate to the next screen
-            } // Call the  function when the button is pressed
-          />
-        </View>
-      </View>
+      </KeyboardAwareScrollView>
+
+      {/* </TouchableWithoutFeedback> */}
     </SafeAreaView>
   );
 };
@@ -83,20 +104,18 @@ const PersonalInfoScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    // borderWidth: 2,
-    // borderColor: "red",
-    // paddingBottom: 24,
+    // justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    // paddingHorizontal: 16,
+    borderWidth: 2,
   },
-  middleContainer: {
-    width: 343,
-    margin: "auto",
-    bottom: 20,
-    // justifyContent: "center",
-    // borderWidth: 2,
-    // borderBlockColor: "green",
+  formContainer: {
+    justifyContent: "space-around",
+  },
+  formInputsContainer: {
+    marginVertical: 20,
+    marginBottom: 60,
   },
 });
 

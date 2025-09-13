@@ -3,7 +3,10 @@ import { StyleSheet } from "react-native";
 import LightStackFrame from "../../../components/navigation/NavigationChildFrame";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileSummary from "./components/ProfileSummary";
-import { useProfileNavigation, useRootNavigation } from "@/hooks/useTypedNavigation";
+import {
+  useProfileNavigation,
+  useRootNavigation,
+} from "@/hooks/useTypedNavigation";
 import Spacer from "@/components/Spacer";
 
 /**Profile Screen when tap from the dashboard */

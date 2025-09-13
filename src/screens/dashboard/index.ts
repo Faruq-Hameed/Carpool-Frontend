@@ -1,5 +1,5 @@
 import HistoryScreen from "./History";
-import HomeScreen from "./Home";
+import HomeScreen from "./home";
 // import ProfileScreen from "./Profile";
 import ProfileScreen from "./profile/index";
 import OfferRideScreen from "./OfferRide";

@@ -4,7 +4,7 @@ import { View, StyleSheet, SafeAreaView } from "react-native";
 import Text from "@/components/texts/Text";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import { AppIcon } from "@/components/AppIcon";
-import NavButton from "@/components/buttons/greenButton";
+import NavButton from "@/components/buttons/GreenButton";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 
 const IdentityVerificationScreen: React.FC = () => {

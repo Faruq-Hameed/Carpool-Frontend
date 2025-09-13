@@ -4,7 +4,7 @@ import PassCodeInput from "./PassCodeInput";
 import ShowPassCheckBox from "./ShowPassCheckBox";
 
 import UnderlineButton from "../buttons/UnderLineBtn";
-import { useTypedNavigation } from "../../hooks/useTypedNavigation";
+import { useAuthNavigation } from "../../hooks/useTypedNavigation";
 
 /**  Reusable PassCodeInput component. Expecting title, placeholder, value, onChangeText, keyboardType */
 interface PassCodeUtilsProps {
@@ -21,7 +21,7 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
   // State variables for input fields
   const [passCode, setPassCode] = useState<string>("");
   const [hidePasscode, setHidePasscode] = useState(true); // THIS NOT YET WORKING AS EXPECTED
-  const navigation = useTypedNavigation<"Login">();
+  const navigation = useAuthNavigation<"Login">();
 
   return (
     <View>

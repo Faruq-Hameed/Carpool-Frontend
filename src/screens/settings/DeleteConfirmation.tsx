@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
  * With initial state, the modal will be visible when the component mounts
  * @param visible - initial boolean state of the modal without this
  * calling the modal again won't make it visible.
- * @param onClose 
+ * @param onClose
  * @returns - Modal component with content and buttons
  */
 const DeleteConfirmationModal: React.FC<{

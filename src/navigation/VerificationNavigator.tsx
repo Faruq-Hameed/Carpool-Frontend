@@ -9,6 +9,7 @@ import {
   VerificationTypeScreen,
   IdentityVerificationScreen,
 } from "@/screens/verifications";
+import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
 
 // the verification stack parameter list
 export type VerificationStackParamList = {
@@ -19,6 +20,9 @@ export type VerificationStackParamList = {
   EntireLicense: undefined;
   ConfirmImage: undefined;
   VehicleInformation: undefined;
+  // EnterOTP: //to pass the phone number to the EnterOTPScreen from screen we came from
+
+  VerificationOtp: { phonenumber: string, onVerify: (code: string) => void };
 };
 
 // a typed stack navigator
@@ -58,6 +62,11 @@ const VerificationNavigator: React.FC = () => (
     <Stack.Screen
       name="EntireLicense"
       component={EnterLicenseScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="VerificationOtp"
+      component={EnterOTPScreen}
       options={{ headerShown: false }}
     />
   </Stack.Navigator>

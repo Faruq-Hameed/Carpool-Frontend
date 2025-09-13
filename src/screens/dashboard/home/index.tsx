@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { View, Text as RNText } from "react-native";
+import { View, Text as RNText, StyleSheet } from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { DashboardTabParamList } from "../../navigation/DashboardNavigator";
+import { DashboardTabParamList } from "../../../navigation/DashboardNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProfileSummary from "./profile/components/ProfileSummary";
-import { PseudoModalScreen } from "./profile/components";
+import ProfileSummary from "../profile/components/ProfileSummary";
+import { PseudoModalScreen } from "../profile/components";
 import CustomModal from "@/components/modals/CustomModal";
 import VerificationNavigator from "@/navigation/VerificationNavigator";
-import { useProfileNavigation, useRootNavigation } from "@/hooks/useTypedNavigation";
+import {
+  useProfileNavigation,
+  useRootNavigation,
+} from "@/hooks/useTypedNavigation";
+import { useAuth } from "@/hooks/useAuth";
+import VerificationBox from "./components/VerificationBox";
 
 // Use BottomTabScreenProps instead of StackScreenProps for tab navigation
 type Props = BottomTabScreenProps<DashboardTabParamList, "Home">;
 
 const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
-  const rootNavigation = useRootNavigation(); 
+  const rootNavigation = useRootNavigation();
   const [modalVisible, setModalVisible] = useState(false);
- const [hasModalShown, setHasShown] = useState(false); // track if modal was shown once
-
+  const [hasModalShown, setHasShown] = useState(false); // track if modal was shown once
+  const {
+    currentUser: { isVerified },
+  } = useAuth();
   useEffect(() => {
     if (!hasModalShown) {
       const timer = setTimeout(() => {
@@ -28,25 +35,26 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
     }
   }, [hasModalShown]);
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
+    <SafeAreaView style={styles.container}>
       <ProfileSummary />
-      {modalVisible && (
+      {!isVerified && <VerificationBox />}
+      {modalVisible && !isVerified && (
         <CustomModal
-        onClose={() => setModalVisible(false)}
-        visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          visible={modalVisible}
           children={
             <PseudoModalScreen
               headerText="Welcome, Faruq" //This should come from state i.e current user.firstname
               description="For everyone’s safety, only verified users can join or offer rides on Share."
               upperBtnTitle="OK, Let’s do it now"
               onUpperBtnPress={() => {
-              //   navigation.navigate("Profile", {
-              //     screen: "AccountVerification", //go to verification //NEED O LEARN NESTED ROUTE
-              //   }
-              // );
-                
+                //   navigation.navigate("Profile", {
+                //     screen: "AccountVerification", //go to verification //NEED O LEARN NESTED ROUTE
+                //   }
+                // );
+
                 // profileNavigation.navigate("AccountVerification"); //go to verification //NEED O LEARN NESTED ROUTE
-               rootNavigation.navigate("AccountVerification");
+                rootNavigation.navigate("AccountVerification");
                 setModalVisible(false);
               }}
               lowerBtnTitle="Maybe later"
@@ -66,5 +74,16 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    borderBlockColor: "red",
+    // borderWidth: 2,
+    backgroundColor: "#fff",
+    padding: 10,
+  },
+});
 
 export default HomeScreen;

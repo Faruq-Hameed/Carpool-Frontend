@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { AppIcon } from "../AppIcon";
 import { IconName } from "@/helpers/icons";
 import Text from "../texts/Text";
@@ -8,16 +8,26 @@ interface InfoTextFrameProps {
   title: string;
   leftIcon: IconName;
   // children: React.ReactNode;
+  rightComponent?: React.ReactNode;
+  containerStyles?: ViewStyle //styles type
+  titleStyles?: ViewStyle //styles type
 }
 
 /** 
 
 /**A frame with texts and icon in left.*/
-const InfoTextFrame: React.FC<InfoTextFrameProps> = ({ title, leftIcon }) => {
+const InfoTextFrame: React.FC<InfoTextFrameProps> = ({
+  title,
+  leftIcon,
+  rightComponent,
+containerStyles,
+titleStyles,
+}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyles]}>
       <AppIcon name={leftIcon} />
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, titleStyles]}>{title}</Text>
+      {rightComponent && rightComponent}
     </View>
   );
 };
@@ -38,7 +48,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     lineHeight: 25,
     rowGap: 25,
-  }
+    fontSize: 14,
+  },
 });
 
 export default InfoTextFrame;

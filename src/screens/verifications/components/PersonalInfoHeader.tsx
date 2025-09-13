@@ -17,9 +17,10 @@ const PersonalInfoHeader: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: "auto",
-    marginBottom: 20,
+    // margin: "auto",
+    // marginBottom: 20,
     // lineHeight: 2,
+    marginTop: 20
   },
   header: {
     textAlign: "center",
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
   normalText: {
     textAlign: "center",
     color: "#333333",
+    marginVertical: 25,
   },
 });
 

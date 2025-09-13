@@ -23,7 +23,7 @@ export type AuthStackParamList = {
   VerifyAccount: undefined;
   ResetAccount: undefined;
   ForgotPasscode: undefined;
-  EnterOTP: { phonenumber: string };//to pass the phone number to the EnterOTPScreen from screen we came from
+  EnterOTP: { phonenumber: string, onVerify: (code: string) => void };//to pass the phone number to the EnterOTPScreen from screen we came from
   CreatePasscode: undefined;
   WelcomeUser: undefined;
   MainScreen: undefined;

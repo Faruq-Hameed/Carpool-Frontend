@@ -11,9 +11,10 @@ import {
 } from ".";
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { ProfileStackParamList } from "./ProfileStackNavigator";
+import { AuthStackParamList } from "./AuthNavigator";
 
 export type RootStackParamList = {
-  AuthStack: undefined;
+  AuthStack: NavigatorScreenParams<AuthStackParamList>;
   DashboardStack: undefined;
   AccountVerification: undefined;
   /**Making ts allow me to access it’s a nested stack that can take screen + params. */

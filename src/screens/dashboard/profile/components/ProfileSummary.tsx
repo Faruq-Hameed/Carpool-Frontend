@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     columnGap: 5,
-    paddingVertical: 15,
+    paddingBottom: 15,
   },
   leftContainer: {
     borderWidth: 0.4,

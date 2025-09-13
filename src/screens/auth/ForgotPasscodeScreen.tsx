@@ -7,11 +7,13 @@ import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/greenButton";
+import NavButton from "../../components/buttons/GreenButton";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
+import { useAuth } from "@/hooks/useAuth";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
+  const {handleLogin} = useAuth();
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   return (
@@ -32,7 +34,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         <NavButton
           title="Send OTP"
           onPress={() =>
-            navigation.navigate("EnterOTP", { phonenumber: phoneNumber })
+            navigation.navigate("EnterOTP", { phonenumber: phoneNumber, onVerify:()=> handleLogin("token12345") })
           } // Pass the phone number to EnterOTPScreen
         />
       </View>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
 import NavigationHeader from "@/components/navigation/NavigationHeader";
 import NavigationChildFrame from "@/components/navigation/NavigationChildFrame";
@@ -14,7 +14,7 @@ const AccountSettingScreen: React.FC = ({}) => {
 
   return (
     <SafeAreaView style={style.container}>
-      <NavigationHeader title="Account Setting" goBack/>
+      <NavigationHeader title="Account Setting" goBack />
       <Spacer />
       <NavigationChildFrame
         title="Sign Out"

@@ -8,7 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "../../components/forms/formInput";
 import PassCodeInput from "../../components/forms/PassCodeInput";
 import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
-import NavButton from "../../components/buttons/greenButton";
+import NavButton from "../../components/buttons/GreenButton";
 import UnderlineButton from "../../components/buttons/UnderLineBtn";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 
@@ -84,6 +84,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                 () =>
                   navigation.navigate("EnterOTP", {
                     phonenumber: phoneNumber,
+                    onVerify: (code: string) => console.log("Verified with code:", code),
                   }) /*handleSignUp()*/
               } // Call the handleSignUp function when the button is pressed
             />

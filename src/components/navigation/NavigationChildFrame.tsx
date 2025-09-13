@@ -62,8 +62,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     rowGap: 5,
-
-  }
+  },
 });
 
 export default NavigationChildFrame;

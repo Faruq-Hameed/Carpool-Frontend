@@ -13,7 +13,7 @@ export function useRootNavigation<RouteName extends RootNavigationKey>() {
 
 type NavigationKey = keyof AuthStackParamList;
 
-export function useTypedNavigation<RouteName extends NavigationKey>() {
+export function useAuthNavigation<RouteName extends NavigationKey>() {
   return useNavigation<StackNavigationProp<AuthStackParamList, RouteName>>();
 }
 
@@ -25,6 +25,10 @@ export function useProfileNavigation<RouteName extends ProfileNavigationKey>() {
 
 type VerificationNavigationKey = keyof VerificationStackParamList;
 /**Use this hook to get the navigation prop of the Verification navigator. */
-export function useVerificationNavigation<RouteName extends VerificationNavigationKey>() {
-  return useNavigation<StackNavigationProp<VerificationStackParamList, RouteName>>();
+export function useVerificationNavigation<
+  RouteName extends VerificationNavigationKey
+>() {
+  return useNavigation<
+    StackNavigationProp<VerificationStackParamList, RouteName>
+  >();
 }
