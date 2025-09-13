@@ -21,12 +21,15 @@ import VerificationHeader from "../../components/navigation/NavigationHeader";
 import VerificationStepsBar from "./components/ProgressBar";
 import NavigationHeader from "../../components/navigation/NavigationHeader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useRootNavigation } from "@/hooks/useTypedNavigation";
+import {
+  useRootNavigation,
+  useVerificationNavigation,
+} from "@/hooks/useTypedNavigation";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
 const PersonalInfoScreen: React.FC<Props> = () => {
-  const navigation = useRootNavigation();
+  const navigation = useVerificationNavigation();
   // State variables for input fields
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
@@ -78,12 +81,10 @@ const PersonalInfoScreen: React.FC<Props> = () => {
               title="Next"
               onPress={
                 () =>
-                  navigation.navigate("AuthStack", {
-                    screen: "EnterOTP",
-                    params: {
-                      phonenumber: phoneNumber,
-                      onVerify: (code: string) => console.log("Verified with code:", code),
-                    },
+                  navigation.navigate("VerificationOtp", {
+                    phonenumber: phoneNumber,
+                    onVerify: (code: string) =>
+                      console.log("Verified with code:", code),
                   })
                 // Navigate to the next screen
                 // rootNavigation.navigate("ProfileStack", { //DEEP NESTED LEFT FOR REMINDER INCASE NEEDED
