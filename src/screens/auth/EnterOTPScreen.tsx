@@ -17,30 +17,18 @@ import { useAuth } from "@/hooks/useAuth";
 import { EnterOTPProps } from "@/helpers/enterOtpProp";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
-const EnterOTPScreen: React.FC<EnterOTPProps> = ({route}) => { //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
+const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
+  //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
   const { handleLogin } = useAuth();
   const navigation = useAuthNavigation();
-  let { phonenumber, onVerify } = route.params;
-  
+  let { phonenumber, onVerify } = route.params; 
+
   const [code, setCode] = useState("");
   const [isInputComplete, setIsInputComplete] = useState(false);
   const [timer, setTimer] = useState(30); // timer for resend OTP button
 
-  //turn the number turn the next 4 digit after first 5 digits to *
+  // //turn the number turn the next 4 digit after first 5 digits to *
   phonenumber = phonenumber.replace(/^(.{5})(.{4})/, "$1****");
-  const handleChangeText = (text: string) => {
-    console.log("text", text);
-    setCode(text);
-    console.log("code length: ", code.length);
-
-    if (code.length === 3) {
-      //NOT WORKING AS EXPECTED
-      setIsInputComplete(true); // to be done later
-    }
-  };
-  useEffect(() => {
-    handleChangeText(code);
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,16 +42,17 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({route}) => { //HAVING ISSUE MA
         <FormInput
           label="Enter OTP"
           value={code}
-          onChangeText={handleChangeText}
+          onChangeText={setCode}
           keyboardType="numeric"
           maxLength={4}
         />
         <NavButton
           title="Verify"
-          onPress={() =>onVerify("code")
+          onPress={
+            () => onVerify("code")
             // () => handleLogin("token12345") //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
           }
-          disabled={!isInputComplete} // Disable button if input is not complete //LATER
+          disabled={code && code.length === 4 ? false : true} // Disable button if input is not complete //LATER
         />
       </View>
     </SafeAreaView>

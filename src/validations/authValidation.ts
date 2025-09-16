@@ -15,3 +15,12 @@ export const LoginSchema = Yup.object().shape({
     .required("Passcode is required")
     .length(6, "Must be at least 6 characters"),
 });
+
+export const SignUpSchema = Yup.object().shape({
+  surname: Yup.string().required("Surname is required"),
+  firstname: Yup.string().required("Firstname is required"),
+  email: Yup.string().email().required("Email is required"),
+  passCode: Yup.string()
+    .required("Passcode is required")
+    .length(6, "Must be at least 6 characters"),
+});
