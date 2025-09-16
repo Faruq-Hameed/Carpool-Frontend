@@ -1,20 +1,18 @@
 import React from "react";
-import { View, StyleSheet, Image, Button, Dimensions } from "react-native";
-import { AuthStackParamList } from "../../navigation/AuthNavigator";
-import { StackScreenProps } from "@react-navigation/stack";
+import { View, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ScreenProps } from "../../types/navigation";
-import { useAuthNavigation } from "../../hooks/useTypedNavigation";
-import NavButton from "../../components/buttons/GreenButton";
+
+import { ScreenProps } from "@/types/navigation";
+import { useAuthNavigation } from "@/hooks/useTypedNavigation";
+import NavButton from "@/components/buttons/GreenButton";
 import { Text } from "@rneui/themed";
-import { width } from "../../utils/constants";
-import { getResponsiveWidth } from "../../helpers/getScreenDimension";
+import { width } from "@/utils/constants";
+import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 
 /** Welcome screen is the first screen that the user sees when they open the app
 It displays a welcome message and a button to navigate to the SignUp screen */
 const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
   const navigation = useAuthNavigation<"Welcome">();
-  console.log("Screen width: ", width);
   return (
     <SafeAreaView style={styles.mainContainer}>
       {/* Display welcome image */}

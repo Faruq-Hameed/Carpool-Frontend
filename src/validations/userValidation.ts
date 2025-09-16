@@ -11,16 +11,16 @@ export const LoginSchema = Yup.object().shape({
 
       return emailRegex.test(value) || phoneRegex.test(value);
     }),
-  passCode: Yup.string()
+  passcode: Yup.string()
     .required("Passcode is required")
-    .length(6, "Must be at least 6 characters"),
+    .length(6, "Your passcode must be 6 digits long"),
 });
 
 export const SignUpSchema = Yup.object().shape({
-  surname: Yup.string().required("Surname is required"),
   firstname: Yup.string().required("Firstname is required"),
+  lastname: Yup.string().required("Surname is required"),
   email: Yup.string().email().required("Email is required"),
-  passCode: Yup.string()
+  passcode: Yup.string()
     .required("Passcode is required")
-    .length(6, "Must be at least 6 characters"),
+    .length(6, "Your passcode must be 6 digits long"),
 });

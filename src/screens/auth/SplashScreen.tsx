@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { Text } from "@rneui/base";
-import { useAuthNavigation } from "../../hooks/useTypedNavigation";
-import { ScreenProps } from "../../types/navigation";
+import { useAuthNavigation } from "@/hooks/useTypedNavigation";
+import { ScreenProps } from "@/types/navigation";
 
 //
 /** a screen that shows when your app first loads */

@@ -80,7 +80,9 @@ const UnderlineButton: React.FC<UnderlineButtonProps> = ({
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: "center",
+    margin: "auto",
     marginTop: 12,
+    alignSelf: "flex-start", //to achieve shrinking/growing container
   },
 });
 

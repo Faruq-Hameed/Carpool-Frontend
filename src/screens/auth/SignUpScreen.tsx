@@ -13,16 +13,13 @@ import NavButton from "@/components/buttons/GreenButton";
 import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import { authValidation } from "@/validations";
+import PassCodeUtils from "@/components/forms/passcodeUtils";
+import ErrorTexts from "@/components/texts/ErrorTexts";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   // State variables for input fields
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [passCode, setPassCode] = useState<string>("");
-  const [hidePasscode, setHidePasscode] = useState(true);
 
   // Handle sign up button press
   const handleSignUp = async () => {
@@ -30,12 +27,11 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     const apiUrl = "https://4e9c-102-219-53-33.ngrok-free.app/api/users/";
 
     // Request body for the API call
-    const requestBody = {
-      firstname: firstName,
-      lastname: lastName,
-      email: email,
-      phonenumber: phoneNumber,
-    };
+    // const requestBody = {
+    //   firstname: firstname,
+    //   lastname: lastname,
+    //   email: email,
+    // };
   };
 
   return (
@@ -47,70 +43,128 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           normalText="Enter your details to create your account"
         />
         {/* middle container */}
-        <View style={styles.middleContainer}>
-          {/*Input form container */}
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ flexGrow: 1 }} //so the scroll view expands properly.
+          extraScrollHeight={200} //this makes sure the input is visible above the keyboard
+          enableOnAndroid={true}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+        >
+          <Formik
+            initialValues={{
+              firstname: "",
+              lastname: "",
+              email: "",
+              passcode: "",
+            }}
+            validationSchema={authValidation.SignUpSchema}
+            onSubmit={(values) =>
+              navigation.navigate("EnterOTP", {
+                email: values.email,
+                //this should construct the request body and also api to call
+                onVerify: (code: string) =>
+                  console.log("Verified with code:", code),
+              })
+            }
+          >
+            {({
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <View style={styles.middleContainer}>
+                {/*Input form container */}
 
-          <View>
-            <FormInput
-              label="Surname"
-              value={lastName}
-              onChangeText={setLastName}
-            />
-            <FormInput
-              label="Firstname"
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-            <FormInput
-              label="Phone number"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-            />
-            <PassCodeInput
-              label="Create 6 digit passcode"
-              genericPlaceholder="Create your 6 digit passcode"
-              value={passCode}
-              onChangeText={setPassCode}
-              hidePassCode={hidePasscode} //show password state
-            />
-            <Text style={styles.hint}>Your passcode must be 6 digits long</Text>
-            <ShowPassCheckBox
-              checked={hidePasscode}
-              onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
-            />
-          </View>
-          {/* Button container */}
-          <View>
-            <NavButton
-              title="Create account"
-              onPress={
-                () =>
-                  navigation.navigate("EnterOTP", {
-                    phonenumber: phoneNumber,
-                    onVerify: (code: string) =>
-                      console.log("Verified with code:", code),
-                  }) /*handleSignUp()*/
-              } // Call the handleSignUp function when the button is pressed
+                <View>
+                  <FormInput
+                    label="Firstname"
+                    value={values.firstname}
+                    onChangeText={handleChange("firstname")}
+                    onBlur={handleBlur("firstname")}
+                  />
+                  {touched.firstname && errors.firstname && (
+                    <ErrorTexts
+                      style={styles.textsError}
+                      message={errors.firstname}
+                    />
+                  )}
+
+                  <FormInput
+                    label="Surname"
+                    value={values.lastname}
+                    onChangeText={handleChange("lastname")}
+                    onBlur={handleBlur("lastname")}
+                  />
+                  {touched.lastname && errors.lastname && (
+                    <ErrorTexts
+                      style={styles.textsError}
+                      message={errors.lastname}
+                    />
+                  )}
+
+                  <FormInput
+                    label="Enter email"
+                    value={values.email}
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                  />
+                  {touched.email && errors.email && (
+                    <ErrorTexts
+                      style={styles.textsError}
+                      message={errors.email}
+                    />
+                  )}
+                  {/*password show and forget password*/}
+                  <PassCodeUtils
+                    label="Create 6 digit passcode"
+                    genericPlaceholder="Create your 6 digit passcode"
+                    setPassCode={handleChange("passcode")}
+                    onBlur={handleBlur("passcode")}
+                    value={values.passcode}
+                    hideForgetPassword={true}
+                  />
+                  {touched.passcode && errors.passcode && (
+                    <ErrorTexts
+                      style={styles.passwordError}
+                      message={errors.passcode}
+                      // style={styles.passwordError}
+                    />
+                  )}
+                </View>
+                {/* Button container */}
+                <View>
+                  <NavButton
+                    title="Create account"
+                    onPress={
+                      // Call the handleSignUp function when the button is pressed
+                      handleSubmit
+                    }
+                  />
+                  <UnderlineButton
+                    title="Login"
+                    onPress={() => navigation.navigate("Login")}
+                  />
+                </View>
+              </View>
+            )}
+          </Formik>
+          <Text style={styles.lowerContainer}>
+            Creating an account with us means you agree with our
+            <UnderlineButton
+              title="Terms of use"
+              bold={false}
+              onPress={() => console.log("Terms of use pressed")}
             />
             <UnderlineButton
-              title="Login"
-              onPress={() => navigation.navigate("Login")}
+              title="Privacy policy"
+              bold={false}
+              onPress={() => console.log("Privacy policy pressed")}
             />
-          </View>
-        </View>
-        <Text style={styles.lowerContainer}>
-          Creating an account with us means you agree with our
-          <UnderlineButton
-            title="Terms of use"
-            bold={false}
-            onPress={() => console.log("Terms of use pressed")}
-          />
-          <UnderlineButton
-            title="Privacy policy"
-            bold={false}
-            onPress={() => console.log("Privacy policy pressed")}
-          />
-        </Text>
+          </Text>
+        </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>
   );
@@ -119,8 +173,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 // Styles for the sign-up screen
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "space-between",
     backgroundColor: "#fff",
     paddingHorizontal: "8%",
   },
@@ -136,6 +188,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     bottom: 20,
     paddingHorizontal: 8,
+  },
+  textsError: {
+    //added this because the component is not staying where it should be and I don't know why
+    top: -20,
+    paddingHorizontal: 10,
+  },
+  passwordError: {
+    //added this because the component is not staying where it should be and I don't know why
+    top: -55,
+    paddingHorizontal: 10,
   },
 });
 

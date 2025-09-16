@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import axios from "axios";
 
 import { StackScreenProps } from "@react-navigation/stack";
-import { AuthStackParamList } from "../../navigation/AuthNavigator";
+import { AuthStackParamList } from "@/navigation/AuthNavigator";
 
 type Props = StackScreenProps<AuthStackParamList, "VerifyAccount">;
 const VerifyAccountScreen: React.FC<Props> = ({ navigation }) => {

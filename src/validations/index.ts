@@ -1,3 +1,3 @@
-import * as authValidation from "./authValidation";
+import * as authValidation from "./userValidation";
 
 export { authValidation, };

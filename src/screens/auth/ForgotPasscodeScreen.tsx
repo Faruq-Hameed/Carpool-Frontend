@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { Text } from "@rneui/themed";
 
-import { AuthStackParamList } from "../../navigation/AuthNavigator";
+import { AuthStackParamList } from "@/navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/GreenButton";
-import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
+import FormInput from "@/components/forms/formInput";
+import NavButton from "@/components/buttons/GreenButton";
+import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import { useAuth } from "@/hooks/useAuth";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 

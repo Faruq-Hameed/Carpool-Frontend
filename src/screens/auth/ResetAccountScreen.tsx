@@ -8,7 +8,7 @@ import {
   Keyboard,
 } from "react-native";
 
-import { AuthStackParamList } from "../../navigation/AuthNavigator";
+import { AuthStackParamList } from "@/navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 
 type Props = StackScreenProps<AuthStackParamList, "ResetAccount">;

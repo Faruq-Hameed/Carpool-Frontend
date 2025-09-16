@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { Text } from "@rneui/themed";
-
-import { AuthStackParamList } from "../../navigation/AuthNavigator";
+import { View, StyleSheet, } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/GreenButton";
-import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
-import PassCodeInput from "../../components/forms/PassCodeInput";
-import ShowPassCheckBox from "../../components/forms/ShowPassCheckBox";
+
+import { AuthStackParamList } from "@/navigation/AuthNavigator";
+import FormInput from "@/components/forms/formInput";
+import NavButton from "@/components/buttons/GreenButton";
+import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
+import PassCodeInput from "@/components/forms/PassCodeInput";
+import ShowPassCheckBox from "@/components/forms/ShowPassCheckBox";
 
 type Props = StackScreenProps<AuthStackParamList, "CreatePasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {

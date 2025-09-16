@@ -44,7 +44,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       />
       {/*lower container */}
       <Formik
-        initialValues={{ phoneNumberOrEmail: "", passCode: "" }}
+        initialValues={{ phoneNumberOrEmail: "", passcode: "" }}
         validationSchema={authValidation.LoginSchema}
         onSubmit={async (values) => {
           // Example: store token after successful login
@@ -80,13 +80,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
               {/*password show and forget password*/}
               <PassCodeUtils
                 label="passcode"
-                setPassCode={handleChange("passCode")} // Update Formik state
-                onBlur={handleBlur("passCode")} // Handle blur event when user leaves input.
-                value={values.passCode} // Formik state for passcode field
+                setPassCode={handleChange("passcode")} // Update Formik state
+                onBlur={handleBlur("passcode")} // Handle blur event when user leaves input.
+                value={values.passcode} // Formik state for passcode field
               />
-              {touched.passCode && errors.passCode && (
+              {touched.passcode && errors.passcode && (
                 <ErrorTexts
-                  message={errors.passCode}
+                  message={errors.passcode}
                   style={styles.passwordError}
                 />
               )}

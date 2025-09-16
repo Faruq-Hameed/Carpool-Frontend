@@ -22,7 +22,11 @@ export type VerificationStackParamList = {
   VehicleInformation: undefined;
   // EnterOTP: //to pass the phone number to the EnterOTPScreen from screen we came from
 
-  VerificationOtp: { phonenumber: string, onVerify: (code: string) => void };
+  VerificationOtp: {
+    phonenumber?: string;
+    email?: string;
+    onVerify: (code: string) => void;
+  };
 };
 
 // a typed stack navigator
