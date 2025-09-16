@@ -16,7 +16,7 @@ const ShowPassCheckBox: React.FC<CheckBoxProps> = ({
   return (
     <CheckBox
       title="Show passcode"
-      checked={checked}
+      checked={!checked}
       onPress={onPress}
       checkedColor="#126415"
       containerStyle={{

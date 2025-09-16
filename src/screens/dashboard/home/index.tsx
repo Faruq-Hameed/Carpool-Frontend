@@ -22,7 +22,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [hasModalShown, setHasShown] = useState(false); // track if modal was shown once
   const {
-    currentUser: { isVerified },
+    currentUser,
   } = useAuth();
   useEffect(() => {
     if (!hasModalShown) {
@@ -37,8 +37,8 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ProfileSummary />
-      {!isVerified && <VerificationBox />}
-      {modalVisible && !isVerified && (
+      {!currentUser?.isVerified && <VerificationBox />}
+      {modalVisible && !currentUser?.isVerified && (
         <CustomModal
           onClose={() => setModalVisible(false)}
           visible={modalVisible}

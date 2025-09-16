@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
 
-import Text from "@/components/texts/Text";
+import Text from "@/components/texts";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import { AppIcon } from "@/components/AppIcon";
 import NavButton from "@/components/buttons/GreenButton";

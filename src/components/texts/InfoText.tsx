@@ -2,15 +2,15 @@ import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { AppIcon } from "../AppIcon";
 import { IconName } from "@/helpers/icons";
-import Text from "../texts/Text";
+import Text from ".";
 
 interface InfoTextFrameProps {
   title: string;
   leftIcon: IconName;
   // children: React.ReactNode;
   rightComponent?: React.ReactNode;
-  containerStyles?: ViewStyle //styles type
-  titleStyles?: ViewStyle //styles type
+  containerStyles?: ViewStyle; //styles type
+  titleStyles?: ViewStyle; //styles type
 }
 
 /** 
@@ -20,8 +20,8 @@ const InfoTextFrame: React.FC<InfoTextFrameProps> = ({
   title,
   leftIcon,
   rightComponent,
-containerStyles,
-titleStyles,
+  containerStyles,
+  titleStyles,
 }) => {
   return (
     <View style={[styles.container, containerStyles]}>

@@ -7,11 +7,15 @@ export interface User {
   //this should be  import { User } from '@/models/user'
   id: string;
   isVerified: boolean;
+  firstName: string;
+  lastName: string;
 }
 const intialState = {
   currentUser: {
-    id: "1", //place holder
+    id: "", //place holder
     isVerified: false,
+    firstName:"",
+    lastName:"",
   } as User,
   isLoggedIn: false,
   token: null,

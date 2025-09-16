@@ -7,6 +7,7 @@ type FormInputProps = {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
+   onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
   keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
   placeholder?: string;
   maxLength?: number;
@@ -17,6 +18,7 @@ const FormInput: React.FC<FormInputProps> = ({
   label,
   value,
   onChangeText,
+  onBlur,
   keyboardType = "default",
   placeholder = "",
   maxLength,
@@ -31,6 +33,7 @@ const FormInput: React.FC<FormInputProps> = ({
       placeholderTextColor={"#404040"}
       value={value}
       onChangeText={onChangeText}
+      onBlur={onBlur}
       keyboardType={keyboardType}
       {...(maxLength && { maxLength })}
       autoCapitalize="none"

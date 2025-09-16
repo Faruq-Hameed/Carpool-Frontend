@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { AppIcon } from "../AppIcon";
 import { IconName } from "@/helpers/icons";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
-import Text from "../texts/Text";
+import Text from "../texts";
 
 interface NavigationChildFrameProps {
   title: string;
@@ -32,7 +32,7 @@ const NavigationChildFrame: React.FC<NavigationChildFrameProps> = ({
       <View style={styles.leftContainer}>
         <AppIcon name={leftIcon} />
         <View style={styles.textContainer}>
-          <Text >{title}</Text>
+          <Text>{title}</Text>
           {lowerText && <Text style={{ fontSize: 14 }}>{lowerText}</Text>}
         </View>
       </View>

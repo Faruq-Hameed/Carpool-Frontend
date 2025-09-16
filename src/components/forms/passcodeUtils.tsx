@@ -8,18 +8,18 @@ import { useAuthNavigation } from "../../hooks/useTypedNavigation";
 
 /**  Reusable PassCodeInput component. Expecting title, placeholder, value, onChangeText, keyboardType */
 interface PassCodeUtilsProps {
-  setPassCode: React.Dispatch<React.SetStateAction<string>>;
-  setHidePasscode: React.Dispatch<React.SetStateAction<boolean>>;
+  setPassCode: (text: string) => void;
+  value: string;
   label: string;
   hideForgetPassword?: boolean; //maybe to show the forget password link or not
+  onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
 }
 /** PassCodeUtils component contains the ShowPassCheckBox and forgot password */
 const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
-  //it should accept setPassCode, setHidePasscode
+  //it should accept setPassCode,value, hideForgetPassword
   props
 ) => {
   // State variables for input fields
-  const [passCode, setPassCode] = useState<string>("");
   const [hidePasscode, setHidePasscode] = useState(true); // THIS NOT YET WORKING AS EXPECTED
   const navigation = useAuthNavigation<"Login">();
 
@@ -27,9 +27,10 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
     <View>
       <PassCodeInput
         label={props.label}
-        value={passCode}
-        onChangeText={setPassCode}
+        value={props.value}
+        onChangeText={props.setPassCode}
         hidePassCode={hidePasscode} //show password state
+        onBlur={props.onBlur}
       />
       {/*password show and forget password*/}
       <View style={styles.flexItems}>

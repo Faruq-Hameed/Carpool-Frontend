@@ -1,9 +1,9 @@
 import LowerActionButtons from "@/screens/dashboard/profile/components/LowerActionButtons";
 import React from "react";
-import { View, StyleSheet, Modal, } from "react-native";
+import { View, StyleSheet, Modal } from "react-native";
 import Spacer from "../Spacer";
-import Text from "../texts/Text";
-//THIS IS NOT CURRENTLY USED, i PLANNED TO USE IT AS A CUSTOM CONFIRMATION MODAL CAN BE USED FOR SIGN OUT AND 
+import Text from "../texts";
+//THIS IS NOT CURRENTLY USED, i PLANNED TO USE IT AS A CUSTOM CONFIRMATION MODAL CAN BE USED FOR SIGN OUT AND
 // OTHER PLACES WHERE SIMILAR MODAL IS USED
 interface ConfirmationModalProps {
   visible: boolean;

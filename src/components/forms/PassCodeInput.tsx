@@ -6,6 +6,7 @@ import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 type PassCodeInputProps = {
   value: string;
   onChangeText: (text: string) => void;
+  onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
   hidePassCode: boolean;
   label?: string;
   genericPlaceholder?: string;
@@ -15,6 +16,7 @@ type PassCodeInputProps = {
 const PassCodeInput: React.FC<PassCodeInputProps> = ({
   value,
   onChangeText,
+  onBlur,
   hidePassCode = true,
   label,
   genericPlaceholder,
@@ -34,9 +36,11 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
       value={value}
       secureTextEntry={hidePassCode} //hide passcode
       onChangeText={onChangeText}
+      onBlur={onBlur}
       keyboardType="number-pad"
       returnKeyLabel=""
       returnKeyType="send"
+      maxLength={6}
       // containerStyle={styles.inputContainer}
       // inputContainerStyle={styles.input}
     />

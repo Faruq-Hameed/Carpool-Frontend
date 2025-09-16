@@ -38,7 +38,7 @@ export const clearStoreUser = async () => {
     await AsyncStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
     return true;
   } catch (exception) {
-    console.log(exception);
+    console.log("clearStoreUser exceptions: ",exception);
     return false;
   }
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Text from "@/components/texts/Text";
+import Text from "@/components/texts";
 import NavButton from "@/components/buttons/GreenButton";
 import Spacer from "@/components/Spacer";
 import SmallSpacer from "@/components/SmallSpacer";

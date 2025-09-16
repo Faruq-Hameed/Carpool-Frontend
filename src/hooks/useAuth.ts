@@ -72,8 +72,14 @@ function useAuth() {
   }
 
   /** Handle login success (save token + mark logged in) */
-  function handleLogin(token: string) {
+ async function handleLogin(token: string) {
     saveAuthTokenToStorage(token);
+    await saveUser({
+      id: "1",
+      firstName: "Faruq",
+      lastName: "Abdullahi",
+      isVerified: false,
+    })
     setLoginStatus(true);
   }
 
