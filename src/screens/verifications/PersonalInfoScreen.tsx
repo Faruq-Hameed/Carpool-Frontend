@@ -73,23 +73,26 @@ const PersonalInfoScreen: React.FC<Props> = () => {
               <View style={styles.formInputsContainer}>
                 <FormInput
                   label="Surname"
-                  value={lastName}
-                  onChangeText={setLastName}
+                  value={values.lastname}
+                  onChangeText={handleChange("lastname")}
+                  onBlur={handleBlur("lastname")}
                 />
                 <FormInput
                   label="Firstname"
-                  value={firstName}
-                  onChangeText={setFirstName}
+                  value={values.firstname}
+                  onChangeText={handleChange("firstname")}
+                  onBlur={handleBlur("firstname")}
                 />
                 <FormInput
                   label="Email"
-                  value={email}
-                  onChangeText={setEmail}
+                  value={values.email}
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
                 />
                 <FormInput
                   label="Phone number"
-                  value={phoneNumber}
-                  onChangeText={setPhoneNumber}
+                  value={values.phonenumber}
+                  onChangeText={handleChange("phonenumber")}
                   keyboardType="numeric"
                 />
               </View>
@@ -98,12 +101,13 @@ const PersonalInfoScreen: React.FC<Props> = () => {
                 <NavButton
                   title="Next"
                   onPress={
-                    () =>
-                      navigation.navigate("VerificationOtp", {
-                        phonenumber: phoneNumber,
-                        onVerify: (code: string) =>
-                          console.log("Verified with code:", code),
-                      })
+                    handleSubmit
+                    // () =>
+                    //   navigation.navigate("VerificationOtp", {
+                    //     phonenumber: phoneNumber,
+                    //     onVerify: (code: string) =>
+                    //       console.log("Verified with code:", code),
+                    //   })
                     // Navigate to the next screen
                     // rootNavigation.navigate("ProfileStack", { //DEEP NESTED LEFT FOR REMINDER INCASE NEEDED
                     //   screen: "AccountSetting",
