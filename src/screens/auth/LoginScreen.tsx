@@ -11,7 +11,7 @@ import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 import { useAuth } from "@/hooks/useAuth";
-import { authValidation } from "@/validations";
+import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 //I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
 //ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)
@@ -45,7 +45,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       {/*lower container */}
       <Formik
         initialValues={{ phoneNumberOrEmail: "", passcode: "" }}
-        validationSchema={authValidation.LoginSchema}
+        validationSchema={userSchemas.LoginSchema}
         onSubmit={async (values) => {
           // Example: store token after successful login
           await handleLogin("token12345");

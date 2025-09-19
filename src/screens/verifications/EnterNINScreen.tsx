@@ -27,8 +27,8 @@ const EnterNINScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <VerificationHeader title="Account Verification" />
-      <VerificationStepsBar currentStep={2} />
+      <VerificationHeader title="Identity Verification" />
+      {/* <VerificationStepsBar currentStep={2} /> */}
       {/*upper container. */}
       <PersonalInfoHeader />
       {/* middle container */}

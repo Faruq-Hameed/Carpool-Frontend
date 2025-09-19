@@ -1,3 +1,3 @@
-import * as authValidation from "./userValidation";
+import * as userSchemas from "./userValidation";
 
-export { authValidation, };
+export { userSchemas, };

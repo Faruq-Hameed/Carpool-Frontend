@@ -12,7 +12,7 @@ import ShowPassCheckBox from "@/components/forms/ShowPassCheckBox";
 import NavButton from "@/components/buttons/GreenButton";
 import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
-import { authValidation } from "@/validations";
+import { userSchemas } from "@/validations";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -57,7 +57,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
               email: "",
               passcode: "",
             }}
-            validationSchema={authValidation.SignUpSchema}
+            validationSchema={userSchemas.SignUpSchema}
             onSubmit={(values) =>
               navigation.navigate("EnterOTP", {
                 email: values.email,
