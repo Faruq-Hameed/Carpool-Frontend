@@ -25,7 +25,8 @@ export type VerificationStackParamList = {
   VerificationOtp: {
     phonenumber?: string;
     email?: string;
-    onVerify: (code: string) => void;
+    onVerify: (code: string) => void | string;//API AND response message
+    onContinue?: ()=> void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
   };
 };
 

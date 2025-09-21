@@ -52,8 +52,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         >
           <Formik
             initialValues={{
-              firstname: "",
-              lastname: "",
+              firstName: "",
+              lastName: "",
               email: "",
               passcode: "",
             }}
@@ -81,27 +81,27 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                 <View>
                   <FormInput
                     label="Firstname"
-                    value={values.firstname}
+                    value={values.firstName}
                     onChangeText={handleChange("firstname")}
                     onBlur={handleBlur("firstname")}
                   />
-                  {touched.firstname && errors.firstname && (
+                  {touched.firstName && errors.firstName && (
                     <ErrorTexts
                       style={styles.textsError}
-                      message={errors.firstname}
+                      message={errors.firstName}
                     />
                   )}
 
                   <FormInput
                     label="Surname"
-                    value={values.lastname}
+                    value={values.lastName}
                     onChangeText={handleChange("lastname")}
                     onBlur={handleBlur("lastname")}
                   />
-                  {touched.lastname && errors.lastname && (
+                  {touched.lastName && errors.lastName && (
                     <ErrorTexts
                       style={styles.textsError}
-                      message={errors.lastname}
+                      message={errors.lastName}
                     />
                   )}
 

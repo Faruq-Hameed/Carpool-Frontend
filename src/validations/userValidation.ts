@@ -17,8 +17,8 @@ export const LoginSchema = Yup.object().shape({
 });
 
 export const SignUpSchema = Yup.object().shape({
-  firstname: Yup.string().required("Firstname is required"),
-  lastname: Yup.string().required("Surname is required"),
+  firstName: Yup.string().required("Firstname is required"),
+  lastName: Yup.string().required("Surname is required"),
   email: Yup.string().email().required("Email is required"),
   passcode: Yup.string()
     .required("Passcode is required")
@@ -26,12 +26,12 @@ export const SignUpSchema = Yup.object().shape({
 });
 
 export const PersonalInfoConfirmationSchema = Yup.object().shape({
-  firstname: Yup.string().required("Firstname is required"),
-  lastname: Yup.string().required("Surname is required"),
+  firstName: Yup.string().required("Firstname is required"),
+  lastName: Yup.string().required("Surname is required"),
   email: Yup.string().email().required("Email is required"),
-  phonenumber: Yup.string()
-    .required("Passcode is required")
-    .test("phonenumber", "Enter a valid phone number", (value) => {
+  phoneNumber: Yup.string()
+    .required("Phone number is required")
+    .test("phoneNumber", "Enter a valid phone number", (value) => {
       if (!value) return false;
       const phoneRegex = /^[0-9]{10,15}$/; // can be adjusted based on country/format
       return phoneRegex.test(value);

@@ -26,7 +26,9 @@ export type AuthStackParamList = {
   EnterOTP: {
     phonenumber?: string;
     email?: string; //because of signUp
-    onVerify: (code: string) => void;
+    onVerify: (code: string) => void| string; //api to call and extract the response message. void will be removed later
+    onContinue?: ()=> void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
+  
   }; //to pass the phone number to the EnterOTPScreen from screen we came from
   CreatePasscode: undefined;
   WelcomeUser: undefined;

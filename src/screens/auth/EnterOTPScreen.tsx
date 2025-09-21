@@ -1,30 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-
-import { AuthStackParamList } from "../../navigation/AuthNavigator";
-import { StackScreenProps } from "@react-navigation/stack";
+import React, {  useState } from "react";
+import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
-import { useNavigation } from "@react-navigation/native";
-import { useAuthNavigation } from "../../hooks/useTypedNavigation";
-import { Input } from "@rneui/themed";
-import UnderlineButton from "../../components/buttons/UnderLineBtn";
-import Spacer from "../../components/Spacer";
-import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/GreenButton";
-import { getResponsiveWidth } from "../../helpers/getScreenDimension";
-import { useAuth } from "@/hooks/useAuth";
+
+import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
+import Spacer from "@/components/Spacer";
+import FormInput from "@/components/forms/formInput";
+import NavButton from "@/components/buttons/GreenButton";
+import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 import { EnterOTPProps } from "@/helpers/enterOtpProp";
+import ContinueModal from "@/components/modals/ContinueModal";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
-  const { handleLogin } = useAuth();
-  const navigation = useAuthNavigation();
-  let { phonenumber, onVerify, email } = route.params;
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [apiMessage, setApiMessage] = useState("");
+  let { phonenumber, onVerify, email } = route.params; //THE ON VERIFY HERE NOT PERFECT. DONT KNOW HPW TO GO TO NEXT PAGE
 
   const [code, setCode] = useState("");
-  const [isInputComplete, setIsInputComplete] = useState(false);
   const [timer, setTimer] = useState(30); // timer for resend OTP button
 
   // //turn the number turn the next 4 digit after first 5 digits to *
@@ -33,6 +27,17 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {modalVisible && (
+        <ContinueModal
+          title="Continue"
+          message={apiMessage}
+          visible={modalVisible}
+          onPress={() => {
+            console.log("confirmed pressed");
+            setModalVisible(false);
+          }}
+        />
+      )}
       <UpperTextsFrame
         header="Enter code"
         normalText={`A 4 digit OTP was sent to ${
@@ -52,7 +57,11 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
         <NavButton
           title="Verify"
           onPress={
-            () => onVerify("code")
+            () => {
+              const message = onVerify("code")?? "Completed successfully";// WILL BE ADJUSTED LATER
+              setApiMessage(message)
+              setModalVisible(true);
+            }
             // () => handleLogin("token12345") //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
           }
           disabled={code && code.length === 4 ? false : true} // Disable button if input is not complete //LATER

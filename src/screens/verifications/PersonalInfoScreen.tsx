@@ -16,17 +16,17 @@ import {
   useVerificationNavigation,
 } from "@/hooks/useTypedNavigation";
 import { userSchemas } from "@/validations";
+import ErrorTexts from "@/components/texts/ErrorTexts";
+import InfoTextFrame from "@/components/texts/InfoText";
+import HeaderWithSubText from "@/components/texts/HeaderWithSubText";
+import Spacer from "@/components/Spacer";
+import SmallSpacer from "@/components/SmallSpacer";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
 const PersonalInfoScreen: React.FC<Props> = () => {
+  
   const navigation = useVerificationNavigation();
-  // State variables for input fields
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [dob, setDob] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,8 +34,16 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       {/* <VerificationHeader /> */}
       <NavigationHeader title="Account Verification" goBack={false} />
       {/* <VerificationStepsBar currentStep={1} /> */}
+      <SmallSpacer />
       {/*upper container. */}
-      <PersonalInfoHeader />
+      {/* <PersonalInfoHeader /> */}
+      <HeaderWithSubText
+        title="Please confirm your details"
+        subText="Confirm that these details are the same with what you have on your NIN"
+      />
+      <Spacer />
+      <Spacer />
+
       {/* middle container */}
       <KeyboardAwareScrollView
         // contentContainerStyle={{ padding: 16 }}
@@ -46,15 +54,15 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       >
         <Formik
           initialValues={{
-            firstname: "",
-            lastname: "",
+            firstName: "",
+            lastName: "",
             email: "",
-            phonenumber: "",
+            phoneNumber: "",
           }}
           validationSchema={userSchemas.PersonalInfoConfirmationSchema}
           onSubmit={(values) =>
             navigation.navigate("VerificationOtp", {
-              phonenumber: phoneNumber,
+              phonenumber: values.phoneNumber,
               onVerify: (code: string) =>
                 console.log("Verified with code:", code),
             })
@@ -73,47 +81,57 @@ const PersonalInfoScreen: React.FC<Props> = () => {
               <View style={styles.formInputsContainer}>
                 <FormInput
                   label="Surname"
-                  value={values.lastname}
-                  onChangeText={handleChange("lastname")}
-                  onBlur={handleBlur("lastname")}
+                  value={values.lastName}
+                  onChangeText={handleChange("lastName")}
+                  onBlur={handleBlur("lastName")}
                 />
+                {touched.lastName && errors.lastName && (
+                  <ErrorTexts
+                    style={styles.textsError}
+                    message={errors.lastName}
+                  />
+                )}
                 <FormInput
                   label="Firstname"
-                  value={values.firstname}
-                  onChangeText={handleChange("firstname")}
-                  onBlur={handleBlur("firstname")}
+                  value={values.firstName}
+                  onChangeText={handleChange("firstName")}
+                  onBlur={handleBlur("firstName")}
                 />
+                {touched.firstName && errors.firstName && (
+                  <ErrorTexts
+                    style={styles.textsError}
+                    message={errors.firstName}
+                  />
+                )}
                 <FormInput
                   label="Email"
                   value={values.email}
                   onChangeText={handleChange("email")}
                   onBlur={handleBlur("email")}
                 />
+                {touched.email && errors.email && (
+                  <ErrorTexts
+                    style={styles.textsError}
+                    message={errors.email}
+                  />
+                )}
                 <FormInput
                   label="Phone number"
-                  value={values.phonenumber}
-                  onChangeText={handleChange("phonenumber")}
+                  value={values.phoneNumber}
+                  onChangeText={handleChange("phoneNumber")}
+                  onBlur={handleBlur("phoneNumber")}
                   keyboardType="numeric"
                 />
+                {touched.phoneNumber && errors.phoneNumber && (
+                  <ErrorTexts
+                    style={styles.textsError}
+                    message={errors.phoneNumber}
+                  />
+                )}
               </View>
               {/* Button container */}
               <View>
-                <NavButton
-                  title="Next"
-                  onPress={
-                    handleSubmit
-                    // () =>
-                    //   navigation.navigate("VerificationOtp", {
-                    //     phonenumber: phoneNumber,
-                    //     onVerify: (code: string) =>
-                    //       console.log("Verified with code:", code),
-                    //   })
-                    // Navigate to the next screen
-                    // rootNavigation.navigate("ProfileStack", { //DEEP NESTED LEFT FOR REMINDER INCASE NEEDED
-                    //   screen: "AccountSetting",
-                    // });
-                  } // Call the  function when the button is pressed
-                />
+                <NavButton title="Next" onPress={handleSubmit} />
               </View>
             </View>
           )}
@@ -129,18 +147,22 @@ const PersonalInfoScreen: React.FC<Props> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    // paddingHorizontal: 16,
-    borderWidth: 2,
+    borderBlockColor: "red",
   },
   formContainer: {
     justifyContent: "space-around",
   },
   formInputsContainer: {
-    marginVertical: 20,
-    marginBottom: 60,
+    // borderWidth: 2,
+    // marginVertical: 20,
+    marginBottom: 50,
+  },
+  textsError: {
+    //added this because the component is not staying where it should be and I don't know why
+    top: -20,
+    paddingHorizontal: 10,
   },
 });
 
