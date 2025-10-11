@@ -13,6 +13,7 @@ interface PassCodeUtilsProps {
   label: string;
   hideForgetPassword?: boolean; //maybe to show the forget password link or not
   onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
+  onFocus?: (e: any) => void; //optional onFocus prop for handling focus events will be compulsory if other screen have been adjusted
   genericPlaceholder?: string,
 }
 /** PassCodeUtils component contains the ShowPassCheckBox and forgot password */
@@ -32,6 +33,7 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
         onChangeText={props.setPassCode}
         hidePassCode={hidePasscode} //show password state
         onBlur={props.onBlur}
+        onFocus={props.onFocus}
         genericPlaceholder={props.genericPlaceholder}
       />
       {/*password show and forget password*/}

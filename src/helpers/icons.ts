@@ -14,6 +14,8 @@ export const icons = {
   caretRight: require("@assets/icons/CaretRight.png"),
   caretRightW: require("@assets/icons/CaretRightW.png"),
   info: require("@assets/icons/Info.png"),
+  warning: require("@assets/icons/Warning.png"),
+  x: require("@assets/icons/X.png"),
 };
 
 export type IconName = keyof typeof icons;

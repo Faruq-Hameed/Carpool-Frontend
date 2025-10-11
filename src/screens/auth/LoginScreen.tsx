@@ -14,31 +14,16 @@ import { useAuth } from "@/hooks/useAuth";
 import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import useLoginApi from "./hooks/useLoginApi";
+import { ErrorToast } from "@/components/modals/ErrorToast";
 //I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
 //ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const {isLoading, error, initiateLogin,} = useLoginApi();
+  const {isLoading, error, initiateLogin,reset} = useLoginApi();
   // const { handleLogin } = useAuth();
-  // const handleLogin = async () => {
-  //   const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";
-
-  //   try {
-  //     const response = await axios.post(apiUrl, {
-  //       phonenumber: phoneNumber,
-  //     });
-  //     // Alert.alert("Success", response.data.message);
-  //     // Navigate to Verify Account screen
-  //     navigation.navigate("VerifyAccount");
-  //   } catch (error) {
-  //     // Handle any network or unexpected errors
-  //     //   error.response
-  //     //     ? Alert.alert("Error", error.response.data.message)
-  //     //     : error.message;
-  //   }
-  // };
   return (
     <SafeAreaView style={styles.container}>
+      <ErrorToast message={error} title="Login Failed"/>
       {/*upper container */}
       <UpperTextsFrame
         header="Welcome Back"
@@ -73,6 +58,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 value={values.phoneNumberOrEmail} // Formik state for phone number or email field
                 onChangeText={handleChange("phoneNumberOrEmail")} // Update Formik state
                 onBlur={handleBlur("phoneNumberOrEmail")} // Handle blur event when user leaves input.
+                onFocus={()=> error && reset()} // Clear error on focus
               />
               {touched.phoneNumberOrEmail && errors.phoneNumberOrEmail && (
                 <ErrorTexts
@@ -86,6 +72,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 setPassCode={handleChange("passcode")} // Update Formik state
                 onBlur={handleBlur("passcode")} // Handle blur event when user leaves input.
                 value={values.passcode} // Formik state for passcode field
+                onFocus={()=> error && reset()} // Clear error on focus
+              
               />
               {touched.passcode && errors.passcode && (
                 <ErrorTexts

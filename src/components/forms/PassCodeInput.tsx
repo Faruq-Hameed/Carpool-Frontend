@@ -7,6 +7,7 @@ type PassCodeInputProps = {
   value: string;
   onChangeText: (text: string) => void;
   onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
+  onFocus?: (e: any) => void; //optional onFocus prop for handling focus events will be compulsory if other screen have been adjusted
   hidePassCode: boolean;
   label?: string;
   genericPlaceholder?: string;
@@ -17,6 +18,7 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
   value,
   onChangeText,
   onBlur,
+  onFocus,
   hidePassCode = true,
   label,
   genericPlaceholder,
@@ -37,6 +39,7 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
       secureTextEntry={hidePassCode} //hide passcode
       onChangeText={onChangeText}
       onBlur={onBlur}
+      onFocus={onFocus}
       keyboardType="number-pad"
       returnKeyLabel=""
       returnKeyType="send"

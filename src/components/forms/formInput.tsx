@@ -8,7 +8,8 @@ type FormInputProps = {
   value: string;
   onChangeText: (text: string) => void;
    onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
-  keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
+  onFocus?: (e: any) => void; //optional onFocus prop for handling focus events will be compulsory if other screen have been adjusted
+   keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
   placeholder?: string;
   maxLength?: number;
 };
@@ -19,6 +20,7 @@ const FormInput: React.FC<FormInputProps> = ({
   value,
   onChangeText,
   onBlur,
+  onFocus,
   keyboardType = "default",
   placeholder = "",
   maxLength,
@@ -34,6 +36,7 @@ const FormInput: React.FC<FormInputProps> = ({
       value={value}
       onChangeText={onChangeText}
       onBlur={onBlur}
+      onFocus={onFocus}
       keyboardType={keyboardType}
       {...(maxLength && { maxLength })}
       autoCapitalize="none"
