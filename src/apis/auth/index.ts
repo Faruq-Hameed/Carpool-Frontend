@@ -4,5 +4,5 @@ import { LoginRequestPayload, LoginResponsePayload } from "./types";
 
 /**Login api call */
 export function loginUserApi(payload: LoginRequestPayload) {
-  return request.post<GenericResponse<LoginResponsePayload>>('/auth/login', payload);
+  return request.post<GenericResponse<LoginResponsePayload>>('/auths/login', payload);
 }

@@ -19,7 +19,7 @@ import useLoginApi from "./hooks/useLoginApi";
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const {isLoading, error, initiateLogin,} = useLoginApi();
-  const { handleLogin } = useAuth();
+  // const { handleLogin } = useAuth();
   // const handleLogin = async () => {
   //   const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";
 
@@ -50,7 +50,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         validationSchema={userSchemas.LoginSchema}
         onSubmit={async (values) => {
           // Example: store token after successful login
-          await handleLogin("token12345");
+           initiateLogin({userField: values.phoneNumberOrEmail, passcode: values.passcode});
+
 
           console.log(values);
           // navigation.navigate("VerifyAccount"); // optional

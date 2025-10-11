@@ -14,6 +14,7 @@ export default function useLoginApi() {
       return loginUserApi(payload);
     },
     onSuccess: (res) => {
+        console.log('Login successful:', res.data);
       handleLogin(res.data?.data);
     },
     onError: (error) => {
