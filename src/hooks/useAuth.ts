@@ -72,7 +72,7 @@ function useAuth() {
   }
 
   /** Handle login success (save token + mark logged in) */
- async function handleLogin(token: string) {
+ async function handleLogin(data: string) {
     saveAuthTokenToStorage(token);
     await saveUser({
       id: "1",

@@ -8,9 +8,13 @@ import {
   Poppins_400Regular,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import AuthProvider from "./src/contexts/AuthContext";
 import RootStackNavigator from "./src/navigation/RootNavigator";
+
+// Initialize React Query Client
+const queryClient = new QueryClient();
 
 const theme = createTheme({
   lightColors: {
@@ -55,7 +59,6 @@ const theme = createTheme({
         lineHeight: 24,
         fontWeight: "bold",
       },
-      
     },
     Button: {
       titleStyle: {
@@ -72,19 +75,23 @@ const theme = createTheme({
 
 // Loading component
 const LoadingScreen = () => (
-  <View style={{ 
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center',
-    backgroundColor: '#fff'
-  }}>
+  <View
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#fff",
+    }}
+  >
     <ActivityIndicator size="large" color="#126415" />
-    <Text style={{ 
-      marginTop: 16, 
-      fontSize: 16, 
-      color: '#666',
-      fontFamily: 'Poppins_400Regular'
-    }}>
+    <Text
+      style={{
+        marginTop: 16,
+        fontSize: 16,
+        color: "#666",
+        fontFamily: "Poppins_400Regular",
+      }}
+    >
       Loading...
     </Text>
   </View>
@@ -101,7 +108,7 @@ export default function App(): React.ReactElement {
   if (fontError) {
     console.error("Font loading error:", fontError);
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Error loading fonts</Text>
       </View>
     );
@@ -113,12 +120,14 @@ export default function App(): React.ReactElement {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <NavigationContainer>
-          <RootStackNavigator />
-        </NavigationContainer>
-      </AuthProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <NavigationContainer>
+            <RootStackNavigator />
+          </NavigationContainer>
+        </AuthProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
