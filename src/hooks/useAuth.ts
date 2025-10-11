@@ -7,9 +7,9 @@ import {
   clearStoreUser,
   setUser,
 } from "../utils/asyncStorage";
-import { User } from "../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { useProfileNavigation } from "./useTypedNavigation";
+import { LoginResponsePayload } from "@/apis/auth/types";
 
 function useAuth() {
   const context = useContext(authContext);
@@ -72,14 +72,9 @@ function useAuth() {
   }
 
   /** Handle login success (save token + mark logged in) */
- async function handleLogin(data: string) {
-    saveAuthTokenToStorage(token);
-    await saveUser({
-      id: "1",
-      firstName: "Faruq",
-      lastName: "Abdullahi",
-      isVerified: false,
-    })
+ async function handleLogin(data: LoginResponsePayload) {
+    saveAuthTokenToStorage(data.token);
+    await saveUser(data.user);
     setLoginStatus(true);
   }
 
