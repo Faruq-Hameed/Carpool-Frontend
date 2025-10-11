@@ -13,10 +13,12 @@ import PassCodeUtils from "@/components/forms/passcodeUtils";
 import { useAuth } from "@/hooks/useAuth";
 import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
+import useLoginApi from "./hooks/useLoginApi";
 //I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
 //ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const {isLoading, error, initiateLogin,} = useLoginApi();
   const { handleLogin } = useAuth();
   // const handleLogin = async () => {
   //   const apiUrl = "https://1461-102-88-70-158.ngrok-free.app/api/users/otp/";

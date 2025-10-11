@@ -7,9 +7,8 @@ import {
   clearStoreUser,
   setUser,
 } from "../utils/asyncStorage";
-import { useNavigation } from "@react-navigation/native";
-import { useProfileNavigation } from "./useTypedNavigation";
 import { LoginResponsePayload } from "@/apis/auth/types";
+import User from "@/models/User";
 
 function useAuth() {
   const context = useContext(authContext);
