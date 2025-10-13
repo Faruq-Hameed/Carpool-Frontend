@@ -24,8 +24,8 @@ export type AuthStackParamList = {
   ResetAccount: undefined;
   ForgotPasscode: undefined;
   EnterOTP: {
-    phonenumber?: string;
-    email?: string; //because of signUp
+    message: string; //api message
+    email?: string; //api message
     onVerify: (code: string) => void| string; //api to call and extract the response message. void will be removed later
     onContinue?: ()=> void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
   

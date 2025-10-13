@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { Formik } from "formik";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -10,20 +10,19 @@ import NavButton from "@/components/buttons/GreenButton";
 import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
-import { useAuth } from "@/hooks/useAuth";
 import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
-import useLoginApi from "./hooks/useLoginApi";
+import useLoginApi from "@/server/hooks/auth/useLoginApi";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 //I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
 //ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const {isLoading, error, initiateLogin,reset} = useLoginApi();
+  const {isLoading, error, initiateLogin,reset, } = useLoginApi();
   // const { handleLogin } = useAuth();
   return (
     <SafeAreaView style={styles.container}>
-      <ErrorToast message={error} title="Login Failed"/>
+      <ErrorToast message={error} title="Login Failed" top={50}/>
       {/*upper container */}
       <UpperTextsFrame
         header="Welcome Back"
@@ -35,10 +34,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         validationSchema={userSchemas.LoginSchema}
         onSubmit={async (values) => {
           // Example: store token after successful login
-           initiateLogin({userField: values.phoneNumberOrEmail, passcode: values.passcode});
+          initiateLogin({
+            userField: values.phoneNumberOrEmail,
+            passcode: values.passcode,
+          });
 
-
-          console.log(values);
           // navigation.navigate("VerifyAccount"); // optional
         }}
       >
@@ -58,7 +58,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 value={values.phoneNumberOrEmail} // Formik state for phone number or email field
                 onChangeText={handleChange("phoneNumberOrEmail")} // Update Formik state
                 onBlur={handleBlur("phoneNumberOrEmail")} // Handle blur event when user leaves input.
-                onFocus={()=> error && reset()} // Clear error on focus
+                onFocus={() => error && reset()} // Clear error on focus
               />
               {touched.phoneNumberOrEmail && errors.phoneNumberOrEmail && (
                 <ErrorTexts
@@ -73,7 +73,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 onBlur={handleBlur("passcode")} // Handle blur event when user leaves input.
                 value={values.passcode} // Formik state for passcode field
                 onFocus={()=> error && reset()} // Clear error on focus
-              
               />
               {touched.passcode && errors.passcode && (
                 <ErrorTexts

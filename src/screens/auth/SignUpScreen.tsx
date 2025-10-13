@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { Formik } from "formik";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -7,8 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthStackParamList } from "@/navigation/AuthNavigator";
 // import Text from "@/components/texts";
 import FormInput from "@/components/forms/formInput";
-import PassCodeInput from "@/components/forms/PassCodeInput";
-import ShowPassCheckBox from "@/components/forms/ShowPassCheckBox";
 import NavButton from "@/components/buttons/GreenButton";
 import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
@@ -16,27 +14,30 @@ import { userSchemas } from "@/validations";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import useSignUpApi from "@/server/hooks/auth/useSignUpApi";
+import { ErrorToast } from "@/components/modals/ErrorToast";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
-  // State variables for input fields
-
-  // Handle sign up button press
-  const handleSignUp = async () => {
-    // API endpoint for sign up
-    const apiUrl = "https://4e9c-102-219-53-33.ngrok-free.app/api/users/";
-
-    // Request body for the API call
-    // const requestBody = {
-    //   firstname: firstname,
-    //   lastname: lastname,
-    //   email: email,
-    // };
-  };
+  const { initiateSignUp, isLoading, message, error, data } = useSignUpApi();
+  //trigger navigation when api call is successful
+  useEffect(() => {
+    if (!isLoading && !error && message && data) {
+      navigation.navigate("EnterOTP", {
+        message,
+        email: (data as unknown as any).email,
+        onVerify: (code: string) => {
+          console.log("Verified with code:", code);
+        },
+      });
+    }
+  }, [isLoading, message]);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <ErrorToast message={error} title="Sign up Failed" />
+
         {/*upper container. i.e create account*/}
         <UpperTextsFrame
           header="Create your account"
@@ -58,14 +59,10 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
               passcode: "",
             }}
             validationSchema={userSchemas.SignUpSchema}
-            onSubmit={(values) =>
-              navigation.navigate("EnterOTP", {
-                email: values.email,
-                //this should construct the request body and also api to call
-                onVerify: (code: string) =>
-                  console.log("Verified with code:", code),
-              })
-            }
+            onSubmit={(values) => {
+              console.log("signup api called");
+              initiateSignUp(values);
+            }}
           >
             {({
               handleBlur,
@@ -82,8 +79,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                   <FormInput
                     label="Firstname"
                     value={values.firstName}
-                    onChangeText={handleChange("firstname")}
-                    onBlur={handleBlur("firstname")}
+                    onChangeText={handleChange("firstName")}
+                    onBlur={handleBlur("firstName")}
                   />
                   {touched.firstName && errors.firstName && (
                     <ErrorTexts
@@ -95,8 +92,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                   <FormInput
                     label="Surname"
                     value={values.lastName}
-                    onChangeText={handleChange("lastname")}
-                    onBlur={handleBlur("lastname")}
+                    onChangeText={handleChange("lastName")}
+                    onBlur={handleBlur("lastName")}
                   />
                   {touched.lastName && errors.lastName && (
                     <ErrorTexts
@@ -142,6 +139,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                       // Call the handleSignUp function when the button is pressed
                       handleSubmit
                     }
+                    loading={isLoading}
                   />
                   <UnderlineButton
                     title="Login"
@@ -175,6 +173,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     paddingHorizontal: "8%",
+    flex: 1,
   },
   middleContainer: {
     marginTop: 20,

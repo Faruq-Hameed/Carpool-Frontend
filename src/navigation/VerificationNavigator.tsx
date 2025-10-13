@@ -23,8 +23,7 @@ export type VerificationStackParamList = {
   // EnterOTP: //to pass the phone number to the EnterOTPScreen from screen we came from
 
   VerificationOtp: {
-    phonenumber?: string;
-    email?: string;
+    message: string;
     onVerify: (code: string) => void | string;//API AND response message
     onContinue?: ()=> void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
   };

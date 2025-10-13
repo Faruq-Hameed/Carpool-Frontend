@@ -3,8 +3,7 @@ import { loginUserApi } from '@/apis/auth';
 import { useAuth } from '@/hooks/useAuth';
 import { LoginRequestPayload } from '@/apis/auth/types';
 import { parseError } from '@/apis/errorParser';
-import { AxiosError } from 'axios';
-import { ApiError, AxiosApiError } from '@/apis/types';
+import {  AxiosApiError } from '@/apis/types';
 
 export default function useLoginApi() {
   const { handleLogin } = useAuth();

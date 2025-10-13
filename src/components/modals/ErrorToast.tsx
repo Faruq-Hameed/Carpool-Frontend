@@ -1,27 +1,42 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import Text from "../texts";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 import { AppIcon } from "../AppIcon";
+import { useEffect, useState } from "react";
 
 export function ErrorToast({
   title,
   message,
+  top,
 }: {
   title: string;
   message: string | undefined;
+  top?: number;
 }) {
-  if (!message) return null;
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (message) {
+      setIsVisible(true);
+      const timer = setTimeout(() => setIsVisible(false), 5000);
+      return () => clearTimeout(timer); // Clear timeout if component unmounts or message changes
+    }
+  }, [message]);
+
+  if (!isVisible || !message) return null;
 
   return (
-    <View style={styles.toast}>
-      <AppIcon name="warning" size={40}/>
+    <View style={[{ ...styles.toast, top }]}>
+      <AppIcon name="warning" size={40} />
       <View>
         <Text h4 h4Style={styles.title}>
           {title}
         </Text>
         <Text style={styles.text}>{message}</Text>
       </View>
-      <AppIcon name="x" size={40}/>
+      <TouchableOpacity onPress={() => setIsVisible(false)}>
+        <AppIcon name="x" size={40} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -33,7 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignContent: "center",
     width: getResponsiveWidth(0.95), // 80% of screen width
-    marginTop: 50,
+    // marginTop: 50,
     padding: 12,
     borderWidth: 1,
     borderRadius: 4,

@@ -20,6 +20,7 @@ const GreenNavButton = ({
   width,
   iconRight = false,
   iconName, // from the icons list
+  loading = false,
 }: {
   title: string;
   onPress: () => void;
@@ -31,6 +32,7 @@ const GreenNavButton = ({
   width?: number;
   iconRight?: boolean;
   iconName?: IconName;
+  loading?: boolean;
 }) => {
   return (
     <Spacer>
@@ -52,6 +54,7 @@ const GreenNavButton = ({
             />
           ) : undefined
         }
+          loading={loading}
         iconRight={iconRight}
         titleStyle={{
           fontSize: 16,
