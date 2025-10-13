@@ -12,17 +12,18 @@ import ContinueModal from "@/components/modals/ContinueModal";
 import useVerifyEmailApi from "./hooks/useVerifyEmail";
 import { VerifyOtpApis } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
+import useVerifyOtp from "./hooks/useVerifyOtp";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
-  const { email, message: messageParam, purpose } = route.params;
+  const { email, message: messageParam, purpose, phoneNumber } = route.params;
   const {
     isLoading,
     error,
     data,
     initiateApiCall,
     message: successMessage,
-  } = useVerifyEmailApi();
+  } = useVerifyOtp();
   //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,15 +32,11 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const [timer, setTimer] = useState(30); // timer for resend OTP button
 
   const handleVerifyOtp = async (otp: string) => {
-    switch (purpose) {
-      case VerifyOtpApis.VERIFY_EMAIL:
-        // Call the verify email API
-        initiateApiCall({ email: email!, otp });
-        break;
-      // Add more cases for different purposes if needed
-      default:
-        console.warn("Unknown verification purpose:", purpose);
-    }
+    initiateApiCall({
+      payload: { email: email, phoneNumber, otp },
+      purpose,
+    });
+    setModalVisible(true);
   };
 
   return (

@@ -18,7 +18,7 @@ export interface RegisterRequestPayload {
 }
 
 export interface VerifyEmailPayload {
-  email: string;
+  email?: string;
   otp: string;
 }
 
@@ -27,8 +27,15 @@ export interface VerifyEmailResponse {
   data: AuthResponsePayload;
 }
 
+
+export interface VerifyPhonePayload {
+  phoneNumber: string;
+  otp: string;
+}
+
 export interface GenerateResetPasscodeOtpPayload {
   email?: string;
   phoneNumber?: string;
+  
   // passcode: string;
 }

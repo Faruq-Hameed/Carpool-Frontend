@@ -82,9 +82,12 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
             //call api for my otp creation for forget password
             navigation.navigate("EnterOTP", {
               // Pass the phone number to EnterOTPScreen
-              phonenumber: phoneNumber,
-              onVerify: () => handleLogin("token12345"),
+              // phonenumber: phoneNumber,
+              // onVerify: () => handleLogin("token12345"),
+              message: "Enter the OTP sent to your phone",
+              purpose: VerifyOtpApis.FORGOT_PASSCODE,
             });
+            
           }}
           disabled={!isValid}
         />

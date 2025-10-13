@@ -6,6 +6,7 @@ import {
   AuthResponsePayload,
   RegisterRequestPayload,
   VerifyEmailPayload,
+  VerifyPhonePayload,
 } from "./types";
 
 /**Login api call */
@@ -38,4 +39,17 @@ export function forgotPasscodeApi(payload: VerifyEmailPayload) {
     "verify/email",
     payload
   );
+}
+
+
+export function verifyPhoneApi(payload: VerifyPhonePayload) {
+  return request.post<GenericResponse<AuthResponsePayload>>("verify/phone", payload);
+}
+
+export function changeEmailApi(payload: VerifyEmailPayload) {
+  return request.put<GenericResponse<AuthResponsePayload>>("verify/email", payload);
+}
+
+export function changePhoneApi(payload: VerifyPhonePayload) {
+  return request.put<GenericResponse<AuthResponsePayload>>("verify/phone", payload);
 }

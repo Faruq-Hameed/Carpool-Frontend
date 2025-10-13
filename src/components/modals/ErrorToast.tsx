@@ -54,7 +54,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: "#CE0000",
     backgroundColor: "#FCF6F6",
-    boxShadow: "0px 4px 6px rgba(244, 11, 11, 0.1)",
+    // boxShadow: "0px 4px 6px rgba(244, 11, 11, 0.1)",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 4,
     zIndex: 999,
   },
   title: {
