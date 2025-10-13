@@ -16,14 +16,11 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-  let { message, onVerify, } = route.params; //THE ON VERIFY HERE NOT PERFECT. DONT KNOW HPW TO GO TO NEXT PAGE
+  let { message, onVerify, } = route.params; //THE ON VERIFY HERE NOT PERFECT. DON'T KNOW HPW TO GO TO NEXT PAGE
 
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(30); // timer for resend OTP button
 
-  // // //turn the number turn the next 4 digit after first 5 digits to *
-  // phonenumber = phonenumber?.replace(/^(.{5})(.{4})/, "$1****");
-  // email = email?.replace(/^(.{2})(.{7})/, "$1****");
 
   return (
     <SafeAreaView style={styles.container}>
