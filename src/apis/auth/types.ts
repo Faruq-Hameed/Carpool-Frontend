@@ -1,12 +1,34 @@
 import User from "@/models/User";
 
-export interface LoginRequestPayload{
-    userField: string;
-    passcode: string;
+export interface LoginRequestPayload {
+  userField: string;
+  passcode: string;
 }
 
-export interface LoginResponsePayload {
+export interface AuthResponsePayload {
   token: string;
-  user:User;
+  user: User;
 }
 
+export interface RegisterRequestPayload {
+  email: string;
+  firstName: string;
+  lastName: string;
+  passcode: string;
+}
+
+export interface VerifyEmailPayload {
+  email: string;
+  otp: string;
+}
+
+export interface VerifyEmailResponse {
+  message: string;
+  data: AuthResponsePayload;
+}
+
+export interface GenerateResetPasscodeOtpPayload {
+  email?: string;
+  phoneNumber?: string;
+  // passcode: string;
+}

@@ -1,0 +1,5 @@
+export enum VerifyOtpApis{
+    VERIFY_EMAIL = 'VERIFY_EMAIL',
+    VERIFY_PHONE = 'VERIFY_PHONE',
+    FORGOT_PASSCODE = 'FORGOT_PASSCODE'
+}

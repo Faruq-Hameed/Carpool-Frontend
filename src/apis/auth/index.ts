@@ -1,8 +1,41 @@
+import User from "@/models/User";
 import request from "../interceptor";
 import { GenericResponse } from "../types";
-import { LoginRequestPayload, LoginResponsePayload } from "./types";
+import {
+  LoginRequestPayload,
+  AuthResponsePayload,
+  RegisterRequestPayload,
+  VerifyEmailPayload,
+} from "./types";
 
 /**Login api call */
 export function loginUserApi(payload: LoginRequestPayload) {
-  return request.post<GenericResponse<LoginResponsePayload>>('/auths/login', payload);
+  return request.post<GenericResponse<AuthResponsePayload>>(
+    "/auths/login",
+    payload
+  );
+}
+
+/**SignUp api call */
+export function SignUpApi(payload: RegisterRequestPayload) {
+  return request.post<GenericResponse<User>>( //THE GENERIC RESPONSE TYPE HERE IS NOT PERFECT. DON'T KNOW WHAT TO PUT
+    "/users",
+    payload
+  );
+}
+
+/**Verify email api call */
+export function verifyEmailApi(payload: VerifyEmailPayload) {
+  return request.post<GenericResponse<AuthResponsePayload>>(
+    "verify/email",
+    payload
+  );
+}
+
+/**Verify email api call */
+export function forgotPasscodeApi(payload: VerifyEmailPayload) {
+  return request.post<GenericResponse<AuthResponsePayload>>(
+    "verify/email",
+    payload
+  );
 }

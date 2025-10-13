@@ -10,6 +10,7 @@ import {
   IdentityVerificationScreen,
 } from "@/screens/verifications";
 import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
+import { VerifyOtpApis } from "@/screens/auth/constants";
 
 // the verification stack parameter list
 export type VerificationStackParamList = {
@@ -23,9 +24,11 @@ export type VerificationStackParamList = {
   // EnterOTP: //to pass the phone number to the EnterOTPScreen from screen we came from
 
   VerificationOtp: {
-    message: string;
-    onVerify: (code: string) => void | string;//API AND response message
-    onContinue?: ()=> void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
+    message: string; //api message
+    email?: string; //api message
+    purpose: VerifyOtpApis; // to know which api to call for verification
+    // onVerify: (code: string) => void | string; //api to call and extract the response message. void will be removed later
+    onContinue?: () => void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
   };
 };
 

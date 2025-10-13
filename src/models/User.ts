@@ -9,5 +9,5 @@ export default interface User {
   emailStatus: string;
   profilePicture?: string | null;
   createdAt: string; // ISO date string
-  verificationLevel: string;
+  verificationLevel?: string;
 }

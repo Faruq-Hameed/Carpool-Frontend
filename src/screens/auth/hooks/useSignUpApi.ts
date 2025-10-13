@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { parseError } from "@/apis/errorParser";
+import { SignUpApi } from "@/apis/auth";
+import { RegisterRequestPayload } from "@/apis/auth/types";
 import { AxiosApiError } from "@/apis/types";
-import { RegisterRequestPayload } from "@/server/apis/auth/types";
-import { SignUpApi } from "@/server/apis/auth";
+
 
 export default function useSignUpApi() {
   const mutation = useMutation({

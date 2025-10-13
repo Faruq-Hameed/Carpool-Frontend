@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,25 +9,47 @@ import NavButton from "@/components/buttons/GreenButton";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 import { EnterOTPProps } from "@/helpers/enterOtpProp";
 import ContinueModal from "@/components/modals/ContinueModal";
+import useVerifyEmailApi from "./hooks/useVerifyEmail";
+import { VerifyOtpApis } from "./constants";
+import { ErrorToast } from "@/components/modals/ErrorToast";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
+  const { email, message: messageParam, purpose } = route.params;
+  const {
+    isLoading,
+    error,
+    data,
+    initiateApiCall,
+    message: successMessage,
+  } = useVerifyEmailApi();
   //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [apiMessage, setApiMessage] = useState("");
-  let { message, onVerify, } = route.params; //THE ON VERIFY HERE NOT PERFECT. DON'T KNOW HPW TO GO TO NEXT PAGE
 
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(30); // timer for resend OTP button
 
+  const handleVerifyOtp = async (otp: string) => {
+    switch (purpose) {
+      case VerifyOtpApis.VERIFY_EMAIL:
+        // Call the verify email API
+        initiateApiCall({ email: email!, otp });
+        break;
+      // Add more cases for different purposes if needed
+      default:
+        console.warn("Unknown verification purpose:", purpose);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
+      <ErrorToast message={error} title="Verification Failed" />
+
       {modalVisible && (
         <ContinueModal
           title="Continue"
-          message={apiMessage}
+          message={"Verification successful"} //TO BE DYNAMIC LATER
           visible={modalVisible}
           onPress={() => {
             console.log("confirmed pressed");
@@ -37,7 +59,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
       )}
       <UpperTextsFrame
         header="Enter code"
-        normalText={message} //API MESSAGE WILL BE USED
+        normalText={messageParam} //API MESSAGE WILL BE USED
       />
       <Spacer />
       {/* OTP input container */}
@@ -52,10 +74,9 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
         <NavButton
           title="Verify"
           onPress={
-            () => {
-              const message = onVerify("code")?? "Completed successfully";// WILL BE ADJUSTED LATER
-              setApiMessage(message)
+            async () => {
               setModalVisible(true);
+              await handleVerifyOtp(code);
             }
             // () => handleLogin("token12345") //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
           }

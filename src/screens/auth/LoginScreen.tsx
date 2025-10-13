@@ -12,8 +12,10 @@ import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
-import useLoginApi from "@/server/hooks/auth/useLoginApi";
 import { ErrorToast } from "@/components/modals/ErrorToast";
+
+import useLoginApi from "./hooks/useGenerateOtp";
+
 //I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
 //ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)
 type Props = StackScreenProps<AuthStackParamList, "Login">;

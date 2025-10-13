@@ -11,6 +11,7 @@ import NavButton from "@/components/buttons/GreenButton";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import { useAuth } from "@/hooks/useAuth";
 import ErrorTexts from "@/components/texts/ErrorTexts";
+import { VerifyOtpApis } from "./constants";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
@@ -19,7 +20,18 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [inputError, setInputError] = useState("");
   const isValid = /^\d{11}$/.test(phoneNumber); // updates as user types
-
+  // useEffect(() => {
+  //   if (!isLoading && !error && message && data) {
+  //     navigation.navigate("EnterOTP", {
+  //       message,
+  //       email: data.email,
+  //       purpose: VerifyOtpApis.VERIFY_EMAIL,
+  //       // onVerify: (code: string) => {
+  //       //   console.log("Verified with code:", code);
+  //       // },
+  //     });
+  //   }
+  // }, [isLoading, message]);
   const handleSendOtp = async () => {
     if (!phoneNumber) {
       setInputError("Phone number is required");
@@ -34,9 +46,11 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
     setInputError("");
     //call api for my otp creation for forget password
     navigation.navigate("EnterOTP", {
+      message: "Enter the OTP sent to your phone",
+      purpose: VerifyOtpApis.FORGOT_PASSCODE,
       // Pass the phone number to EnterOTPScreen
-      phonenumber: phoneNumber,
-      onVerify: () => handleLogin("token12345"),
+      // phonenumber: phoneNumber,
+      // onVerify: () => handleLogin("token12345"),
     });
   };
 

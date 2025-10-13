@@ -7,7 +7,7 @@ import {
   clearStoreUser,
   setUser,
 } from "../utils/asyncStorage";
-import { LoginResponsePayload } from "@/apis/auth/types";
+import { AuthResponsePayload } from "@/apis/auth/types";
 import User from "@/models/User";
 
 function useAuth() {
@@ -71,7 +71,7 @@ function useAuth() {
   }
 
   /** Handle login success (save token + mark logged in) */
- async function handleLogin(data: LoginResponsePayload) {
+  async function handleLogin(data: AuthResponsePayload) {
     saveAuthTokenToStorage(data.token);
     await saveUser(data.user);
     setLoginStatus(true);

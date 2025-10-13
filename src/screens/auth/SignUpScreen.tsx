@@ -14,8 +14,9 @@ import { userSchemas } from "@/validations";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import useSignUpApi from "@/server/hooks/auth/useSignUpApi";
+import useSignUpApi from "./hooks/useSignUpApi";
 import { ErrorToast } from "@/components/modals/ErrorToast";
+import { VerifyOtpApis } from "./constants";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
@@ -25,10 +26,11 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     if (!isLoading && !error && message && data) {
       navigation.navigate("EnterOTP", {
         message,
-        email: (data as unknown as any).email,
-        onVerify: (code: string) => {
-          console.log("Verified with code:", code);
-        },
+        email: data.email,
+        purpose: VerifyOtpApis.VERIFY_EMAIL,
+        // onVerify: (code: string) => {
+        //   console.log("Verified with code:", code);
+        // },
       });
     }
   }, [isLoading, message]);
