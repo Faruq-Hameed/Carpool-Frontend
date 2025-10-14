@@ -1,5 +1,6 @@
 import User from "@/models/User";
 
+
 export interface LoginRequestPayload {
   userField: string;
   passcode: string;
@@ -36,6 +37,12 @@ export interface VerifyPhonePayload {
 export interface GenerateResetPasscodeOtpPayload {
   email?: string;
   phoneNumber?: string;
-  
+  purpose: "RESET_PASSCODE";
   // passcode: string;
+}
+
+export interface ResetPasscodePayload {
+  email?: string;
+  phoneNumber?: string;
+  otp: string;
 }

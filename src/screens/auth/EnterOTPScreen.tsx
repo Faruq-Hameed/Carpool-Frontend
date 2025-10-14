@@ -32,19 +32,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(30); // timer for resend OTP button
   const [modalMessage, setModalMessage] = useState("");
-  //  useEffect(() => {
-  //     if (!isLoading && !error && successMessage && data) {
-  //       navigation.navigate("EnterOTP", {
-  //         successMessage,
-  //         email: data.email,
-  //         purpose: VerifyOtpApis.VERIFY_EMAIL,
-  //         // onVerify: (code: string) => {
-  //         //   console.log("Verified with code:", code);
-  //         // },
-  //       });
-  //     }
-  //   }, [isLoading, message]);
-
+  
   const { initiateApiCall, isLoading, error } = useMutationHandler<User>(
     "verifyOtp",
     (data, message) => {
@@ -92,6 +80,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
         />
         <NavButton
           title="Verify"
+          loading={isLoading}
           onPress={
             async () => {
               setModalVisible(true);

@@ -7,6 +7,8 @@ import {
   RegisterRequestPayload,
   VerifyEmailPayload,
   VerifyPhonePayload,
+  GenerateResetPasscodeOtpPayload,
+  ResetPasscodePayload,
 } from "./types";
 
 /**Login api call */
@@ -19,37 +21,47 @@ export function loginUserApi(payload: LoginRequestPayload) {
 
 /**SignUp api call */
 export function SignUpApi(payload: RegisterRequestPayload) {
-  return request.post<GenericResponse<User>>( //THE GENERIC RESPONSE TYPE HERE IS NOT PERFECT. DON'T KNOW WHAT TO PUT
-    "/users",
-    payload
-  );
+  return request.post<GenericResponse<User>>("/users", payload); //THE GENERIC RESPONSE TYPE HERE IS NOT PERFECT. DON'T KNOW WHAT TO PUT
 }
 
 /**Verify email api call */
 export function verifyEmailApi(payload: VerifyEmailPayload) {
   return request.post<GenericResponse<AuthResponsePayload>>(
-    "auths/verify/email",
+    "/auths/verify/email",
     payload
   );
 }
 
-/**Verify email api call */
-export function forgotPasscodeApi(payload: VerifyEmailPayload) {
+/**Create reset passcode otp */
+export function generateResetPasscodeOtpApi(
+  payload: GenerateResetPasscodeOtpPayload
+) {
+  return request.post<GenericResponse<null>>("/otps", payload);
+}
+
+/** */
+export function resetPasscodeApi(payload: ResetPasscodePayload) {
+  console.log("generate otp api called", { payloaded: payload });
+  return request.post<GenericResponse<null>>("/auths/passcode", payload);
+}
+
+export function verifyPhoneApi(payload: VerifyPhonePayload) {
   return request.post<GenericResponse<AuthResponsePayload>>(
+    "verify/phone",
+    payload
+  );
+}
+
+export function changeEmailApi(payload: VerifyEmailPayload) {
+  return request.put<GenericResponse<AuthResponsePayload>>(
     "verify/email",
     payload
   );
 }
 
-
-export function verifyPhoneApi(payload: VerifyPhonePayload) {
-  return request.post<GenericResponse<AuthResponsePayload>>("verify/phone", payload);
-}
-
-export function changeEmailApi(payload: VerifyEmailPayload) {
-  return request.put<GenericResponse<AuthResponsePayload>>("verify/email", payload);
-}
-
 export function changePhoneApi(payload: VerifyPhonePayload) {
-  return request.put<GenericResponse<AuthResponsePayload>>("verify/phone", payload);
+  return request.put<GenericResponse<AuthResponsePayload>>(
+    "verify/phone",
+    payload
+  );
 }

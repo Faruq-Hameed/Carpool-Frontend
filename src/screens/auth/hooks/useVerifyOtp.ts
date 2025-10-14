@@ -9,10 +9,16 @@ import {
   verifyPhoneApi,
   changeEmailApi,
   changePhoneApi,
+  generateResetPasscodeOtpApi,
+  resetPasscodeApi,
 } from "@/apis/auth";
-import { VerifyEmailPayload, VerifyPhonePayload } from "@/apis/auth/types";
+import {
+  GenerateResetPasscodeOtpPayload,
+  ResetPasscodePayload,
+  VerifyEmailPayload,
+  VerifyPhonePayload,
+} from "@/apis/auth/types";
 import { VerifyOtpApis } from "../constants";
-
 
 export default function useVerifyOtp() {
   const { handleLogin } = useAuth();
@@ -22,9 +28,10 @@ export default function useVerifyOtp() {
       payload,
       purpose,
     }: {
-      payload: VerifyEmailPayload | VerifyPhonePayload;
+      payload: VerifyEmailPayload | VerifyPhonePayload | ResetPasscodePayload;
       purpose: VerifyOtpApis;
     }) => {
+      console.log("mutant hitted")
       switch (purpose) {
         case VerifyOtpApis.VERIFY_EMAIL:
           return verifyEmailApi(payload as VerifyEmailPayload);
@@ -34,6 +41,13 @@ export default function useVerifyOtp() {
           return changeEmailApi(payload as VerifyEmailPayload);
         case VerifyOtpApis.CHANGE_PHONE:
           return changePhoneApi(payload as VerifyPhonePayload);
+        case VerifyOtpApis.RESET_PASSCODE:
+          const resetPayload = payload as ResetPasscodePayload;
+          return resetPasscodeApi({
+            phoneNumber: resetPayload.phoneNumber,
+            otp: resetPayload.otp,
+            email: resetPayload.email,
+          });
         default:
           throw new Error("Invalid verification purpose");
       }
@@ -42,7 +56,7 @@ export default function useVerifyOtp() {
       const { purpose } = variables;
       if (purpose === VerifyOtpApis.VERIFY_EMAIL) {
         console.log("Email verified successfully");
-        handleLogin(res.data?.data); // login user after email verification
+        handleLogin(res.data?.data!); // login user after email verification
       }
       console.log("OTP verification successful:", res.data);
     },

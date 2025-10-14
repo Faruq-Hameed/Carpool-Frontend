@@ -14,7 +14,7 @@ import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 
-import useLoginApi from "./hooks/useGenerateOtp";
+import useLoginApi from "./hooks/useLoginApi";
 
 //I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
 //ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)

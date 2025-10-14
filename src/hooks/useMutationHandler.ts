@@ -42,7 +42,9 @@ export function useMutationHandler<T>(
   key: keyof typeof mutationRegistry,
   onSuccess: (data: T, message: string) => void
 ) {
+    console.log("key is: ", {key})
   const useMutation = mutationRegistry[key];
+  console.log(useMutation.toString())
   const mutation = useMutation() as MutationResult<T>;
 
   const { isLoading, message, error, data } = mutation;
