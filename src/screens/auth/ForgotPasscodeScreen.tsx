@@ -44,13 +44,13 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         setInputError("Please enter a valid email address");
         return;
       }
-      initiateApiCall({ payload: { email }, purpose: VerifyOtpApis.RESET_PASSCODE });
+      initiateApiCall({ email, purpose: VerifyOtpApis.RESET_PASSCODE });
     } else {
       if (!phoneNumber || !isPhoneValid) {
         setInputError("Phone number must be 11 digits");
         return;
       }
-      initiateApiCall({ payload: { phoneNumber }, purpose: VerifyOtpApis.RESET_PASSCODE });
+      initiateApiCall({  phoneNumber , purpose: VerifyOtpApis.RESET_PASSCODE });
     }
 
     setInputError("");
