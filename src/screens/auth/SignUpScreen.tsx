@@ -17,24 +17,22 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import useSignUpApi from "./hooks/useSignUpApi";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import { VerifyOtpApis } from "./constants";
+import { useMutationHandler } from "@/hooks/useMutationHandler";
+import User from "@/models/User";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
-  const { initiateSignUp, isLoading, message, error, data } = useSignUpApi();
-  //trigger navigation when api call is successful
-  useEffect(() => {
-    if (!isLoading && !error && message && data) {
-      navigation.navigate("EnterOTP", {
-        message,
-        email: data.email,
-        purpose: VerifyOtpApis.VERIFY_EMAIL,
-        // onVerify: (code: string) => {
-        //   console.log("Verified with code:", code);
-        // },
-      });
-    }
-  }, [isLoading, message]);
-
+  const {
+    initiateApiCall: initiateSignUp,
+    isLoading,
+    error,
+  } = useMutationHandler<User>("signUp", (data, message) => {
+    navigation.navigate("EnterOTP", {
+      message,
+      email: data.email,
+      purpose: VerifyOtpApis.VERIFY_EMAIL,
+    });
+  });
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

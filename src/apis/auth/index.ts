@@ -28,7 +28,7 @@ export function SignUpApi(payload: RegisterRequestPayload) {
 /**Verify email api call */
 export function verifyEmailApi(payload: VerifyEmailPayload) {
   return request.post<GenericResponse<AuthResponsePayload>>(
-    "verify/email",
+    "auths/verify/email",
     payload
   );
 }

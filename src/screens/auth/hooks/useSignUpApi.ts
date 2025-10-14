@@ -21,7 +21,7 @@ export default function useSignUpApi() {
   });
 
   return {
-    initiateSignUp: mutation.mutate,
+    initiateApiCall: mutation.mutate,
     data: mutation.data?.data?.data,
     // response: mutation.data,
     message: mutation.data?.data?.message,

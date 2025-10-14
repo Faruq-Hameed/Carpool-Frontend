@@ -19,7 +19,7 @@ export default function useLoginApi() {
   });
 
   return {
-    initiateLogin: mutation.mutate,
+    initiateApiCall: mutation.mutate,
     data: mutation.data?.data?.data,
     status: mutation.status,
     error: mutation.error ? parseError(mutation.error as AxiosApiError) : undefined,

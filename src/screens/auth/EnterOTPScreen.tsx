@@ -13,32 +13,53 @@ import useVerifyEmailApi from "./hooks/useVerifyEmail";
 import { VerifyOtpApis } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import useVerifyOtp from "./hooks/useVerifyOtp";
+import { User } from "@/contexts/AuthContext";
+import { useMutationHandler } from "@/hooks/useMutationHandler";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const { email, message: messageParam, purpose, phoneNumber } = route.params;
-  const {
-    isLoading,
-    error,
-    data,
-    initiateApiCall,
-    message: successMessage,
-  } = useVerifyOtp();
+  // const {
+  //   isLoading,
+  //   error,
+  //   data,
+  //   initiateApiCall,
+  //   message: successMessage,
+  // } = useVerifyOtp();
   //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
 
   const [modalVisible, setModalVisible] = useState(false);
-
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(30); // timer for resend OTP button
+  const [modalMessage, setModalMessage] = useState("");
+  //  useEffect(() => {
+  //     if (!isLoading && !error && successMessage && data) {
+  //       navigation.navigate("EnterOTP", {
+  //         successMessage,
+  //         email: data.email,
+  //         purpose: VerifyOtpApis.VERIFY_EMAIL,
+  //         // onVerify: (code: string) => {
+  //         //   console.log("Verified with code:", code);
+  //         // },
+  //       });
+  //     }
+  //   }, [isLoading, message]);
 
+  const { initiateApiCall, isLoading, error } = useMutationHandler<User>(
+    "verifyOtp",
+    (data, message) => {
+      setModalMessage(message); //the api message
+      setModalVisible(true);
+      // I can also navigate or do other things here maybe based on purpose
+    }
+  );
   const handleVerifyOtp = async (otp: string) => {
     initiateApiCall({
       payload: { email: email, phoneNumber, otp },
       purpose,
     });
-    setModalVisible(true);
+    // setModalVisible(true);
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <ErrorToast message={error} title="Verification Failed" />
@@ -46,7 +67,8 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
       {modalVisible && (
         <ContinueModal
           title="Continue"
-          message={"Verification successful"} //TO BE DYNAMIC LATER
+          message={modalMessage} // ✅ Dynamic message from mutation
+
           visible={modalVisible}
           onPress={() => {
             console.log("confirmed pressed");
