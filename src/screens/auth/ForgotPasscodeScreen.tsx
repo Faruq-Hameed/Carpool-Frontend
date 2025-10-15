@@ -18,13 +18,7 @@ import { ResetPasscodeSchema } from "@/validations/userValidation";
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [inputError, setInputError] = useState("");
   const [useEmailInstead, setUseEmailInstead] = useState(false);
-
-  const isPhoneValid = /^\d{11}$/.test(phoneNumber);
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const { initiateApiCall, isLoading, error, message, data } =
     useMutationHandler<User>(
@@ -39,25 +33,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         });
       }
     );
-  console.log({ inputError });
 
-  const handleSendOtp = () => {
-    if (useEmailInstead) {
-      if (!email || !isEmailValid) {
-        setInputError("Please enter a valid email address");
-        return;
-      }
-      initiateApiCall({ email, purpose: VerifyOtpApis.RESET_PASSCODE });
-    } else {
-      if (!phoneNumber || !isPhoneValid) {
-        setInputError("Phone number must be 11 digits");
-        return;
-      }
-      initiateApiCall({ phoneNumber, purpose: VerifyOtpApis.RESET_PASSCODE });
-    }
-
-    setInputError("");
-  };
 
   useEffect(() => {
     console.log("Error ocuue", error);
@@ -81,32 +57,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
       <Formik
         initialValues={{ phoneNumber: "", email: "" }}
         validationSchema={ResetPasscodeSchema}
-        onSubmit={() => console.log("submitted")}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <View>
-            <NavButton
-              title="Send OTP"
-              onPress={handleSendOtp}
-              disabled={
-                isLoading || (!useEmailInstead ? !isPhoneValid : !isEmailValid)
-              }
-            />
-          </View>
-        )}
-      </Formik>
-
-      <Formik
-        initialValues={{ phoneNumber: "", email: "" }}
-        validationSchema={ResetPasscodeSchema}
-        onSubmit={() => console.log("submitted")}
+        onSubmit={(values) => initiateApiCall(values)}
       >
         {({
           handleChange,
@@ -118,31 +69,49 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         }) => (
           <View>
             {!useEmailInstead ? (
-              <FormInput
-                label="Phone number"
-                keyboardType="numeric"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-              />
+              <>
+                <FormInput
+                  label="Phone number"
+                  keyboardType="numeric"
+                  value={values.phoneNumber}
+                  onBlur={handleBlur("phoneNumber")}
+                  onChangeText={handleChange("phoneNumber")}
+                />
+
+                {touched.phoneNumber && errors.phoneNumber && (
+                  <ErrorTexts
+                    message={errors.phoneNumber}
+                    style={styles.errorStyle}
+                  />
+                )}
+              </>
             ) : (
-              <FormInput
-                label="Email address"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={setEmail}
-              />
+              <>
+                <FormInput
+                  label="Email address"
+                  keyboardType="email-address"
+                  value={values.email}
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                />
+                {touched.email && errors.email && (
+                  <ErrorTexts
+                    message={errors.email}
+                    style={styles.errorStyle}
+                  />
+                )}
+              </>
             )}
 
-            {inputError && (
+            {/* {inputError && (
               <ErrorTexts message={inputError} style={styles.errorStyle} />
-            )}
+            )} */}
 
             <NavButton
               title="Send OTP"
-              onPress={handleSendOtp}
-              disabled={
-                isLoading || (!useEmailInstead ? !isPhoneValid : !isEmailValid)
-              }
+              onPress={handleSubmit}
+              disabled={!!(!errors.email || !errors.phoneNumber)}
+              loading={isLoading}
             />
           </View>
         )}

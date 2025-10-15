@@ -59,7 +59,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 value={values.phoneNumberOrEmail} // Formik state for phone number or email field
                 onChangeText={handleChange("phoneNumberOrEmail")} // Update Formik state
                 onBlur={handleBlur("phoneNumberOrEmail")} // Handle blur event when user leaves input.
-                onFocus={() => error && reset()} // Clear error on focus
+                onFocus={() => error && reset()} // COMING TO PERFECT THISLATER Clear error on focus
               />
               {touched.phoneNumberOrEmail && errors.phoneNumberOrEmail && (
                 <ErrorTexts
