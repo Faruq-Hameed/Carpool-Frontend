@@ -2,16 +2,16 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // Import screens
-import SplashScreen from "../screens/auth/SplashScreen";
-import WelcomeScreen from "../screens/auth/WelcomeScreen";
-import SignUpScreen from "../screens/auth/SignUpScreen";
-import LoginScreen from "../screens/auth/LoginScreen";
-import ResetAccountScreen from "../screens/auth/ResetAccountScreen";
-import VerifyAccountScreen from "../screens/auth/VerifyAccountScreen";
-import MainScreen from "../screens/MainScreen";
-import ForgotPasscodeScreen from "../screens/auth/ForgotPasscodeScreen";
-import EnterOTPScreen from "../screens/auth/EnterOTPScreen";
-import CreatePasscodeScreen from "../screens/auth/CreatePasscodeScreen";
+import SplashScreen from "@/screens/auth/SplashScreen";
+import WelcomeScreen from "@/screens/auth/WelcomeScreen";
+import SignUpScreen from "@/screens/auth/SignUpScreen";
+import LoginScreen from "@/screens/auth/LoginScreen";
+import ResetAccountScreen from "@/screens/auth/ResetAccountScreen";
+import VerifyAccountScreen from "@/screens/auth/VerifyAccountScreen";
+import MainScreen from "@/screens/MainScreen";
+import ForgotPasscodeScreen from "@/screens/auth/ForgotPasscodeScreen";
+import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
+import CreatePasscodeScreen from "@/screens/auth/CreatePasscodeScreen";
 import { VerifyOtpApis } from "@/screens/auth/constants";
 // import WelcomeUserScreen from "../screens/auth/WelcomeUserScreen";
 

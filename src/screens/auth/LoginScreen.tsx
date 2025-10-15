@@ -21,7 +21,6 @@ import useLoginApi from "./hooks/useLoginApi";
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const {isLoading, error, initiateLogin,reset, } = useLoginApi();
-  // const { handleLogin } = useAuth();
   return (
     <SafeAreaView style={styles.container}>
       <ErrorToast message={error} title="Login Failed" top={50}/>

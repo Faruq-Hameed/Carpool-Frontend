@@ -4,4 +4,4 @@ export const ACCESS_TOKEN_STORAGE_KEY = 'access-token';
 
 export const UNAUTHORIZED_ERROR_CODE = 401;
 export const FORBIDDEN_ERROR_CODE = 403;
-export const UNFOUND_ROUTE = 404;
+export const ROUTE_NOT_FOUND = 404;

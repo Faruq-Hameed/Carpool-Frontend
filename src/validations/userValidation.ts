@@ -37,3 +37,13 @@ export const PersonalInfoConfirmationSchema = Yup.object().shape({
       return phoneRegex.test(value);
     }),
 });
+
+export const ResetPasscodeSchema = Yup.object().shape({
+  email: Yup.string().email(),
+  phoneNumber: Yup.string()
+    .test("phoneNumber", "Enter a valid phone number", (value) => {
+      if (!value) return false;
+      const phoneRegex = /^[0-9]{10,15}$/; // can be adjusted based on country/format
+      return phoneRegex.test(value);
+    }),
+});

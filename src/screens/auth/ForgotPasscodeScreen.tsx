@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet,  } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import { AuthStackParamList } from "@/navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -8,11 +8,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "@/components/forms/formInput";
 import NavButton from "@/components/buttons/GreenButton";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
-import { useAuth } from "@/hooks/useAuth";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { VerifyOtpApis } from "./constants";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import { User } from "@/contexts/AuthContext";
+import { Formik } from "formik";
+import { ResetPasscodeSchema } from "@/validations/userValidation";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 
@@ -25,18 +26,20 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   const isPhoneValid = /^\d{11}$/.test(phoneNumber);
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const { initiateApiCall, isLoading, error, message, data } = useMutationHandler<User>(
-    "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
-    (data, message) => {
-      console.log({error})
-      navigation.navigate("EnterOTP", {
-        message,
-        email,
-        phoneNumber,
-        purpose: VerifyOtpApis.RESET_PASSCODE,
-      });
-    }
-  );
+  const { initiateApiCall, isLoading, error, message, data } =
+    useMutationHandler<User>(
+      "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
+      (data, message) => {
+        console.log({ error, message });
+        navigation.navigate("EnterOTP", {
+          message,
+          email,
+          phoneNumber,
+          purpose: VerifyOtpApis.RESET_PASSCODE,
+        });
+      }
+    );
+  console.log({ inputError });
 
   const handleSendOtp = () => {
     if (useEmailInstead) {
@@ -50,14 +53,14 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         setInputError("Phone number must be 11 digits");
         return;
       }
-      initiateApiCall({  phoneNumber , purpose: VerifyOtpApis.RESET_PASSCODE });
+      initiateApiCall({ phoneNumber, purpose: VerifyOtpApis.RESET_PASSCODE });
     }
 
     setInputError("");
   };
 
   useEffect(() => {
-    console.log("Error ocuue", error)
+    console.log("Error ocuue", error);
     // If error suggests phone not found, switch to email input
     if (error?.code === "USER_NOT_FOUND" && !useEmailInstead) {
       setUseEmailInstead(true);
@@ -75,33 +78,75 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         }
       />
 
-      <View>
-        {!useEmailInstead ? (
-          <FormInput
-            label="Phone number"
-            keyboardType="numeric"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-          />
-        ) : (
-          <FormInput
-            label="Email address"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={setEmail}
-          />
+      <Formik
+        initialValues={{ phoneNumber: "", email: "" }}
+        validationSchema={ResetPasscodeSchema}
+        onSubmit={() => console.log("submitted")}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <View>
+            <NavButton
+              title="Send OTP"
+              onPress={handleSendOtp}
+              disabled={
+                isLoading || (!useEmailInstead ? !isPhoneValid : !isEmailValid)
+              }
+            />
+          </View>
         )}
+      </Formik>
 
-        {inputError && (
-          <ErrorTexts message={inputError} style={styles.errorStyle} />
+      <Formik
+        initialValues={{ phoneNumber: "", email: "" }}
+        validationSchema={ResetPasscodeSchema}
+        onSubmit={() => console.log("submitted")}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <View>
+            {!useEmailInstead ? (
+              <FormInput
+                label="Phone number"
+                keyboardType="numeric"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+              />
+            ) : (
+              <FormInput
+                label="Email address"
+                keyboardType="email-address"
+                value={email}
+                onChangeText={setEmail}
+              />
+            )}
+
+            {inputError && (
+              <ErrorTexts message={inputError} style={styles.errorStyle} />
+            )}
+
+            <NavButton
+              title="Send OTP"
+              onPress={handleSendOtp}
+              disabled={
+                isLoading || (!useEmailInstead ? !isPhoneValid : !isEmailValid)
+              }
+            />
+          </View>
         )}
-
-        <NavButton
-          title="Send OTP"
-          onPress={handleSendOtp}
-          disabled={isLoading || (!useEmailInstead ? !isPhoneValid : !isEmailValid)}
-        />
-      </View>
+      </Formik>
     </SafeAreaView>
   );
 };
@@ -178,7 +223,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 //               message: "Enter the OTP sent to your phone",
 //               purpose: VerifyOtpApis.FORGOT_PASSCODE,
 //             });
-            
+
 //           }}
 //           disabled={!isValid}
 //         />
