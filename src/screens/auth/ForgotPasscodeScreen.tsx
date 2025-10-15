@@ -14,12 +14,15 @@ import { useMutationHandler } from "@/hooks/useMutationHandler";
 import { User } from "@/contexts/AuthContext";
 import { Formik } from "formik";
 import { ResetPasscodeSchema } from "@/validations/userValidation";
+import UnderlineButton from "@/components/buttons/UnderLineBtn";
+import { ErrorToast } from "@/components/modals/ErrorToast";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   const [useEmailInstead, setUseEmailInstead] = useState(false);
-
+  const [email, setEmail] = useState(""); //I SHOULDN'T HAVE DONE LOCAL STATE BUTI NEEDED THIS DATA
+  const [phoneNumber, setPhoneNumber] = useState("");
   const { initiateApiCall, isLoading, error, message, data } =
     useMutationHandler<User>(
       "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
@@ -34,7 +37,6 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
       }
     );
 
-
   useEffect(() => {
     console.log("Error ocuue", error);
     // If error suggests phone not found, switch to email input
@@ -45,6 +47,8 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ErrorToast message={error} title="Action Failed" top={50} />
+
       <UpperTextsFrame
         header="Forgot Passcode"
         normalText={
@@ -67,15 +71,19 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
           errors,
           touched,
         }) => (
-          <View>
+          <View key={useEmailInstead ? "email" : "phone"}>
             {!useEmailInstead ? (
               <>
                 <FormInput
                   label="Phone number"
                   keyboardType="numeric"
                   value={values.phoneNumber}
+                  maxLength={11}
                   onBlur={handleBlur("phoneNumber")}
-                  onChangeText={handleChange("phoneNumber")}
+                  onChangeText={(texts) => {
+                    setPhoneNumber(texts); // optional,since I am using this elsewhere
+                    handleChange("phoneNumber")(texts);
+                  }}
                 />
 
                 {touched.phoneNumber && errors.phoneNumber && (
@@ -91,7 +99,10 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
                   label="Email address"
                   keyboardType="email-address"
                   value={values.email}
-                  onChangeText={handleChange("email")}
+                  onChangeText={(texts) => {
+                    handleChange("email")(texts);
+                    setEmail(texts);
+                  }}
                   onBlur={handleBlur("email")}
                 />
                 {touched.email && errors.email && (
@@ -112,6 +123,19 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
               onPress={handleSubmit}
               disabled={!!(!errors.email || !errors.phoneNumber)}
               loading={isLoading}
+            />
+            <UnderlineButton
+              title={
+                !useEmailInstead
+                  ? "Use email instead"
+                  : "Use phone number instead"
+              }
+              onPress={() => {
+                const newValue = !useEmailInstead;
+                setUseEmailInstead(newValue);
+              }}
+
+              // onPress={() => setUseEmailInstead(!useEmailInstead)}
             />
           </View>
         )}
