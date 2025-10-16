@@ -16,13 +16,46 @@ import { Formik } from "formik";
 import { ResetPasscodeSchema } from "@/validations/userValidation";
 import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import { ErrorToast } from "@/components/modals/ErrorToast";
+import { useResetPasscode } from "@/hooks/useResetPasscode";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
-  const [useEmailInstead, setUseEmailInstead] = useState(false);
-  const [email, setEmail] = useState(""); //I SHOULDN'T HAVE DONE LOCAL STATE BUTI NEEDED THIS DATA
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const {
+    state,
+    setPhoneNumber,
+    setEmail,
+    switchToEmail,
+    switchToPhone,
+    setError,
+  } = useResetPasscode();
+  const { phoneNumber, email, useEmailInstead } = state;
+
+  /**simple validation function */
+  const isValidInput = () => {
+    if (useEmailInstead) {
+      return !!email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    } else {
+      return !!phoneNumber && /^\d{10,11}$/.test(phoneNumber);
+    }
+  };
+
+  /**Submit handler */
+  const handleSubmit = () => {
+    if (!isValidInput()) {
+      setError(
+        "Please enter a valid " +
+          (useEmailInstead ? "email address" : "phone number")
+      );
+      return;
+    }
+
+    initiateApiCall({
+      email: email ?? "",
+      phoneNumber: phoneNumber ?? "",
+    });
+  };
+
   const { initiateApiCall, isLoading, error, message, data } =
     useMutationHandler<User>(
       "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
@@ -30,20 +63,12 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         console.log({ error, message });
         navigation.navigate("EnterOTP", {
           message,
-          email,
-          phoneNumber,
+          email: email ? email : undefined,
+          phoneNumber: phoneNumber ? phoneNumber : undefined,
           purpose: VerifyOtpApis.RESET_PASSCODE,
         });
       }
     );
-
-  useEffect(() => {
-    console.log("Error ocuue", error);
-    // If error suggests phone not found, switch to email input
-    if (error?.code === "USER_NOT_FOUND" && !useEmailInstead) {
-      setUseEmailInstead(true);
-    }
-  }, [error]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -58,88 +83,46 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         }
       />
 
-      <Formik
-        initialValues={{ phoneNumber: "", email: "" }}
-        validationSchema={ResetPasscodeSchema}
-        onSubmit={(values) => initiateApiCall(values)}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <View key={useEmailInstead ? "email" : "phone"}>
-            {!useEmailInstead ? (
-              <>
-                <FormInput
-                  label="Phone number"
-                  keyboardType="numeric"
-                  value={values.phoneNumber}
-                  maxLength={11}
-                  onBlur={handleBlur("phoneNumber")}
-                  onChangeText={(texts) => {
-                    setPhoneNumber(texts); // optional,since I am using this elsewhere
-                    handleChange("phoneNumber")(texts);
-                  }}
-                />
-
-                {touched.phoneNumber && errors.phoneNumber && (
-                  <ErrorTexts
-                    message={errors.phoneNumber}
-                    style={styles.errorStyle}
-                  />
-                )}
-              </>
-            ) : (
-              <>
-                <FormInput
-                  label="Email address"
-                  keyboardType="email-address"
-                  value={values.email}
-                  onChangeText={(texts) => {
-                    handleChange("email")(texts);
-                    setEmail(texts);
-                  }}
-                  onBlur={handleBlur("email")}
-                />
-                {touched.email && errors.email && (
-                  <ErrorTexts
-                    message={errors.email}
-                    style={styles.errorStyle}
-                  />
-                )}
-              </>
-            )}
-
-            {/* {inputError && (
-              <ErrorTexts message={inputError} style={styles.errorStyle} />
-            )} */}
-
-            <NavButton
-              title="Send OTP"
-              onPress={handleSubmit}
-              disabled={!!(!errors.email || !errors.phoneNumber)}
-              loading={isLoading}
-            />
-            <UnderlineButton
-              title={
-                !useEmailInstead
-                  ? "Use email instead"
-                  : "Use phone number instead"
-              }
-              onPress={() => {
-                const newValue = !useEmailInstead;
-                setUseEmailInstead(newValue);
-              }}
-
-              // onPress={() => setUseEmailInstead(!useEmailInstead)}
-            />
-          </View>
+      <View key={useEmailInstead ? "email" : "phone"}>
+        {!useEmailInstead ? (
+          <FormInput
+            label="Phone number"
+            keyboardType="numeric"
+            value={phoneNumber ?? ""}
+            maxLength={11}
+            onChangeText={(texts) => {
+              setPhoneNumber(texts);
+            }}
+          />
+        ) : (
+          <FormInput
+            label="Email address"
+            keyboardType="email-address"
+            value={email ?? ""}
+            onChangeText={(texts) => {
+              setEmail(texts);
+            }}
+          />
         )}
-      </Formik>
+        {error && <ErrorTexts message={error} style={styles.errorStyle} />}
+
+        <NavButton
+          title="Send OTP"
+          onPress={handleSubmit}
+          disabled={!isValidInput()}
+          loading={isLoading}
+        />
+        <UnderlineButton
+          title={
+            !useEmailInstead ? "Use email instead" : "Use phone number instead"
+          }
+          onPress={() => {
+            useEmailInstead ? switchToPhone() : switchToEmail();
+          }}
+
+          // onPress={() => setUseEmailInstead(!useEmailInstead)}
+        />
+      </View>
     </SafeAreaView>
   );
 };
