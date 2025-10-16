@@ -29,7 +29,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   } = useMutationHandler<User>("signUp", (data, message) => {
     navigation.navigate("EnterOTP", {
       message,
-      email: data.email,
+      email: data!.email,
       purpose: VerifyOtpApis.VERIFY_EMAIL,
     });
   });

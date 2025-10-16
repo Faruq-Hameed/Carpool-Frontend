@@ -38,9 +38,9 @@ type MutationResult<T> = {
  * // Trigger the API call
  * initiateApiCall({ email: "user@example.com", password: "secure123" });
  */
-export function useMutationHandler<T>(
+export function useMutationHandler<T = unknown>(
   key: keyof typeof mutationRegistry,
-  onSuccess: (data: T, message: string) => void
+  onSuccess: (data: T | null, message: string) => void
 ) {
   const useMutation = mutationRegistry[key];
   const mutation = useMutation() as MutationResult<T>;
@@ -48,11 +48,13 @@ export function useMutationHandler<T>(
   const { isLoading, message, error, data } = mutation;
 
   useEffect(() => {
-    if (!isLoading && !error && message && data) {
-      onSuccess(data, message);
+    if (!isLoading && !error && message) {
+      if (data) onSuccess(data, message);
+      else {
+        onSuccess(null,message);
+      }
     }
   }, [isLoading, message, error, data]);
 
-  return mutation;  // gives access to error, isLoading, etc.
-
+  return mutation; // gives access to error, isLoading, etc.
 }

@@ -29,14 +29,14 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
     switchToPhone,
     setError,
   } = useResetPasscode();
-  const { phoneNumber, email, useEmailInstead } = state;
+  const { phoneNumber, email, useEmailInstead,error } = state;
 
   /**simple validation function */
   const isValidInput = () => {
     if (useEmailInstead) {
       return !!email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     } else {
-      return !!phoneNumber && /^\d{10,11}$/.test(phoneNumber);
+      return !!phoneNumber && /^\d{11,11}$/.test(phoneNumber);
     }
   };
 
@@ -51,16 +51,16 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
     }
 
     initiateApiCall({
-      email: email ?? "",
-      phoneNumber: phoneNumber ?? "",
+      email: email ?? null,
+      phoneNumber: phoneNumber ?? null,
     });
   };
 
-  const { initiateApiCall, isLoading, error, message, data } =
-    useMutationHandler<User>(
+  const { initiateApiCall, isLoading, error: apiError, message, data } =
+    useMutationHandler<null>(
       "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
       (data, message) => {
-        console.log({ error, message });
+        console.log({ error, message, data });
         navigation.navigate("EnterOTP", {
           message,
           email: email ? email : undefined,
@@ -72,7 +72,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ErrorToast message={error} title="Action Failed" top={50} />
+      <ErrorToast message={apiError} title="Action Failed" top={50} />
 
       <UpperTextsFrame
         header="Forgot Passcode"

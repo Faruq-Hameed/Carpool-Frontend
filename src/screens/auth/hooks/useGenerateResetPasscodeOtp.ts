@@ -12,7 +12,8 @@ import { useNavigation } from "@react-navigation/native";
 export default function useGenerateResetPasscodeOtp() {
   const mutation = useMutation({
     mutationFn: async (payload: GenerateResetPasscodeOtpPayload) => {
-      return generateResetPasscodeOtpApi(payload);
+      console.log({payload})
+      return generateResetPasscodeOtpApi({...payload, purpose: "RESET_PASSCODE"});
     },
     onSuccess: (res) => {
       // navigation.navigate()
