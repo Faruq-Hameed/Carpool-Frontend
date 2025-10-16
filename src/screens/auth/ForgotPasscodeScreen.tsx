@@ -1,26 +1,23 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AuthStackParamList } from "@/navigation/AuthNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
-import { SafeAreaView } from "react-native-safe-area-context";
 import FormInput from "@/components/forms/formInput";
 import NavButton from "@/components/buttons/GreenButton";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { VerifyOtpApis } from "./constants";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
-import { User } from "@/contexts/AuthContext";
-import { Formik } from "formik";
-import { ResetPasscodeSchema } from "@/validations/userValidation";
 import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 
-const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
+const ForgotPasscodeScreen: React.FC<Props> = ({ navigation, route }) => {
+  console.log(route)
   const {
     state,
     setPhoneNumber,

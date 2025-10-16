@@ -15,10 +15,12 @@ import { ErrorToast } from "@/components/modals/ErrorToast";
 import useVerifyOtp from "./hooks/useVerifyOtp";
 import { User } from "@/contexts/AuthContext";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
+import { useAuthNavigation } from "@/hooks/useTypedNavigation";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const { email, message: messageParam, purpose, phoneNumber } = route.params;
+  const navigation = useAuthNavigation();
   // const {
   //   isLoading,
   //   error,
@@ -32,7 +34,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(30); // timer for resend OTP button
   const [modalMessage, setModalMessage] = useState("");
-  
+
   const { initiateApiCall, isLoading, error } = useMutationHandler<User>(
     "verifyOtp",
     (data, message) => {
@@ -42,10 +44,14 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
     }
   );
   const handleVerifyOtp = async (otp: string) => {
-    initiateApiCall({
-      payload: { email: email, phoneNumber, otp },
-      purpose,
-    });
+    /** api is not called from here if it the otp is for reset passcode*/
+    if (purpose === VerifyOtpApis.RESET_PASSCODE) {
+      navigation.navigate("CreatePasscode");
+    } else
+      initiateApiCall({
+        payload: { email: email, phoneNumber, otp },
+        purpose,
+      });
     // setModalVisible(true);
   };
   return (
@@ -56,7 +62,6 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
         <ContinueModal
           title="Continue"
           message={modalMessage} // ✅ Dynamic message from mutation
-
           visible={modalVisible}
           onPress={() => {
             console.log("confirmed pressed");
