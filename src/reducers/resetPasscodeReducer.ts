@@ -1,4 +1,4 @@
-interface IInitialState {
+export interface IInitialState {
   phoneNumber: string | null;
   email: string | null;
   useEmailInstead: boolean;
@@ -31,7 +31,7 @@ export const actionTypes = {
   SET_COMPLETION_MESSAGE: "SET_COMPLETION_MESSAGE",
 };
 
-type Action =
+export type Action =
   | { type: typeof actionTypes.SET_PHONE_NUMBER; payload: string }
   | { type: typeof actionTypes.SET_EMAIL; payload: string }
   | { type: typeof actionTypes.USE_EMAIL_INSTEAD; payload: boolean }

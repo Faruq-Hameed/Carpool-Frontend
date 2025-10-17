@@ -21,7 +21,7 @@ import { useResetPasscode } from "@/hooks/useResetPasscode";
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const { email, message: messageParam, purpose, phoneNumber } = route.params;
-    const { setOtp,  } = useResetPasscode();
+    const { setOtp,  } = useResetPasscode(); //this is needed for passcode reset
   
   const navigation = useAuthNavigation();
   // const {

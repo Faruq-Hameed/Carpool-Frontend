@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import AuthProvider from "./src/contexts/AuthContext";
 import RootStackNavigator from "./src/navigation/RootNavigator";
+import { ResetPasscodeProvider } from "@/contexts/ResetPasscodeContext";
 
 // Initialize React Query Client
 const queryClient = new QueryClient();
@@ -123,9 +124,11 @@ export default function App(): React.ReactElement {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <NavigationContainer>
-            <RootStackNavigator />
-          </NavigationContainer>
+          <ResetPasscodeProvider>
+            <NavigationContainer>
+              <RootStackNavigator />
+            </NavigationContainer>
+          </ResetPasscodeProvider>
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
