@@ -57,7 +57,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
     useMutationHandler<null>(
       "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
       (data, message) => {
-        console.log({ error, message, data });
+        console.log("in forgot scree on success",{state });
         navigation.navigate("EnterOTP", {
           message,
           email: email ? email : undefined,

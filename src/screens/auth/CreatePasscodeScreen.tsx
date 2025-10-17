@@ -1,11 +1,9 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AuthStackParamList } from "@/navigation/AuthNavigator";
-import FormInput from "@/components/forms/formInput";
 import NavButton from "@/components/buttons/GreenButton";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import PassCodeInput from "@/components/forms/PassCodeInput";
@@ -14,17 +12,21 @@ import ContinueModal from "@/components/modals/ContinueModal";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 import { User } from "@/contexts/AuthContext";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
-import ErrorTexts from "@/components/texts/ErrorTexts";
 import { VerifyOtpApis } from "./constants";
+import { ErrorToast } from "@/components/modals/ErrorToast";
 
 type Props = StackScreenProps<AuthStackParamList, "CreatePasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
-  const { state, setError, setOtp, setCompletionMessage } = useResetPasscode();
-  const { phoneNumber, email, otp, completionMessage } = state;
-  console.log("state in forgot screen : ", state);
+  const { state, setError, setOtp, setCompletionMessage, setPasscode } =
+    useResetPasscode();
+  const { completionMessage, passcode, error : stateError } = state;
+  // State variables for passcode visibility
+  const [hidePasscode, setHidePasscode] = useState(true);
+
   const { initiateApiCall, isLoading, error } = useMutationHandler<User>(
     "verifyOtp",
     (data, message) => {
+      //on api call success callback
       setCompletionMessage(message);
       // setModalMessage(message); //the api message
       // I can also navigate or do other things here maybe based on purpose
@@ -32,11 +34,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   );
   /**simple validation function */
   const isValidInput = () => {
-    console.log(
-      " !!passCode && /^d{6,6}$/.test(passCode) : ",
-      !!passCode && /^\d{6,6}$/.test(passCode)
-    );
-    return !!passCode && /^\d{6,6}$/.test(passCode);
+    return !!passcode && /^\d{6,6}$/.test(passcode);
   };
 
   /**Submit handler */
@@ -56,16 +54,16 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
       purpose: VerifyOtpApis.RESET_PASSCODE,
     });
   };
-  // State variables for passcode visibility
-  const [passCode, setPassCode] = useState<string>("");
-  const [hidePasscode, setHidePasscode] = useState(true);
 
   return (
     <SafeAreaView>
       {/*upper container */}
       <UpperTextsFrame header="Create new passcode" />
+
       {/*lower container */}
       <View>
+      <ErrorToast message={error|| stateError} />
+
         {completionMessage && (
           <ContinueModal
             title="Continue"
@@ -82,32 +80,24 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
         <PassCodeInput
           label="create 6 digit passcode"
           genericPlaceholder="Create your 6 digit passcode"
-          value={passCode}
-          onChangeText={setPassCode}
+          value={passcode}
+          onChangeText={setPasscode}
           hidePassCode={hidePasscode} //show password state
         />
         <ShowPassCheckBox
           checked={hidePasscode}
           onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
         />
-        {/* <FormInput
-          label="phonenumber"
-          keyboardType="numeric"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-        /> */}
+       
         <NavButton
           title="Confirm new passcode"
           loading={isLoading}
           disabled={!isValidInput()}
           onPress={() => {
-            console.log("handlesubmit pressed");
             // setCompletionMessage("Passcode reset successfully. Kindly login");
             handleSubmit();
-            // navigation.navigate("MainScreen");
           }}
         />
-        {error && <ErrorTexts message={error} style={styles.errorStyle} />}
       </View>
     </SafeAreaView>
   );

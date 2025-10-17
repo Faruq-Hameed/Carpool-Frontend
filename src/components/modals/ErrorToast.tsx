@@ -9,7 +9,7 @@ export function ErrorToast({
   message,
   top,
 }: {
-  title: string;
+  title?: string;
   message: string | undefined;
   top?: number;
 }) {
@@ -30,7 +30,7 @@ export function ErrorToast({
       <AppIcon name="warning" size={40} />
       <View>
         <Text h4 h4Style={styles.title}>
-          {title}
+          {title?? "Action Failed"}
         </Text>
         <Text style={styles.text}>{message}</Text>
       </View>
