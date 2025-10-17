@@ -17,7 +17,7 @@ import { ErrorToast } from "@/components/modals/ErrorToast";
 
 type Props = StackScreenProps<AuthStackParamList, "CreatePasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
-  const { state, setError, setOtp, setCompletionMessage, setPasscode } =
+  const { state, setError, setCompletionMessage, setPasscode } =
     useResetPasscode();
   const { completionMessage, passcode, error : stateError } = state;
   // State variables for passcode visibility
@@ -56,7 +56,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       {/*upper container */}
       <UpperTextsFrame header="Create new passcode" />
 
@@ -105,6 +105,9 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 
 // Styles for the sign-up screen
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center"
+  },
   errorStyle: {
     top: -20,
     marginBottom: 15,

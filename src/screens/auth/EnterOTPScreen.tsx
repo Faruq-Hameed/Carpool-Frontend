@@ -62,17 +62,17 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
     <SafeAreaView style={styles.container}>
       <ErrorToast message={error} title="Verification Failed" />
 
-      {modalVisible && (
+      {/* {modalVisible && (
         <ContinueModal
           title="Continue"
-          message={modalMessage} // ✅ Dynamic message from mutation
+          message={"modalMessage modalMessage modalMessage "} // ✅ Dynamic message from mutation
           visible={modalVisible}
           onPress={() => {
             console.log("confirmed pressed");
             setModalVisible(false);
           }}
         />
-      )}
+      )} */}
       <UpperTextsFrame
         header="Enter code"
         normalText={messageParam} //API MESSAGE WILL BE USED

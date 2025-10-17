@@ -68,7 +68,7 @@ const GreenNavButton = ({
           borderColor: borderColor ?? "#126415",
           height: 56,
           overflow: "hidden",
-          width: getResponsiveWidth(width || 0.9),
+          width: getResponsiveWidth(width?? 0.9),
         }}
       />
     </Spacer>

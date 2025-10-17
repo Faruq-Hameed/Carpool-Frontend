@@ -4,6 +4,7 @@ import { View, StyleSheet, Modal } from "react-native";
 import Spacer from "../Spacer";
 import Text from "../texts";
 import GreenNavButton from "../buttons/GreenButton";
+import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 //THIS IS NOT CURRENTLY USED, i PLANNED TO USE IT AS A CUSTOM CONFIRMATION MODAL CAN BE USED FOR SIGN OUT AND
 // OTHER PLACES WHERE SIMILAR MODAL IS USED
 interface ContinueModalProps {
@@ -28,9 +29,9 @@ const ContinueModal: React.FC<ContinueModalProps> = ({
     >
       <View style={styles.modalBackground}>
         <View style={styles.modalContentContainer}>
-          <Text h4>{message}</Text>
+          <Text h4 style={{textAlign: "center"}}>{message}</Text>
           <Spacer />
-          <GreenNavButton title={title} onPress={onPress} />
+          <GreenNavButton title={title} onPress={onPress} width={0.7}/>
         </View>
       </View>
     </Modal>
@@ -48,8 +49,9 @@ const styles = StyleSheet.create({
   modalContentContainer: {
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
+    justifyContent: "space-around",
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 40,
     width: "90%",
     alignItems: "center",
   },
