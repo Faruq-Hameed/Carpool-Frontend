@@ -39,7 +39,7 @@ export function generateResetPasscodeOtpApi(
   return request.post<GenericResponse<null>>("/otps", payload);
 }
 
-/** */
+/**Api to call to reset passcode */
 export function resetPasscodeApi(payload: ResetPasscodePayload) {
   console.log("generate otp api called", { payloaded: payload });
   return request.post<GenericResponse<null>>("/auths/passcode", payload);

@@ -16,10 +16,13 @@ import useVerifyOtp from "./hooks/useVerifyOtp";
 import { User } from "@/contexts/AuthContext";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import { useAuthNavigation } from "@/hooks/useTypedNavigation";
+import { useResetPasscode } from "@/hooks/useResetPasscode";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const { email, message: messageParam, purpose, phoneNumber } = route.params;
+    const { setOtp,  } = useResetPasscode();
+  
   const navigation = useAuthNavigation();
   // const {
   //   isLoading,
@@ -46,6 +49,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const handleVerifyOtp = async (otp: string) => {
     /** api is not called from here if it the otp is for reset passcode*/
     if (purpose === VerifyOtpApis.RESET_PASSCODE) {
+      setOtp(otp)
       navigation.navigate("CreatePasscode");
     } else
       initiateApiCall({

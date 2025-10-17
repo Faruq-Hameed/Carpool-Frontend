@@ -12,22 +12,53 @@ import PassCodeInput from "@/components/forms/PassCodeInput";
 import ShowPassCheckBox from "@/components/forms/ShowPassCheckBox";
 import ContinueModal from "@/components/modals/ContinueModal";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
+import { User } from "@/contexts/AuthContext";
+import { useMutationHandler } from "@/hooks/useMutationHandler";
+import ErrorTexts from "@/components/texts/ErrorTexts";
+import { VerifyOtpApis } from "./constants";
 
 type Props = StackScreenProps<AuthStackParamList, "CreatePasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
-  // const {p} = route.params
-  const {
-    state,
-    setError,
-  } = useResetPasscode();
+  const { state, setError, setOtp, setCompletionMessage } = useResetPasscode();
+  const { phoneNumber, email, otp, completionMessage } = state;
+  console.log("state in forgot screen : ", state);
+  const { initiateApiCall, isLoading, error } = useMutationHandler<User>(
+    "verifyOtp",
+    (data, message) => {
+      setCompletionMessage(message);
+      // setModalMessage(message); //the api message
+      // I can also navigate or do other things here maybe based on purpose
+    }
+  );
+  /**simple validation function */
+  const isValidInput = () => {
+    console.log(
+      " !!passCode && /^d{6,6}$/.test(passCode) : ",
+      !!passCode && /^\d{6,6}$/.test(passCode)
+    );
+    return !!passCode && /^\d{6,6}$/.test(passCode);
+  };
 
-  // State variables for input fields
-  // State variables for input fields
+  /**Submit handler */
+  const handleSubmit = () => {
+    if (!isValidInput()) {
+      setError("Passcode must be 6 digits numbers");
+      return;
+    }
+    initiateApiCall({
+      // payload: {
+      //   email: email ?? null,
+      //   phoneNumber: phoneNumber ?? null,
+      //   otp,
+      //   passCode,
+      // },
+      payload: { ...state },
+      purpose: VerifyOtpApis.RESET_PASSCODE,
+    });
+  };
+  // State variables for passcode visibility
   const [passCode, setPassCode] = useState<string>("");
   const [hidePasscode, setHidePasscode] = useState(true);
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView>
@@ -35,14 +66,14 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
       <UpperTextsFrame header="Create new passcode" />
       {/*lower container */}
       <View>
-        {modalVisible && (
+        {completionMessage && (
           <ContinueModal
             title="Continue"
-            message={modalMessage} // ✅ Dynamic message from mutation
-            visible={modalVisible}
+            message={completionMessage} // ✅ Dynamic message from mutation
+            visible={!!completionMessage} //visible once we have completion message
             onPress={() => {
               console.log("confirmed pressed");
-              setModalVisible(false);
+              // setModalVisible(false);
               navigation.navigate("Login");
               // navigation.reset("")
             }}
@@ -59,21 +90,35 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
           checked={hidePasscode}
           onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
         />
-        <FormInput
+        {/* <FormInput
           label="phonenumber"
           keyboardType="numeric"
           value={phoneNumber}
           onChangeText={setPhoneNumber}
-        />
+        /> */}
         <NavButton
           title="Confirm new passcode"
-          onPress={() => navigation.navigate("MainScreen")}
+          loading={isLoading}
+          disabled={!isValidInput()}
+          onPress={() => {
+            console.log("handlesubmit pressed");
+            // setCompletionMessage("Passcode reset successfully. Kindly login");
+            handleSubmit();
+            // navigation.navigate("MainScreen");
+          }}
         />
+        {error && <ErrorTexts message={error} style={styles.errorStyle} />}
       </View>
     </SafeAreaView>
   );
 };
 
 // Styles for the sign-up screen
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  errorStyle: {
+    top: -20,
+    marginBottom: 15,
+    paddingHorizontal: 10,
+  },
+});
 export default ForgotPasscodeScreen;

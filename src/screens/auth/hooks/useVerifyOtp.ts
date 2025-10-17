@@ -43,10 +43,12 @@ export default function useVerifyOtp() {
           return changePhoneApi(payload as VerifyPhonePayload);
         case VerifyOtpApis.RESET_PASSCODE:
           const resetPayload = payload as ResetPasscodePayload;
+          console.log({resetPayload})
           return resetPasscodeApi({
             phoneNumber: resetPayload.phoneNumber,
             otp: resetPayload.otp,
             email: resetPayload.email,
+            passcode: resetPayload.passcode
           });
         default:
           throw new Error("Invalid verification purpose");

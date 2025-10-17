@@ -46,6 +46,7 @@ export function resetPasscodeReducer(
   state: IInitialState,
   action: Action
 ): IInitialState {
+  console.log({state})
   switch (action.type) {
     case actionTypes.SET_PHONE_NUMBER:
       return { ...BaseState, phoneNumber: action.payload as string };
