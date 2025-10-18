@@ -9,10 +9,7 @@ type CheckBoxProps = {
   onPress: () => void;
 };
 //custom checkbox component
-const ShowPassCheckBox: React.FC<CheckBoxProps> = ({
-  checked,
-  onPress,
-}) => {
+const ShowPassCheckBox: React.FC<CheckBoxProps> = ({ checked, onPress }) => {
   return (
     <CheckBox
       title="Show passcode"
@@ -21,10 +18,16 @@ const ShowPassCheckBox: React.FC<CheckBoxProps> = ({
       checkedColor="#126415"
       containerStyle={{
         backgroundColor: "transparent",
-        borderWidth: 0,
         padding: 0,
+        alignItems: "center", // aligns checkbox and text
+        margin: 0,
       }}
-      textStyle={{ fontWeight: "400", fontSize: 14, color: "#333333" }}
+      textStyle={{
+        fontWeight: "400",
+        fontSize: 14,
+        color: "#333333",
+        marginLeft: 4, // reduce spacing between checkbox and text
+      }}
     />
   );
 };

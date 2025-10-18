@@ -18,7 +18,7 @@ export function ErrorToast({
   useEffect(() => {
     if (message) {
       setIsVisible(true);
-      const timer = setTimeout(() => setIsVisible(false), 5000);
+      const timer = setTimeout(() => setIsVisible(false), 7000);
       return () => clearTimeout(timer); // Clear timeout if component unmounts or message changes
     }
   }, [message]);

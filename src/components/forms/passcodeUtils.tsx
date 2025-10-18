@@ -46,6 +46,9 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
           <UnderlineButton
             title="Forget passcode?"
             onPress={() => navigation.navigate("ForgotPasscode")} //api to be called here too
+            marginTop={5}
+            marginAuto= {false}
+            
           />
         )}
       </View>
@@ -56,8 +59,12 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
 const styles = StyleSheet.create({
   flexItems: {
     flexDirection: "row",
-    justifyContent: "space-between",
     paddingRight: 10,
+    position: "relative",
+    top:-10,
+    // borderWidth: 1,
+    alignContent: "space-between",
+    justifyContent: "space-between",
   },
 });
 export default PassCodeUtils;

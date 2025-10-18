@@ -19,6 +19,7 @@ import { ErrorToast } from "@/components/modals/ErrorToast";
 import { VerifyOtpApis } from "./constants";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import User from "@/models/User";
+import Spacer from "@/components/Spacer";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
@@ -43,6 +44,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           header="Create your account"
           normalText="Enter your details to create your account"
         />
+        <Spacer />
         {/* middle container */}
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }} //so the scroll view expands properly.
@@ -195,7 +197,7 @@ const styles = StyleSheet.create({
   },
   passwordError: {
     //added this because the component is not staying where it should be and I don't know why
-    top: -55,
+    top: -50,
     paddingHorizontal: 10,
   },
 });

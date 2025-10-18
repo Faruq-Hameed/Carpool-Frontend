@@ -14,12 +14,13 @@ import { User } from "@/contexts/AuthContext";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import { VerifyOtpApis } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
+import PassCodeUtils from "@/components/forms/passcodeUtils";
 
 type Props = StackScreenProps<AuthStackParamList, "CreatePasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   const { state, setError, setCompletionMessage, setPasscode } =
     useResetPasscode();
-  const { completionMessage, passcode, error : stateError } = state;
+  const { completionMessage, passcode, error: stateError } = state;
   // State variables for passcode visibility
   const [hidePasscode, setHidePasscode] = useState(true);
 
@@ -57,13 +58,13 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ErrorToast message={error || stateError} top={50}/>
+
       {/*upper container */}
       <UpperTextsFrame header="Create new passcode" />
 
       {/*lower container */}
       <View>
-      <ErrorToast message={error|| stateError} />
-
         {completionMessage && (
           <ContinueModal
             title="Continue"
@@ -77,18 +78,15 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
         )}
-        <PassCodeInput
-          label="create 6 digit passcode"
+      
+        <PassCodeUtils
+          label="Create 6 digit passcode"
           genericPlaceholder="Create your 6 digit passcode"
+          setPassCode={setPasscode}
           value={passcode}
-          onChangeText={setPasscode}
-          hidePassCode={hidePasscode} //show password state
+          hideForgetPassword={true}
         />
-        <ShowPassCheckBox
-          checked={hidePasscode}
-          onPress={() => setHidePasscode(!hidePasscode)} //change show password state to opposite
-        />
-       
+
         <NavButton
           title="Confirm new passcode"
           loading={isLoading}
@@ -106,12 +104,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
 // Styles for the sign-up screen
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center"
-  },
-  errorStyle: {
-    top: -20,
-    marginBottom: 15,
-    paddingHorizontal: 10,
+    alignItems: "center",
   },
 });
 export default ForgotPasscodeScreen;

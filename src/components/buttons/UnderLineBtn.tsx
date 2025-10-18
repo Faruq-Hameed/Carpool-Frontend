@@ -15,6 +15,8 @@ interface UnderlineButtonProps {
   color?: string;
   fontSize?: number;
   bold?: boolean;
+  marginTop?: number;
+  marginAuto?: boolean
 }
 
 const UnderlineButton: React.FC<UnderlineButtonProps> = ({
@@ -23,6 +25,8 @@ const UnderlineButton: React.FC<UnderlineButtonProps> = ({
   color = "#126415",
   fontSize = 16,
   bold = true,
+  marginTop= 12,
+  marginAuto= true
 }) => {
   const underlineWidth = useRef(new Animated.Value(0)).current;
 
@@ -58,7 +62,7 @@ const UnderlineButton: React.FC<UnderlineButtonProps> = ({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       activeOpacity={0.7}
-      style={styles.wrapper}
+      style={[styles.wrapper, {margin: marginAuto? "auto": 0, marginTop}]}
     >
       <Text
         style={{
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: "center",
     margin: "auto",
-    marginTop: 12,
+    // marginTop: 12,
     alignSelf: "flex-start", //to achieve shrinking/growing container
   },
 });
