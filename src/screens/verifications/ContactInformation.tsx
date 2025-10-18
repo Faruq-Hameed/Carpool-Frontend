@@ -1,0 +1,83 @@
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import { Formik } from "formik";
+import { StackScreenProps } from "@react-navigation/stack";
+import { VerificationStackParamList } from "../../navigation/VerificationNavigator";
+import { SafeAreaView } from "react-native-safe-area-context";
+import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
+import FormInput from "../../components/forms/formInput";
+import NavButton from "../../components/buttons/GreenButton";
+import PersonalInfoHeader from "./components/PersonalInfoHeader";
+
+import NavigationHeader from "../../components/navigation/NavigationHeader";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  useRootNavigation,
+  useVerificationNavigation,
+} from "@/hooks/useTypedNavigation";
+import { userSchemas } from "@/validations";
+import ErrorTexts from "@/components/texts/ErrorTexts";
+import InfoTextFrame from "@/components/texts/InfoText";
+import HeaderWithSubText from "@/components/texts/HeaderWithSubText";
+import Spacer from "@/components/Spacer";
+import SmallSpacer from "@/components/SmallSpacer";
+import { useResetPasscode } from "@/hooks/useResetPasscode";
+import ContactInfoModal from "./components/ContactInfoModal";
+
+type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
+
+const PersonalInfoScreen: React.FC<Props> = () => {
+  const navigation = useVerificationNavigation();
+  const { setPhoneNumber, setEmail, state } = useResetPasscode();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const { email, phoneNumber } = state;
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Account verification header */}
+      <UpperTextsFrame header="Contact Information" />
+      <SmallSpacer />
+      {modalVisible && <ContactInfoModal type="Phone" />}
+      <View style={styles.formContainer}></View>
+      <FormInput
+        label="Email"
+        value={email ?? ""}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        // onFocus={}
+      />
+      <FormInput
+        label="Phone number"
+        value={phoneNumber ?? ""}
+        onChangeText={setPhoneNumber}
+        keyboardType="numeric"
+      />
+    </SafeAreaView>
+  );
+};
+
+// Styles for the screen
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderBlockColor: "red",
+  },
+  formContainer: {
+    justifyContent: "space-around",
+  },
+  formInputsContainer: {
+    // borderWidth: 2,
+    // marginVertical: 20,
+    marginBottom: 50,
+  },
+  textsError: {
+    //added this because the component is not staying where it should be and I don't know why
+    top: -20,
+    paddingHorizontal: 10,
+  },
+});
+
+export default PersonalInfoScreen;

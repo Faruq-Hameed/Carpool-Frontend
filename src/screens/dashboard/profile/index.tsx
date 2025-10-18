@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import LightStackFrame from "../../../components/navigation/NavigationChildFrame";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import LightStackFrame from "../../../components/navigation/NavigationChildFrame";
 import ProfileSummary from "./components/ProfileSummary";
 import {
   useProfileNavigation,

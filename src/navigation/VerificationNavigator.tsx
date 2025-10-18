@@ -8,6 +8,7 @@ import {
   PersonalInfoScreen,
   VerificationTypeScreen,
   IdentityVerificationScreen,
+  IdentityVerificationTwoScreen,
 } from "@/screens/verifications";
 import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
 import { VerifyOtpApis } from "@/screens/auth/constants";
@@ -16,6 +17,7 @@ import { VerifyOtpApis } from "@/screens/auth/constants";
 export type VerificationStackParamList = {
   VerificationType: undefined;
   IdentityVerification: undefined;
+  IdentityVerificationTwo: undefined;
   PersonalInfo: undefined;
   EnterNIN: undefined;
   EntireLicense: undefined;
@@ -42,40 +44,46 @@ const tab = createBottomTabNavigator<VerificationStackParamList>();
 
 // the Verification navigation stack
 const VerificationNavigator: React.FC = () => (
-  <Stack.Navigator initialRouteName="VerificationType">
+  <Stack.Navigator initialRouteName="VerificationType" screenOptions={{headerShown: false}}>
     <Stack.Screen
       name="VerificationType"
       component={VerificationTypeScreen}
-      options={{ headerShown: false }}
+      // options={{ headerShown: false }}
     />
     {/*Identity verification info screen */}
     <Stack.Screen
       name="IdentityVerification"
       component={IdentityVerificationScreen}
-      options={{ headerShown: false }}
+      // options={{ headerShown: false }}
+    />
+    {/*Identity verification two screen */}
+    <Stack.Screen
+      name="IdentityVerificationTwo"
+      component={IdentityVerificationTwoScreen}
+      // options={{ headerShown: false }}
     />
     {/*PersonalInfo screen */}
     <Stack.Screen
       name="PersonalInfo"
       component={PersonalInfoScreen}
-      options={{ headerShown: false }}
+      // options={{ headerShown: false }}
     />
     {/* NIN screen, no header */}
     <Stack.Screen
       name="EnterNIN"
       component={EnterNINScreen}
-      options={{ headerShown: false }}
+      // options={{ headerShown: false }}
     />
     {/* Entire Driver License */}
     <Stack.Screen
       name="EntireLicense"
       component={EnterLicenseScreen}
-      options={{ headerShown: false }}
+      // options={{ headerShown: false }}
     />
     <Stack.Screen
       name="VerificationOtp"
       component={EnterOTPScreen}
-      options={{ headerShown: false }}
+      // options={{ headerShown: false }}
     />
   </Stack.Navigator>
 );

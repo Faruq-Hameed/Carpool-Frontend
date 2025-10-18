@@ -36,6 +36,13 @@ const VerificationTypeScreen: React.FC = () => {
           leftIcon="userFocus"
           rightIcon="caretRight"
           title="Identity Verification."
+          lowerText="Required for everyone"
+          onPress={() => navigation.navigate("IdentityVerification")}
+        />
+        <NavigationChildFrame
+          leftIcon="steeringWheel"
+          rightIcon="caretRight"
+          title="Driver's License Verification."
           lowerText="Required to offer a ride"
           onPress={() => navigation.navigate("IdentityVerification")}
         />

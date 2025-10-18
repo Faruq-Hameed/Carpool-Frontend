@@ -7,6 +7,7 @@ import { AppIcon } from "@/components/AppIcon";
 import NavButton from "@/components/buttons/GreenButton";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 
+/**Identity verification prep screen */
 const IdentityVerificationScreen: React.FC = () => {
   const navigation = useVerificationNavigation();
   return (
@@ -30,7 +31,9 @@ const IdentityVerificationScreen: React.FC = () => {
         <View style={styles.btnContainer}>
           <NavButton
             title="I'm ready, Continue"
-            onPress={() => navigation.navigate("PersonalInfo")} //THIS SHOULD BE CONDITIONAL BASED ON KYC LEVEL
+            onPress={() => navigation.navigate("IdentityVerificationTwo")} //THIS SHOULD BE CONDITIONAL BASED ON KYC LEVEL
+
+            // onPress={() => navigation.navigate("PersonalInfo")} //THIS SHOULD BE CONDITIONAL BASED ON KYC LEVEL
           />
         </View>
       </View>

@@ -8,7 +8,7 @@ import Text from "../texts";
 interface NavigationChildFrameProps {
   title: string;
   onPress: () => void;
-  leftIcon: IconName;
+  leftIcon?: IconName;
   rightIcon?: IconName;
   textsStyle?: React.CSSProperties;
   lowerText?: string;
@@ -30,7 +30,7 @@ const NavigationChildFrame: React.FC<NavigationChildFrameProps> = ({
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={styles.leftContainer}>
-        <AppIcon name={leftIcon} />
+        {leftIcon && <AppIcon name={leftIcon} />}
         <View style={styles.textContainer}>
           <Text>{title}</Text>
           {lowerText && <Text style={{ fontSize: 14 }}>{lowerText}</Text>}
