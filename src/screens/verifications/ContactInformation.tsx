@@ -12,14 +12,11 @@ import PersonalInfoHeader from "./components/PersonalInfoHeader";
 import NavigationHeader from "../../components/navigation/NavigationHeader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
-  useRootNavigation,
   useVerificationNavigation,
 } from "@/hooks/useTypedNavigation";
 import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
-import InfoTextFrame from "@/components/texts/InfoText";
-import HeaderWithSubText from "@/components/texts/HeaderWithSubText";
-import Spacer from "@/components/Spacer";
+
 import SmallSpacer from "@/components/SmallSpacer";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 import ContactInfoModal from "./components/ContactInfoModal";
