@@ -13,7 +13,10 @@ const IdentityVerificationTwoScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <UpperTextsFrame header="Identity Verification" />
-      <LightStackFrame title="Contact Information" onPress={() => {}} />
+      <LightStackFrame
+        title="Contact Information"
+        onPress={() => navigation.navigate("ContactInfo")}
+      />
       <LightStackFrame
         title="Personal Information/NIN"
         onPress={() => navigation.navigate("PersonalInfo")} //THIS SHOULD BE CONDITIONAL BASED ON KYC LEVEL

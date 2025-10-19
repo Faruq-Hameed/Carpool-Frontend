@@ -9,6 +9,7 @@ import {
   VerificationTypeScreen,
   IdentityVerificationScreen,
   IdentityVerificationTwoScreen,
+  ContactInfoScreen,
 } from "@/screens/verifications";
 import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
 import { VerifyOtpApis } from "@/screens/auth/constants";
@@ -19,6 +20,7 @@ export type VerificationStackParamList = {
   IdentityVerification: undefined;
   IdentityVerificationTwo: undefined;
   PersonalInfo: undefined;
+  ContactInfo: undefined;
   EnterNIN: undefined;
   EntireLicense: undefined;
   ConfirmImage: undefined;
@@ -44,7 +46,10 @@ const tab = createBottomTabNavigator<VerificationStackParamList>();
 
 // the Verification navigation stack
 const VerificationNavigator: React.FC = () => (
-  <Stack.Navigator initialRouteName="VerificationType" screenOptions={{headerShown: false}}>
+  <Stack.Navigator
+    initialRouteName="VerificationType"
+    screenOptions={{ headerShown: false }}
+  >
     <Stack.Screen
       name="VerificationType"
       component={VerificationTypeScreen}
@@ -68,6 +73,13 @@ const VerificationNavigator: React.FC = () => (
       component={PersonalInfoScreen}
       // options={{ headerShown: false }}
     />
+
+    {/* Contact info screen */}
+    <Stack.Screen 
+    name="ContactInfo"
+    component={ContactInfoScreen}
+    />
+
     {/* NIN screen, no header */}
     <Stack.Screen
       name="EnterNIN"

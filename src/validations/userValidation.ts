@@ -28,21 +28,26 @@ export const SignUpSchema = Yup.object().shape({
 export const PersonalInfoConfirmationSchema = Yup.object().shape({
   firstName: Yup.string().required("Firstname is required"),
   lastName: Yup.string().required("Surname is required"),
-  email: Yup.string().email().required("Email is required"),
-  phoneNumber: Yup.string()
-    .required("Phone number is required")
-    .test("phoneNumber", "Enter a valid phone number", (value) => {
-      if (!value) return false;
-      const phoneRegex = /^[0-9]{10,15}$/; // can be adjusted based on country/format
-      return phoneRegex.test(value);
-    }),
+  middleName: Yup.string(),
+  dob: Yup.string().datetime().required("Date of birth is required"),
+  nin: Yup.string().length(10).required("NIN is required"),
+
+  // phoneNumber: Yup.string()
+  //   .required("Phone number is required")
+  //   .test("phoneNumber", "Enter a valid phone number", (value) => {
+  //     if (!value) return false;
+  //     const phoneRegex = /^[0-9]{10,15}$/; // can be adjusted based on country/format
+  //     return phoneRegex.test(value);
+  //   }),
 });
 
 export const ResetPasscodeSchema = Yup.object().shape({
-  phoneNumber: Yup.string().when("$useEmailInstead", (useEmailInstead, schema) =>
-    !useEmailInstead
-      ? schema.required("Phone number is required")
-      : schema.notRequired()
+  phoneNumber: Yup.string().when(
+    "$useEmailInstead",
+    (useEmailInstead, schema) =>
+      !useEmailInstead
+        ? schema.required("Phone number is required")
+        : schema.notRequired()
   ),
   email: Yup.string().when("$useEmailInstead", (useEmailInstead, schema) =>
     useEmailInstead
@@ -50,4 +55,3 @@ export const ResetPasscodeSchema = Yup.object().shape({
       : schema.notRequired()
   ),
 });
-

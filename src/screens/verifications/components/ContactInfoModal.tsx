@@ -3,12 +3,14 @@ import { View } from "react-native";
 
 import Text from "@/components/texts";
 import FormInput from "@/components/forms/formInput";
+import NavButton from "@/components/buttons/GreenButton";
 
 interface Props {
   type: "Phone" | "email";
+  onContinue: () => void;
 }
-
-const ContactInfoModal: React.FC<Props> = ({ type }) => {
+//HIS MODAL NOT YET PERFECT
+const ContactInfoModal: React.FC<Props> = ({ type, onContinue }) => {
   const isPhone = type === "Phone";
   return (
     <View>
@@ -18,7 +20,7 @@ const ContactInfoModal: React.FC<Props> = ({ type }) => {
       {isPhone ? (
         <FormInput
           label="Email"
-          value={ ""}
+          value={""}
           onChangeText={() => {}}
           keyboardType="email-address"
           // onFocus={}
@@ -31,6 +33,7 @@ const ContactInfoModal: React.FC<Props> = ({ type }) => {
           keyboardType="numeric"
         />
       )}
+      <NavButton onPress={onContinue} title="Continue" />
     </View>
   );
 };

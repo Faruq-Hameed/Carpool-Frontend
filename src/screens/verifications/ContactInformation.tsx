@@ -23,10 +23,12 @@ import Spacer from "@/components/Spacer";
 import SmallSpacer from "@/components/SmallSpacer";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 import ContactInfoModal from "./components/ContactInfoModal";
+import CustomModal from "@/components/modals/CustomModal";
+import { VerifyOtpApis } from "../auth/constants";
 
-type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
+type Props = StackScreenProps<VerificationStackParamList, "ContactInfo">;
 
-const PersonalInfoScreen: React.FC<Props> = () => {
+const ContactInfoScreen: React.FC<Props> = () => {
   const navigation = useVerificationNavigation();
   const { setPhoneNumber, setEmail, state } = useResetPasscode();
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,7 +40,24 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       {/* Account verification header */}
       <UpperTextsFrame header="Contact Information" />
       <SmallSpacer />
-      {modalVisible && <ContactInfoModal type="Phone" />}
+      {modalVisible && (
+        <CustomModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          children={
+            <ContactInfoModal
+              type="Phone"
+              onContinue={() => { // I WILL HANDLE THIS CORRECTLY LATER
+                setModalVisible(false);
+                navigation.navigate("VerificationOtp", {
+                  message: "message",
+                  purpose: VerifyOtpApis.CHANGE_PHONE,
+                });
+              }}
+            />
+          }
+        />
+      )}
       <View style={styles.formContainer}></View>
       <FormInput
         label="Email"
@@ -50,7 +69,10 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       <FormInput
         label="Phone number"
         value={phoneNumber ?? ""}
-        onChangeText={setPhoneNumber}
+        onChangeText={(texts) => {
+          setModalVisible(true);
+          setPhoneNumber(texts);
+        }}
         keyboardType="numeric"
       />
     </SafeAreaView>
@@ -80,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PersonalInfoScreen;
+export default ContactInfoScreen;

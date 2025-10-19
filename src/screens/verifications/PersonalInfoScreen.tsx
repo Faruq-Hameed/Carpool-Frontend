@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 import FormInput from "../../components/forms/formInput";
 import NavButton from "../../components/buttons/GreenButton";
-import PersonalInfoHeader from "./components/PersonalInfoHeader";
 
 import NavigationHeader from "../../components/navigation/NavigationHeader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -25,7 +24,6 @@ import SmallSpacer from "@/components/SmallSpacer";
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
 const PersonalInfoScreen: React.FC<Props> = () => {
-  
   const navigation = useVerificationNavigation();
 
   return (
@@ -37,35 +35,38 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       <SmallSpacer />
       {/*upper container. */}
       {/* <PersonalInfoHeader /> */}
-      <HeaderWithSubText
-        title="Please confirm your details"
-        subText="Confirm that these details are the same with what you have on your NIN"
-      />
-      <Spacer />
-      <Spacer />
-
-      {/* middle container */}
+     
+          {/* middle container */}
       <KeyboardAwareScrollView
-        // contentContainerStyle={{ padding: 16 }}
+        contentContainerStyle={{  alignItems: "center" }}
         extraScrollHeight={100} //this makes sure the input is visible above the keyboard
         enableOnAndroid={true}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
+      <HeaderWithSubText
+        title="Please confirm your details"
+        subText="Confirm that these details are the same with what you have on your NIN"
+      />
+      <Spacer />
+
+ 
         <Formik
           initialValues={{
             firstName: "",
             lastName: "",
-            email: "",
-            phoneNumber: "",
+            middleName: "",
+            dob: "",
+            nin: "",
           }}
           validationSchema={userSchemas.PersonalInfoConfirmationSchema}
-          onSubmit={(values) =>
-            navigation.navigate("VerificationOtp", {
-              phonenumber: values.phoneNumber,
-              onVerify: (code: string) =>
-                console.log("Verified with code:", code),
-            })
+          onSubmit={
+            (values) => console.log("Form submitted clicked")
+            // navigation.navigate("VerificationOtp", {
+            //   phonenumber: values.phoneNumber,
+            //   onVerify: (code: string) =>
+            //     console.log("Verified with code:", code),
+            // })
           }
         >
           {({
@@ -104,29 +105,37 @@ const PersonalInfoScreen: React.FC<Props> = () => {
                   />
                 )}
                 <FormInput
-                  label="Email"
-                  value={values.email}
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
+                  label="Middle Name"
+                  value={values.middleName}
+                  onChangeText={handleChange("middleName")}
+                  onBlur={handleBlur("middleName")}
                 />
-                {touched.email && errors.email && (
+                {touched.middleName && errors.middleName && (
                   <ErrorTexts
                     style={styles.textsError}
-                    message={errors.email}
+                    message={errors.middleName}
                   />
                 )}
                 <FormInput
-                  label="Phone number"
-                  value={values.phoneNumber}
-                  onChangeText={handleChange("phoneNumber")}
-                  onBlur={handleBlur("phoneNumber")}
+                  label="Date of birth"
+                  value={values.dob}
+                  onChangeText={handleChange("dob")}
+                  onBlur={handleBlur("dob")}
                   keyboardType="numeric"
                 />
-                {touched.phoneNumber && errors.phoneNumber && (
-                  <ErrorTexts
-                    style={styles.textsError}
-                    message={errors.phoneNumber}
-                  />
+                {touched.dob && errors.dob && (
+                  <ErrorTexts style={styles.textsError} message={errors.dob} />
+                )}
+
+                <FormInput
+                  label="NIN"
+                  value={values.nin}
+                  onChangeText={handleChange("nin")}
+                  onBlur={handleBlur("nin")}
+                  keyboardType="numeric"
+                />
+                {touched.nin && errors.nin && (
+                  <ErrorTexts style={styles.textsError} message={errors.nin} />
                 )}
               </View>
               {/* Button container */}
@@ -157,7 +166,6 @@ const styles = StyleSheet.create({
   formInputsContainer: {
     // borderWidth: 2,
     // marginVertical: 20,
-    marginBottom: 50,
   },
   textsError: {
     //added this because the component is not staying where it should be and I don't know why
