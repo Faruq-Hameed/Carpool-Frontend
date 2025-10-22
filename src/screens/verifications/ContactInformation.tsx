@@ -55,7 +55,7 @@ const ContactInfoScreen: React.FC<Props> = () => {
           }
         />
       )}
-      <View style={styles.formContainer}></View>
+      <View style={styles.formContainer}>
       <FormInput
         label="Email"
         value={email ?? ""}
@@ -72,6 +72,7 @@ const ContactInfoScreen: React.FC<Props> = () => {
         }}
         keyboardType="numeric"
       />
+      </View>
     </SafeAreaView>
   );
 };

@@ -1,5 +1,7 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+
+import Text from "../texts";
 import CustomModal from "./CustomModal";
 
 interface PleaseWaitModalProps {

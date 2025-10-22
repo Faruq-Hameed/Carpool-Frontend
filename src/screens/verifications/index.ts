@@ -5,6 +5,7 @@ import EnterNINScreen from "./EnterNINScreen";
 import IdentityVerificationScreen from "./IdentityVerification";
 import IdentityVerificationTwoScreen from "./IdentityVerificationTwo";
 import ContactInfoScreen from "./ContactInformation";
+import ChangeContactInfoScreen from "./ChangeContactInfoScreen";
 export {
   VerificationTypeScreen,
   EnterLicenseScreen,
@@ -13,4 +14,5 @@ export {
   IdentityVerificationScreen,
   IdentityVerificationTwoScreen,
   ContactInfoScreen,
+  ChangeContactInfoScreen
 };

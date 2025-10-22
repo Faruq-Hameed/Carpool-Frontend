@@ -2,20 +2,29 @@ import { useMemo, useReducer } from "react";
 
 import authContext from "./context";
 import { authReducer } from "./reducer";
-// import { User } from '@/models/user';
-export interface User {
-  //this should be  import { User } from '@/models/user'
-  id: string;
-  isVerified: boolean;
-  firstName: string;
-  lastName: string;
-}
+import User from "@/models/User";
+// import { Us
+// export interface User {
+//   //this should be  import { User } from '@/models/user'
+//   id: string;
+//   isVerified: boolean;
+//   firstName: string;
+//   lastName: string;
+// }
 const intialState = {
   currentUser: {
     id: "", //place holder
     isVerified: false,
-    firstName:"",
-    lastName:"",
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    phoneNumber: "",
+    phoneStatus: "",
+    email: "",
+    emailStatus: "",
+    profilePicture: "",
+    createdAt: "", // ISO date string
+    verificationLevel: "",
   } as User,
   isLoggedIn: false,
   token: null,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -20,14 +20,24 @@ import InfoTextFrame from "@/components/texts/InfoText";
 import HeaderWithSubText from "@/components/texts/HeaderWithSubText";
 import Spacer from "@/components/Spacer";
 import SmallSpacer from "@/components/SmallSpacer";
+import PleaseWaitModal from "@/components/modals/PleaseWaitModal";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
 const PersonalInfoScreen: React.FC<Props> = () => {
   const navigation = useVerificationNavigation();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
+      {isLoading && (
+        <></>
+        // <PleaseWaitModal
+        //   visible={isLoading}
+        //   onClose={() => setIsLoading(false)}
+        // />
+      )}
+
       {/* Account verification header */}
       {/* <VerificationHeader /> */}
       <NavigationHeader title="Account Verification" goBack={false} />
@@ -35,22 +45,21 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       <SmallSpacer />
       {/*upper container. */}
       {/* <PersonalInfoHeader /> */}
-     
-          {/* middle container */}
+
+      {/* middle container */}
       <KeyboardAwareScrollView
-        contentContainerStyle={{  alignItems: "center" }}
+        contentContainerStyle={{ alignItems: "center" }}
         extraScrollHeight={100} //this makes sure the input is visible above the keyboard
         enableOnAndroid={true}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
-      <HeaderWithSubText
-        title="Please confirm your details"
-        subText="Confirm that these details are the same with what you have on your NIN"
-      />
-      <Spacer />
+        <HeaderWithSubText
+          title="Please confirm your details"
+          subText="Confirm that these details are the same with what you have on your NIN"
+        />
+        <Spacer />
 
- 
         <Formik
           initialValues={{
             firstName: "",
@@ -61,7 +70,10 @@ const PersonalInfoScreen: React.FC<Props> = () => {
           }}
           validationSchema={userSchemas.PersonalInfoConfirmationSchema}
           onSubmit={
-            (values) => console.log("Form submitted clicked")
+            (values) => {
+              console.log("Form submitted clicked");
+              setIsLoading(false);
+            }
             // navigation.navigate("VerificationOtp", {
             //   phonenumber: values.phoneNumber,
             //   onVerify: (code: string) =>
@@ -121,7 +133,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
                   value={values.dob}
                   onChangeText={handleChange("dob")}
                   onBlur={handleBlur("dob")}
-                  keyboardType="numeric"
+                  // keyboardType="numeric"
                 />
                 {touched.dob && errors.dob && (
                   <ErrorTexts style={styles.textsError} message={errors.dob} />

@@ -29,7 +29,9 @@ export const PersonalInfoConfirmationSchema = Yup.object().shape({
   firstName: Yup.string().required("Firstname is required"),
   lastName: Yup.string().required("Surname is required"),
   middleName: Yup.string(),
-  dob: Yup.string().datetime().required("Date of birth is required"),
+  dob: Yup.string()
+  // .datetime()
+  .required("Date of birth is required"),
   nin: Yup.string().length(10).required("NIN is required"),
 
   // phoneNumber: Yup.string()

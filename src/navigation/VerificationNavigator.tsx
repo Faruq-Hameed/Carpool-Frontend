@@ -10,6 +10,7 @@ import {
   IdentityVerificationScreen,
   IdentityVerificationTwoScreen,
   ContactInfoScreen,
+  ChangeContactInfoScreen,
 } from "@/screens/verifications";
 import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
 import { VerifyOtpApis } from "@/screens/auth/constants";
@@ -34,6 +35,9 @@ export type VerificationStackParamList = {
     purpose: VerifyOtpApis; // to know which api to call for verification
     // onVerify: (code: string) => void | string; //api to call and extract the response message. void will be removed later
     onContinue?: () => void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
+  };
+  ChangeContactInfo: {
+    type: "email"| "phone"
   };
 };
 
@@ -73,13 +77,8 @@ const VerificationNavigator: React.FC = () => (
       component={PersonalInfoScreen}
       // options={{ headerShown: false }}
     />
-
     {/* Contact info screen */}
-    <Stack.Screen 
-    name="ContactInfo"
-    component={ContactInfoScreen}
-    />
-
+    <Stack.Screen name="ContactInfo" component={ContactInfoScreen} />
     {/* NIN screen, no header */}
     <Stack.Screen
       name="EnterNIN"
@@ -97,6 +96,12 @@ const VerificationNavigator: React.FC = () => (
       component={EnterOTPScreen}
       // options={{ headerShown: false }}
     />
+    <Stack.Screen
+      name="ChangeContactInfo"
+      component={ChangeContactInfoScreen}
+      // options={{ headerShown: false }}
+    />
+    ChangeContactInfoScreen
   </Stack.Navigator>
 );
 
