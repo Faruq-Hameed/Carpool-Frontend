@@ -2,6 +2,8 @@ import React from "react";
 import { Input } from "@rneui/themed";
 import { StyleSheet } from "react-native";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
+import { AppIcon } from "../AppIcon";
+import { IconName } from "@/helpers/icons";
 
 type FormInputProps = {
   label: string;
@@ -13,6 +15,7 @@ type FormInputProps = {
   placeholder?: string;
   maxLength?: number;
   disabled?: boolean
+  rightIconName?: IconName
 };
 
 /**  Reusable input component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -25,7 +28,8 @@ const FormInput: React.FC<FormInputProps> = ({
   keyboardType = "default",
   placeholder = "",
   maxLength,
-  disabled=false
+  disabled=false,
+  rightIconName, //right icon
 }) => {
   return (
     <Input
@@ -44,6 +48,7 @@ const FormInput: React.FC<FormInputProps> = ({
       autoCapitalize="none"
       autoCorrect={false}
       disabled={disabled}
+      rightIcon={rightIconName ? <AppIcon name={rightIconName} /> : undefined}
       // leftIcon={{ type: 'font-awesome', name: 'chevron-left', color: '#404040', size: 16 }}
       // containerStyle={styles.inputContainer}
       // inputContainerStyle={styles.input}

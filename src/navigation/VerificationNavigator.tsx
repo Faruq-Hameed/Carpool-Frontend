@@ -101,7 +101,6 @@ const VerificationNavigator: React.FC = () => (
       component={ChangeContactInfoScreen}
       // options={{ headerShown: false }}
     />
-    ChangeContactInfoScreen
   </Stack.Navigator>
 );
 

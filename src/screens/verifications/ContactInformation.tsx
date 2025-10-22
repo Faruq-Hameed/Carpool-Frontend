@@ -11,9 +11,7 @@ import PersonalInfoHeader from "./components/PersonalInfoHeader";
 
 import NavigationHeader from "../../components/navigation/NavigationHeader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  useVerificationNavigation,
-} from "@/hooks/useTypedNavigation";
+import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 
@@ -22,6 +20,7 @@ import { useResetPasscode } from "@/hooks/useResetPasscode";
 import ContactInfoModal from "./components/ContactInfoModal";
 import CustomModal from "@/components/modals/CustomModal";
 import { VerifyOtpApis } from "../auth/constants";
+import InputWithIcon from "./components/InputWithIcon";
 
 type Props = StackScreenProps<VerificationStackParamList, "ContactInfo">;
 
@@ -44,7 +43,8 @@ const ContactInfoScreen: React.FC<Props> = () => {
           children={
             <ContactInfoModal
               type="Phone"
-              onContinue={() => { // I WILL HANDLE THIS CORRECTLY LATER
+              onContinue={() => {
+                // I WILL HANDLE THIS CORRECTLY LATER
                 setModalVisible(false);
                 navigation.navigate("VerificationOtp", {
                   message: "message",
@@ -56,22 +56,25 @@ const ContactInfoScreen: React.FC<Props> = () => {
         />
       )}
       <View style={styles.formContainer}>
-      <FormInput
-        label="Email"
-        value={email ?? ""}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        // onFocus={}
-      />
-      <FormInput
-        label="Phone number"
-        value={phoneNumber ?? ""}
-        onChangeText={(texts) => {
-          setModalVisible(true);
-          setPhoneNumber(texts);
-        }}
-        keyboardType="numeric"
-      />
+        <InputWithIcon
+          label="Email"
+          value={"user@email"}
+          onChangeText={() => {}}
+          onPress={() => {
+            console.log("change email pressed");
+            setModalVisible(true);
+          }}
+        />
+        <InputWithIcon
+          label="Phone number"
+          value={"08100623821"}
+          onChangeText={() => {}}
+          onPress={() => {
+            console.log("change phone pressed");
+
+            setModalVisible(true);
+          }}
+        />
       </View>
     </SafeAreaView>
   );
