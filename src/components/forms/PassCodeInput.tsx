@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 import { Input } from "@rneui/themed";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 
@@ -11,6 +11,7 @@ type PassCodeInputProps = {
   hidePassCode: boolean;
   label?: string;
   genericPlaceholder?: string;
+  labelStyle?:ViewStyle
 };
 
 /**  Reusable PassCodeInput component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -22,6 +23,7 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
   hidePassCode = true,
   label,
   genericPlaceholder,
+  labelStyle,
 }) => {
   // console.log({hidePassCode})
   return (
@@ -30,7 +32,7 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
       label={label ? label : "Passcode"}
       style={styles.inputStyle}
       inputContainerStyle={styles.inputContainer}
-      labelStyle={styles.label}
+      labelStyle={[styles.label, labelStyle]}
       placeholder={
         genericPlaceholder ? genericPlaceholder : `Enter your ${label}`
       }

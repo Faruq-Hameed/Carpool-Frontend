@@ -21,6 +21,8 @@ import ContactInfoModal from "./components/ContactInfoModal";
 import CustomModal from "@/components/modals/CustomModal";
 import { VerifyOtpApis } from "../auth/constants";
 import InputWithIcon from "./components/InputWithIcon";
+import PseudoModalScreen from "@/components/modals/PseudoModalScreen";
+import { useAuth } from "@/hooks/useAuth";
 
 type Props = StackScreenProps<VerificationStackParamList, "ContactInfo">;
 
@@ -36,25 +38,7 @@ const ContactInfoScreen: React.FC<Props> = () => {
       {/* Account verification header */}
       <UpperTextsFrame header="Contact Information" />
       <SmallSpacer />
-      {modalVisible && (
-        <CustomModal
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          children={
-            <ContactInfoModal
-              type="Phone"
-              onContinue={() => {
-                // I WILL HANDLE THIS CORRECTLY LATER
-                setModalVisible(false);
-                navigation.navigate("VerificationOtp", {
-                  message: "message",
-                  purpose: VerifyOtpApis.CHANGE_PHONE,
-                });
-              }}
-            />
-          }
-        />
-      )}
+
       <View style={styles.formContainer}>
         <InputWithIcon
           label="Email"
@@ -62,8 +46,11 @@ const ContactInfoScreen: React.FC<Props> = () => {
           onChangeText={() => {}}
           onPress={() => {
             console.log("change email pressed");
-            setModalVisible(true);
+            // setModalVisible(true);
           }}
+          onPasscodeContinue={() =>
+            navigation.navigate("ChangeContactInfo", { type: "email" })
+          }
         />
         <InputWithIcon
           label="Phone number"
@@ -72,8 +59,11 @@ const ContactInfoScreen: React.FC<Props> = () => {
           onPress={() => {
             console.log("change phone pressed");
 
-            setModalVisible(true);
+            // setModalVisible(true);
           }}
+          onPasscodeContinue={() =>
+            navigation.navigate("ChangeContactInfo", { type: "phone" })
+          }
         />
       </View>
     </SafeAreaView>

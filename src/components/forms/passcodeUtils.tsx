@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import PassCodeInput from "./PassCodeInput";
 import ShowPassCheckBox from "./ShowPassCheckBox";
 
@@ -15,6 +15,7 @@ interface PassCodeUtilsProps {
   onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
   onFocus?: (e: any) => void; //optional onFocus prop for handling focus events will be compulsory if other screen have been adjusted
   genericPlaceholder?: string,
+  labelStyle?: ViewStyle
 }
 /** PassCodeUtils component contains the ShowPassCheckBox and forgot password */
 const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
@@ -35,6 +36,7 @@ const PassCodeUtils: React.FC<PassCodeUtilsProps> = (
         onBlur={props.onBlur}
         onFocus={props.onFocus}
         genericPlaceholder={props.genericPlaceholder}
+        labelStyle={props.labelStyle}
       />
       {/*password show and forget password*/}
       <View style={styles.flexItems}>
