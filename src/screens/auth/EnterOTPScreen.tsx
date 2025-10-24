@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
-import Spacer from "@/components/Spacer";
+import Spacer from "@/components/others/Spacer";
 import FormInput from "@/components/forms/formInput";
 import NavButton from "@/components/buttons/GreenButton";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
@@ -13,16 +13,16 @@ import useVerifyEmailApi from "./hooks/useVerifyEmail";
 import { VerifyOtpApis } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import useVerifyOtp from "./hooks/useVerifyOtp";
-import { User } from "@/contexts/AuthContext";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import { useAuthNavigation } from "@/hooks/useTypedNavigation";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
+import User from "@/models/User";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const { email, message: messageParam, purpose, phoneNumber } = route.params;
-    const { setOtp,state  } = useResetPasscode(); //this is needed for passcode reset
-  console.log("state in enter otp: ", state )
+  const { setOtp, state } = useResetPasscode(); //this is needed for passcode reset
+  console.log("state in enter otp: ", state);
   const navigation = useAuthNavigation();
   // const {
   //   isLoading,
@@ -49,7 +49,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const handleVerifyOtp = async (otp: string) => {
     /** api is not called from here if it the otp is for reset passcode*/
     if (purpose === VerifyOtpApis.RESET_PASSCODE) {
-      setOtp(otp)
+      setOtp(otp);
       navigation.navigate("CreatePasscode");
     } else
       initiateApiCall({

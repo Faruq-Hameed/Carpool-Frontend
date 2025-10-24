@@ -2,20 +2,20 @@ import React from "react";
 import { Input } from "@rneui/themed";
 import { StyleSheet } from "react-native";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
-import { AppIcon } from "../AppIcon";
+import { AppIcon } from "../others/AppIcon";
 import { IconName } from "@/helpers/icons";
 
 type FormInputProps = {
-  label: string;
+  label: string | React.ReactNode;
   value: string;
   onChangeText: (text: string) => void;
-   onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
+  onBlur?: (e: any) => void; //optional onBlur prop for handling blur events will be compulsory if other screen have been adjusted
   onFocus?: (e: any) => void; //optional onFocus prop for handling focus events will be compulsory if other screen have been adjusted
-   keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
+  keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
   placeholder?: string;
   maxLength?: number;
-  disabled?: boolean
-  rightIconName?: IconName
+  disabled?: boolean;
+  rightIconName?: IconName;
 };
 
 /**  Reusable input component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -28,7 +28,7 @@ const FormInput: React.FC<FormInputProps> = ({
   keyboardType = "default",
   placeholder = "",
   maxLength,
-  disabled=false,
+  disabled = false,
   rightIconName, //right icon
 }) => {
   return (

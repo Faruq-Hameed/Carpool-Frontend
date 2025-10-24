@@ -37,7 +37,8 @@ export type VerificationStackParamList = {
     onContinue?: () => void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
   };
   ChangeContactInfo: {
-    type: "email"| "phone"
+    type: "email"| "phone",
+    passcode: string;
   };
 };
 

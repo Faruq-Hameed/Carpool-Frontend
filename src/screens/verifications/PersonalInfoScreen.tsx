@@ -18,8 +18,8 @@ import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import InfoTextFrame from "@/components/texts/InfoText";
 import HeaderWithSubText from "@/components/texts/HeaderWithSubText";
-import Spacer from "@/components/Spacer";
-import SmallSpacer from "@/components/SmallSpacer";
+import Spacer from "@/components/others/Spacer";
+import SmallSpacer from "@/components/others/SmallSpacer";
 import PleaseWaitModal from "@/components/modals/PleaseWaitModal";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;

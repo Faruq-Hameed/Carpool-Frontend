@@ -3,10 +3,10 @@ import { View, StyleSheet, SafeAreaView } from "react-native";
 
 import Text from "@/components/texts";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components/others/AppIcon";
 import NavigationChildFrame from "@/components/navigation/NavigationChildFrame";
-import Spacer from "@/components/Spacer";
-import SmallSpacer from "@/components/SmallSpacer";
+import Spacer from "@/components/others/Spacer";
+import SmallSpacer from "@/components/others/SmallSpacer";
 import InfoTextFrame from "@/components/texts/InfoText";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 

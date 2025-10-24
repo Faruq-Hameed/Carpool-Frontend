@@ -8,7 +8,7 @@ import {
   useProfileNavigation,
   useRootNavigation,
 } from "@/hooks/useTypedNavigation";
-import Spacer from "@/components/Spacer";
+import Spacer from "@/components/others/Spacer";
 
 /**Profile Screen when tap from the dashboard */
 const Profile: React.FC = () => {

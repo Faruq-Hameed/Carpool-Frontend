@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import Text from "@/components/texts";
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components/others/AppIcon";
 
 const ProfileSummary: React.FC<{}> = () => {
   return (

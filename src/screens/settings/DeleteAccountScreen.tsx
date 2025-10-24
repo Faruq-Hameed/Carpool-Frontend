@@ -1,7 +1,7 @@
 import FormInput from "@/components/forms/formInput";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 import NavigationHeader from "@/components/navigation/NavigationHeader";
-import Spacer from "@/components/Spacer";
+import Spacer from "@/components/others/Spacer";
 import Text from "@/components/texts";
 import { useAuth } from "@/hooks/useAuth";
 import React, { useState } from "react";

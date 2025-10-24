@@ -1,27 +1,25 @@
-import AppSvgIcon from "@/components/AppSvgIcon";
+import AppSvgIcon from "@/components/others/AppSvgIcon";
 import FormInput from "@/components/forms/formInput";
 import CustomModal from "@/components/modals/CustomModal";
 import PasscodeModal from "@/components/modals/PasscodeModal";
 import PseudoModalScreen from "@/components/modals/PseudoModalScreen";
 import { IconName } from "@/helpers/icons";
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 interface Props {
-  label: string;
+  label: string | React.ReactNode;
+  title?: string //this will be passed if label is a ReactNode
   value: string;
-  onChangeText: (text: string) => void;
   rightIconName?: IconName;
-  onPress: () => void;
-    onPasscodeContinue: () => void; //I WILL USE THIS TO BRING IN PASSCODE MODAL
+  onPasscodeContinue: (passcode: string) => void; //callback that receive passcode value passed b the child
 }
 /**Input component with right icon */
 const InputWithIcon: React.FC<Props> = ({
   label,
+  title,
   value,
-  onChangeText,
-  onPress, //ON PRESS SHOULD ACTIVATE CONFIRMATION MODAL which on continue of it bring passcode modal to live
-onPasscodeContinue,
+  onPasscodeContinue,
 }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [passcodeModalVisible, setPasscodeModalVisible] = useState(false);
@@ -30,14 +28,13 @@ onPasscodeContinue,
     <TouchableOpacity
       onPress={() => {
         setConfirmModalVisible(true);
-        onPress();
       }}
     >
       <PasscodeModal
         visible={passcodeModalVisible}
-        onClose={() => {
-          setPasscodeModalVisible(false);
-          onPasscodeContinue()
+        onClose={() => setPasscodeModalVisible(false)}
+        onContinue={(passcode) =>{
+          onPasscodeContinue(passcode) //send it up
         }}
       />
       <CustomModal
@@ -45,8 +42,8 @@ onPasscodeContinue,
         visible={confirmModalVisible}
         children={
           <PseudoModalScreen
-            headerText={`Change ${label}`} 
-            description={`Do you want to change your ${label}?`}
+            headerText={`Change ${title || label}`}
+            description={`Do you want to change your ${title || label}?`}
             upperBtnTitle="Yes, I want to."
             onUpperBtnPress={() => {
               setConfirmModalVisible(false);
@@ -64,7 +61,7 @@ onPasscodeContinue,
       <FormInput
         label={label}
         value={value}
-        onChangeText={onChangeText}
+        onChangeText={()=>{}}
         rightIconName="pencilSimpleLine"
         disabled={true}
       />

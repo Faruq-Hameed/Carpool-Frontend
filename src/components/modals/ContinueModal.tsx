@@ -1,7 +1,7 @@
 import LowerActionButtons from "@/screens/dashboard/profile/components/LowerActionButtons";
 import React from "react";
 import { View, StyleSheet, Modal } from "react-native";
-import Spacer from "../Spacer";
+import Spacer from "../others/Spacer";
 import Text from "../texts";
 import GreenNavButton from "../buttons/GreenButton";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
@@ -25,13 +25,15 @@ const ContinueModal: React.FC<ContinueModalProps> = ({
       animationType="fade"
       transparent
       visible={visible}
-    //   onRequestClose={onPress} // Android back button support
+      //   onRequestClose={onPress} // Android back button support
     >
       <View style={styles.modalBackground}>
         <View style={styles.modalContentContainer}>
-          <Text h4 style={{textAlign: "center"}}>{message}</Text>
+          <Text h4 style={{ textAlign: "center" }}>
+            {message}
+          </Text>
           <Spacer />
-          <GreenNavButton title={title} onPress={onPress} width={0.7}/>
+          <GreenNavButton title={title} onPress={onPress} width={0.7} />
         </View>
       </View>
     </Modal>

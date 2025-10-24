@@ -19,7 +19,7 @@ import { ErrorToast } from "@/components/modals/ErrorToast";
 import { VerifyOtpApis } from "./constants";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import User from "@/models/User";
-import Spacer from "@/components/Spacer";
+import Spacer from "@/components/others/Spacer";
 
 type Props = StackScreenProps<AuthStackParamList, "SignUp">;
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {

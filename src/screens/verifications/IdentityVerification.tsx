@@ -3,7 +3,7 @@ import { View, StyleSheet, SafeAreaView } from "react-native";
 
 import Text from "@/components/texts";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
-import { AppIcon } from "@/components/AppIcon";
+import { AppIcon } from "@/components/others/AppIcon";
 import NavButton from "@/components/buttons/GreenButton";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 

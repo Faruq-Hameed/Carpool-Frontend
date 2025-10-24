@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Formik } from "formik";
 import { StackScreenProps } from "@react-navigation/stack";
 import { VerificationStackParamList } from "../../navigation/VerificationNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
-import FormInput from "../../components/forms/formInput";
-import NavButton from "../../components/buttons/GreenButton";
-import PersonalInfoHeader from "./components/PersonalInfoHeader";
 
-import NavigationHeader from "../../components/navigation/NavigationHeader";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 
-import SmallSpacer from "@/components/SmallSpacer";
+import SmallSpacer from "@/components/others/SmallSpacer";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 import ContactInfoModal from "./components/ContactInfoModal";
 import CustomModal from "@/components/modals/CustomModal";
@@ -23,15 +17,13 @@ import { VerifyOtpApis } from "../auth/constants";
 import InputWithIcon from "./components/InputWithIcon";
 import PseudoModalScreen from "@/components/modals/PseudoModalScreen";
 import { useAuth } from "@/hooks/useAuth";
+import VerifiedLabel from "@/components/others/LabelWithIcon";
 
 type Props = StackScreenProps<VerificationStackParamList, "ContactInfo">;
 
 const ContactInfoScreen: React.FC<Props> = () => {
   const navigation = useVerificationNavigation();
-  const { setPhoneNumber, setEmail, state } = useResetPasscode();
   const [modalVisible, setModalVisible] = useState(false);
-
-  const { email, phoneNumber } = state;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,28 +33,25 @@ const ContactInfoScreen: React.FC<Props> = () => {
 
       <View style={styles.formContainer}>
         <InputWithIcon
-          label="Email"
+          label={<VerifiedLabel label="Email" />}
+          title="Email"
           value={"user@email"}
-          onChangeText={() => {}}
-          onPress={() => {
-            console.log("change email pressed");
-            // setModalVisible(true);
-          }}
-          onPasscodeContinue={() =>
-            navigation.navigate("ChangeContactInfo", { type: "email" })
+          onPasscodeContinue={(passcode) =>
+            navigation.navigate("ChangeContactInfo", {
+              type: "email",
+              passcode,
+            })
           }
         />
+
         <InputWithIcon
           label="Phone number"
           value={"08100623821"}
-          onChangeText={() => {}}
-          onPress={() => {
-            console.log("change phone pressed");
-
-            // setModalVisible(true);
-          }}
-          onPasscodeContinue={() =>
-            navigation.navigate("ChangeContactInfo", { type: "phone" })
+          onPasscodeContinue={(passcode) =>
+            navigation.navigate("ChangeContactInfo", {
+              type: "phone",
+              passcode,
+            })
           }
         />
       </View>

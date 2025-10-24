@@ -3,9 +3,9 @@ import React from "react";
 import { Button, Text } from "@rneui/themed";
 
 import { Dimensions, StyleSheet, View } from "react-native";
-import Spacer from "../Spacer";
+import Spacer from "../others/Spacer";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
-import { AppIcon } from "../AppIcon";
+import { AppIcon } from "../others/AppIcon";
 import { IconName } from "@/helpers/icons";
 
 /**Reusable button nav component */
@@ -54,7 +54,7 @@ const GreenNavButton = ({
             />
           ) : undefined
         }
-          loading={loading}
+        loading={loading}
         iconRight={iconRight}
         titleStyle={{
           fontSize: 16,
@@ -68,7 +68,7 @@ const GreenNavButton = ({
           borderColor: borderColor ?? "#126415",
           height: 56,
           overflow: "hidden",
-          width: getResponsiveWidth(width?? 0.9),
+          width: getResponsiveWidth(width ?? 0.9),
         }}
       />
     </Spacer>

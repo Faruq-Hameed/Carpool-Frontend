@@ -1,7 +1,7 @@
 import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import Text from "../texts";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
-import { AppIcon } from "../AppIcon";
+import { AppIcon } from "../others/AppIcon";
 import { useEffect, useState } from "react";
 
 export function ErrorToast({
@@ -30,7 +30,7 @@ export function ErrorToast({
       <AppIcon name="warning" size={40} />
       <View>
         <Text h4 h4Style={styles.title}>
-          {title?? "Action Failed"}
+          {title ?? "Action Failed"}
         </Text>
         <Text style={styles.text}>{message}</Text>
       </View>

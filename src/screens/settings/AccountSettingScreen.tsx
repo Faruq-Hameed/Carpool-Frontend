@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import NavigationHeader from "@/components/navigation/NavigationHeader";
 import NavigationChildFrame from "@/components/navigation/NavigationChildFrame";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Spacer from "@/components/Spacer";
+import Spacer from "@/components/others/Spacer";
 import { useProfileNavigation } from "@/hooks/useTypedNavigation";
 import SignOutModal from "./SignOutModal";
 

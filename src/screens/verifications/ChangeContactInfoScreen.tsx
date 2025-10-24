@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
-  TextInput,
-  TouchableOpacity,
-  Text,
   StyleSheet,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -12,27 +9,39 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { VerificationStackParamList } from "@/navigation/VerificationNavigator";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import FormInput from "@/components/forms/formInput";
-import { useResetPasscode } from "@/hooks/useResetPasscode";
 import { useAuth } from "@/hooks/useAuth";
 import GreenNavButton from "@/components/buttons/GreenButton";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 import { VerifyOtpApis } from "../auth/constants";
 import ErrorTexts from "@/components/texts/ErrorTexts";
+import { isValidInput } from "@/validations/phoneEmailValidator";
 
 type Props = StackScreenProps<VerificationStackParamList, "ChangeContactInfo">;
 
 /**ChangeContactInfoScreen t change email or phoneNumber */
 const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
-  const type = route.params.type;
+  const { type, passcode } = route.params; //passcode here will be sent to create otp
+  const [value, setValue] = useState(""); //value here can be email or phone number as determine by the type in the param
+  const [uiError, setUiError] = useState<string | null>(null);
   const navigation = useVerificationNavigation();
   const { currentUser } = useAuth();
-  const {
-    state: { email, phoneNumber, error },
-    setEmail,
-    setPhoneNumber,
-    setPasscode,
-    setError,
-  } = useResetPasscode();
+
+  /**Handle submit based on type */
+  const handleSubmit = () => {
+  const error = isValidInput(type, value);
+  setUiError(error);
+  if (!error) {
+    //call api and use the message
+    navigation.navigate("VerificationOtp", {
+      message: "message",
+      purpose:
+        type === "email"
+          ? VerifyOtpApis.CHANGE_EMAIL
+          : VerifyOtpApis.CHANGE_PHONE,
+    });
+  }
+};
+
   const isPhoneNumber = type === "phone";
   //need to add local validator for input
   return (
@@ -40,7 +49,7 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
       <UpperTextsFrame header={"Change" + " " + type} />
       <View
         style={styles.formContainer}
-        //   key={type}
+          // key={uiError}
       >
         {isPhoneNumber ? (
           <>
@@ -52,11 +61,11 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
             />
             <FormInput
               label="Phone number"
-              value={phoneNumber ?? ""}
-              onChangeText={setPhoneNumber}
+              value={value}
+              onChangeText={setValue}
               keyboardType="numeric"
             />
-            <ErrorTexts message="Invalid phone number" />
+            {uiError && <ErrorTexts message={uiError} style={styles.textsError}/>}
           </>
         ) : (
           <>
@@ -68,11 +77,11 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
             />
             <FormInput
               label="email"
-              value={email ?? ""}
-              onChangeText={setEmail}
+              value={value}
+              onChangeText={setValue}
               keyboardType="email-address"
             />
-            <ErrorTexts message="Invalid email address" />
+            {uiError && <ErrorTexts message={uiError} style={styles.textsError}/>}
           </>
         )}
 
@@ -80,11 +89,9 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
           title="Continue"
           onPress={() => {
             console.log("Going to enter otp next");
-            navigation.navigate("VerificationOtp", {
-              message: "message",
-              purpose: VerifyOtpApis.CHANGE_PHONE,
-            });
+            handleSubmit()
           }}
+
         />
       </View>
     </SafeAreaView>
@@ -111,6 +118,7 @@ const styles = StyleSheet.create({
     //added this because the component is not staying where it should be and I don't know why
     top: -20,
     paddingHorizontal: 10,
+    // padding: 20,
   },
 });
 

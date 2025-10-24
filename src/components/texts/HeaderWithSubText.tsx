@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { AppIcon } from "../AppIcon";
+import { AppIcon } from "../others/AppIcon";
 import { IconName } from "@/helpers/icons";
 import Text from ".";
 
@@ -24,7 +24,9 @@ const HeaderWithSubText: React.FC<HeaderWithSubTextProps> = ({
 }) => {
   return (
     <View style={[styles.container, containerStyles]}>
-      <Text style={[styles.title, titleStyles]} h4>{title}</Text>
+      <Text style={[styles.title, titleStyles]} h4>
+        {title}
+      </Text>
       {subText && <Text style={[subTextStyles]}>{subText}</Text>}
     </View>
   );
@@ -35,7 +37,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 15,
-
   },
   title: {
     alignSelf: "flex-start", //this was how i aligned it to the right

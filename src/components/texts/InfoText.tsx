@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { AppIcon } from "../AppIcon";
+import { AppIcon } from "../others/AppIcon";
 import { IconName } from "@/helpers/icons";
 import Text from ".";
 

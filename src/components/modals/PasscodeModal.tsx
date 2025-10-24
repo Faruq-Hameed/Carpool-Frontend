@@ -9,7 +9,8 @@ import GreenNavButton from "../buttons/GreenButton";
 interface PasscodeModalProps {
   visible: boolean;
   message?: string;
-  onClose?: () => void; //also handles onContinue
+  onClose: () => void; //also handles onContinue
+  onContinue: (passcode: string) => void; //callback that receive the passcode when called
 }
 
 /**Passcode modal to be called when passcode is required for some tasks */
@@ -17,12 +18,11 @@ const PasscodeModal: React.FC<PasscodeModalProps> = ({
   visible,
   message = "Enter passcode to verify It's you.",
   onClose = () => {},
+  onContinue
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const {
-    state: { passcode },
-    setPasscode,
-  } = useResetPasscode();
+  const [passcode, setPasscode] = useState("");
+
 
   // Sync external visibility prop with internal state
   useEffect(() => {
@@ -51,6 +51,8 @@ const PasscodeModal: React.FC<PasscodeModalProps> = ({
           onPress={() => {
             console.log("Api to confirm passcode will be called");
             //then navigate to change contact info screen
+            //if any api to verify the passcode, it can be called here first possibly return jobId
+            onContinue(passcode);
             handleClose(); // close locally
           }}
         />
