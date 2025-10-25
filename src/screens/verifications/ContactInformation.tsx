@@ -16,6 +16,7 @@ import PseudoModalScreen from "@/components/modals/PseudoModalScreen";
 import { useAuth } from "@/hooks/useAuth";
 import VerifiedLabel from "@/components/others/LabelWithIcon";
 import { ApiStatus } from "@/utils/constants/ApiStatus";
+import EmptyInputBox from "./components/EmptyInput";
 
 type Props = StackScreenProps<VerificationStackParamList, "ContactInfo">;
 
@@ -48,41 +49,27 @@ const ContactInfoScreen: React.FC<Props> = () => {
             })
           }
         />
-
-        <InputWithIcon
-          label={
-            phoneStatus === ApiStatus.VERIFIED ? (
-              <VerifiedLabel label="Phone number" />
-            ) : (
-              "Phone number"
-            )
-          }
-          title="Phone"
-          value={phoneNumber??""}
-          onPasscodeContinue={(passcode) =>
-            navigation.navigate("ChangeContactInfo", {
-              type: "phone",
-              passcode,
-            })
-          }
-        />
-
-        {/* <InputWithIcon
-          label={
-            emailStatus === ApiStatus.VERIFIED ? (
-              <VerifiedLabel label="Phone number" />
-            ) : (
-              "Phone number"
-            )
-          }
-          value={phoneNumber ?? " "} //added space to the string to remove placeholder
-          onPasscodeContinue={(passcode) =>
-            navigation.navigate("ChangeContactInfo", {
-              type: "phone",
-              passcode,
-            })
-          }
-        /> */}
+        {phoneStatus !== ApiStatus.VERIFIED || !phoneNumber ? (
+          <EmptyInputBox />
+        ) : (
+          <InputWithIcon
+            label={
+              phoneStatus === ApiStatus.VERIFIED ? (
+                <VerifiedLabel label="Phone number" />
+              ) : (
+                "Phone number"
+              )
+            }
+            title="Phone"
+            value={phoneNumber ?? ""}
+            onPasscodeContinue={(passcode) =>
+              navigation.navigate("ChangeContactInfo", {
+                type: "phone",
+                passcode,
+              })
+            }
+          />
+        )}
       </View>
     </SafeAreaView>
   );
