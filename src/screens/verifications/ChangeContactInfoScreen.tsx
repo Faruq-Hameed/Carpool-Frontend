@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  View,
-  StyleSheet,
-} from "react-native";
+import { SafeAreaView, View, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 
 import { VerificationStackParamList } from "@/navigation/VerificationNavigator";
@@ -12,7 +8,7 @@ import FormInput from "@/components/forms/formInput";
 import { useAuth } from "@/hooks/useAuth";
 import GreenNavButton from "@/components/buttons/GreenButton";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
-import { VerifyOtpApis } from "../auth/constants";
+import { VerifyOtpPurposes } from "../auth/constants";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { isValidInput } from "@/validations/phoneEmailValidator";
 
@@ -28,19 +24,19 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
 
   /**Handle submit based on type */
   const handleSubmit = () => {
-  const error = isValidInput(type, value);
-  setUiError(error);
-  if (!error) {
-    //call api and use the message
-    navigation.navigate("VerificationOtp", {
-      message: "message",
-      purpose:
-        type === "email"
-          ? VerifyOtpApis.CHANGE_EMAIL
-          : VerifyOtpApis.CHANGE_PHONE,
-    });
-  }
-};
+    const error = isValidInput(type, value);
+    setUiError(error);
+    if (!error) {
+      //call api and use the message
+      navigation.navigate("VerificationOtp", {
+        message: "message",
+        purpose:
+          type === "email"
+            ? VerifyOtpPurposes.CHANGE_EMAIL
+            : VerifyOtpPurposes.CHANGE_PHONE,
+      });
+    }
+  };
 
   const isPhoneNumber = type === "phone";
   //need to add local validator for input
@@ -49,7 +45,7 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
       <UpperTextsFrame header={"Change" + " " + type} />
       <View
         style={styles.formContainer}
-          // key={uiError}
+        // key={uiError}
       >
         {isPhoneNumber ? (
           <>
@@ -65,7 +61,9 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
               onChangeText={setValue}
               keyboardType="numeric"
             />
-            {uiError && <ErrorTexts message={uiError} style={styles.textsError}/>}
+            {uiError && (
+              <ErrorTexts message={uiError} style={styles.textsError} />
+            )}
           </>
         ) : (
           <>
@@ -81,7 +79,9 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
               onChangeText={setValue}
               keyboardType="email-address"
             />
-            {uiError && <ErrorTexts message={uiError} style={styles.textsError}/>}
+            {uiError && (
+              <ErrorTexts message={uiError} style={styles.textsError} />
+            )}
           </>
         )}
 
@@ -89,9 +89,8 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
           title="Continue"
           onPress={() => {
             console.log("Going to enter otp next");
-            handleSubmit()
+            handleSubmit();
           }}
-
         />
       </View>
     </SafeAreaView>

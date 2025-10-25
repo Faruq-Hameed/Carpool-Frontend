@@ -16,7 +16,7 @@ import ErrorTexts from "@/components/texts/ErrorTexts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import useSignUpApi from "./hooks/useSignUpApi";
 import { ErrorToast } from "@/components/modals/ErrorToast";
-import { VerifyOtpApis } from "./constants";
+import { VerifyOtpPurposes } from "./constants";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import User from "@/models/User";
 import Spacer from "@/components/others/Spacer";
@@ -31,7 +31,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate("EnterOTP", {
       message,
       email: data!.email,
-      purpose: VerifyOtpApis.VERIFY_EMAIL,
+      purpose: VerifyOtpPurposes.VERIFY_EMAIL,
     });
   });
   return (

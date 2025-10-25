@@ -12,7 +12,7 @@ import MainScreen from "@/screens/MainScreen";
 import ForgotPasscodeScreen from "@/screens/auth/ForgotPasscodeScreen";
 import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
 import CreatePasscodeScreen from "@/screens/auth/CreatePasscodeScreen";
-import { VerifyOtpApis } from "@/screens/auth/constants";
+import { VerifyOtpPurposes } from "@/screens/auth/constants";
 // import WelcomeUserScreen from "../screens/auth/WelcomeUserScreen";
 
 // the auth stack parameter list
@@ -28,7 +28,7 @@ export type AuthStackParamList = {
     message: string; //api message
     email?: string; // to pass the email to the EnterOTPScreen from screen we came from
     phoneNumber?: string; // to pass the phone number to the EnterOTPScreen from screen we came from
-    purpose: VerifyOtpApis; // to know which api to call for verification
+    purpose: VerifyOtpPurposes; // to know which api to call for verification
     // onVerify: (code: string) => void| string; //api to call and extract the response message. void will be removed later
     onContinue?: () => void; // WHAT SHOULD HAPPEN WHEN CONTINUE IS CLICKED
   }; //to pass the phone number to the EnterOTPScreen from screen we came from

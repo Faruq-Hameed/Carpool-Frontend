@@ -12,8 +12,7 @@ import { useMutationHandler } from "@/hooks/useMutationHandler";
 import UnderlineButton from "@/components/buttons/UnderLineBtn";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
-import { VerifyOtpApis } from "./constants";
-
+import { VerifyOtpPurposes } from "./constants";
 
 type Props = StackScreenProps<AuthStackParamList, "ForgotPasscode">;
 
@@ -26,7 +25,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
     switchToPhone,
     setError,
   } = useResetPasscode();
-  const { phoneNumber, email, useEmailInstead,error } = state;
+  const { phoneNumber, email, useEmailInstead, error } = state;
 
   /**simple validation function */
   const isValidInput = () => {
@@ -53,19 +52,24 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
     });
   };
 
-  const { initiateApiCall, isLoading, error: apiError, message, data } =
-    useMutationHandler<null>(
-      "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
-      (data, message) => {
-        console.log("in forgot scree on success",{state });
-        navigation.navigate("EnterOTP", {
-          message,
-          email: email ? email : undefined,
-          phoneNumber: phoneNumber ? phoneNumber : undefined,
-          purpose: VerifyOtpApis.RESET_PASSCODE,
-        });
-      }
-    );
+  const {
+    initiateApiCall,
+    isLoading,
+    error: apiError,
+    message,
+    data,
+  } = useMutationHandler<null>(
+    "generateResetPasscodeOtp", // mutation key for requesting forgot passcode OTP
+    (data, message) => {
+      console.log("in forgot scree on success", { state });
+      navigation.navigate("EnterOTP", {
+        message,
+        email: email ? email : undefined,
+        phoneNumber: phoneNumber ? phoneNumber : undefined,
+        purpose: VerifyOtpPurposes.RESET_PASSCODE,
+      });
+    }
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -123,7 +127,6 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

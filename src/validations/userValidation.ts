@@ -16,6 +16,13 @@ export const LoginSchema = Yup.object().shape({
     .length(6, "Your passcode must be 6 digits long"),
 });
 
+/**Login validator for saved user */
+export const LoginWithPasscodeSchema = Yup.object().shape({
+  passcode: Yup.string()
+    .required("Passcode is required")
+    .length(6, "Your passcode must be 6 digits long"),
+});
+
 export const SignUpSchema = Yup.object().shape({
   firstName: Yup.string().required("Firstname is required"),
   lastName: Yup.string().required("Surname is required"),

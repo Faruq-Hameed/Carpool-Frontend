@@ -1,4 +1,5 @@
 import User from "@/models/User";
+import { VerifyOtpPurposes } from "@/screens/auth/constants";
 
 export interface LoginRequestPayload {
   userField: string;
@@ -45,3 +46,10 @@ export interface ResetPasscodePayload {
   otp: string;
   passcode: string;
 }
+
+/**Payload to create jobId with the passcode */
+export interface createJobIdRequestPayload {
+  passcode: string;
+  purpose: VerifyOtpPurposes;
+}
+

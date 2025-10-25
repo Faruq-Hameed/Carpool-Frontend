@@ -10,21 +10,20 @@ import { userSchemas } from "@/validations";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 
 import SmallSpacer from "@/components/others/SmallSpacer";
-import { useResetPasscode } from "@/hooks/useResetPasscode";
-import ContactInfoModal from "./components/ContactInfoModal";
-import CustomModal from "@/components/modals/CustomModal";
-import { VerifyOtpApis } from "../auth/constants";
+
 import InputWithIcon from "./components/InputWithIcon";
 import PseudoModalScreen from "@/components/modals/PseudoModalScreen";
 import { useAuth } from "@/hooks/useAuth";
 import VerifiedLabel from "@/components/others/LabelWithIcon";
+import { ApiStatus } from "@/utils/constants/ApiStatus";
 
 type Props = StackScreenProps<VerificationStackParamList, "ContactInfo">;
 
 const ContactInfoScreen: React.FC<Props> = () => {
   const navigation = useVerificationNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-
+  const {
+    currentUser: { email, emailStatus, phoneNumber, phoneStatus },
+  } = useAuth();
   return (
     <SafeAreaView style={styles.container}>
       {/* Account verification header */}
@@ -33,9 +32,15 @@ const ContactInfoScreen: React.FC<Props> = () => {
 
       <View style={styles.formContainer}>
         <InputWithIcon
-          label={<VerifiedLabel label="Email" />}
+          label={
+            emailStatus === ApiStatus.VERIFIED ? (
+              <VerifiedLabel label="Email" />
+            ) : (
+              "Email"
+            )
+          }
           title="Email"
-          value={"user@email"}
+          value={email}
           onPasscodeContinue={(passcode) =>
             navigation.navigate("ChangeContactInfo", {
               type: "email",
@@ -45,8 +50,15 @@ const ContactInfoScreen: React.FC<Props> = () => {
         />
 
         <InputWithIcon
-          label="Phone number"
-          value={"08100623821"}
+          label={
+            phoneStatus === ApiStatus.VERIFIED ? (
+              <VerifiedLabel label="Phone number" />
+            ) : (
+              "Phone number"
+            )
+          }
+          title="Phone"
+          value={phoneNumber??""}
           onPasscodeContinue={(passcode) =>
             navigation.navigate("ChangeContactInfo", {
               type: "phone",
@@ -54,6 +66,23 @@ const ContactInfoScreen: React.FC<Props> = () => {
             })
           }
         />
+
+        {/* <InputWithIcon
+          label={
+            emailStatus === ApiStatus.VERIFIED ? (
+              <VerifiedLabel label="Phone number" />
+            ) : (
+              "Phone number"
+            )
+          }
+          value={phoneNumber ?? " "} //added space to the string to remove placeholder
+          onPasscodeContinue={(passcode) =>
+            navigation.navigate("ChangeContactInfo", {
+              type: "phone",
+              passcode,
+            })
+          }
+        /> */}
       </View>
     </SafeAreaView>
   );

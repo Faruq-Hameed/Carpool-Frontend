@@ -1,16 +1,17 @@
-import type { InitialState } from '.';
+import type { InitialState } from ".";
 
 export const actionTypes = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
   SET_LOGIN_STATUS: "SET_LOGIN_STATUS",
   LOGOUT: "LOGOUT",
   SET_TOKEN: "SET_TOKEN",
+  REMOVE_TOKEN: "REMOVE_TOKEN",
 };
 
 export function authReducer(
   state: InitialState,
 
-  { type, payload }: { type: string; payload: any },
+  { type, payload }: { type: string; payload: any }
 ) {
   switch (type) {
     case actionTypes.SET_CURRENT_USER:
@@ -18,7 +19,10 @@ export function authReducer(
 
     case actionTypes.SET_TOKEN:
       return { ...state, token: payload };
-    
+
+    case actionTypes.REMOVE_TOKEN:
+      return { ...state, isLoggedIn: false, token: null };
+
     case actionTypes.SET_LOGIN_STATUS:
       return { ...state, isLoggedIn: payload };
 

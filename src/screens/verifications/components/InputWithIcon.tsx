@@ -40,6 +40,7 @@ const InputWithIcon: React.FC<Props> = ({
       <CustomModal
         onClose={() => setConfirmModalVisible(false)}
         visible={confirmModalVisible}
+        withCancelIcon
         children={
           <PseudoModalScreen
             headerText={`Change ${title || label}`}
@@ -55,6 +56,7 @@ const InputWithIcon: React.FC<Props> = ({
               setConfirmModalVisible(false);
               setPasscodeModalVisible(false);
             }}
+            
           />
         }
       />

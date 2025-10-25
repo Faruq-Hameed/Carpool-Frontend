@@ -18,17 +18,21 @@ const PasscodeModal: React.FC<PasscodeModalProps> = ({
   visible,
   message = "Enter passcode to verify It's you.",
   onClose = () => {},
-  onContinue
+  onContinue,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [passcode, setPasscode] = useState("");
-
 
   // Sync external visibility prop with internal state
   useEffect(() => {
     if (visible !== undefined) {
       setModalVisible(visible);
     }
+    
+    // Cleanup: clear passcode when modal is hidden
+    return () => {
+      setPasscode("");
+    };
   }, [visible]);
 
   const handleClose = () => {
@@ -37,7 +41,11 @@ const PasscodeModal: React.FC<PasscodeModalProps> = ({
   };
 
   return (
-    <CustomModal visible={visible ?? modalVisible} onClose={handleClose}>
+    <CustomModal
+      visible={visible ?? modalVisible}
+      onClose={handleClose}
+      withCancelIcon
+    >
       <View style={styles.container}>
         <PassCodeUtils
           label={message}
@@ -74,8 +82,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    fontWeight: "700"
-  }
+    fontWeight: "700",
+  },
 });
 
 export default PasscodeModal;

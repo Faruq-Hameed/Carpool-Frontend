@@ -9,9 +9,9 @@ type Props = {
 };
 
 const HistoryScreen: React.FC<Props> = ({ navigation }) => {
-  const {logout} = useAuth()
+  const {handlePartialLogout} = useAuth()
   const handleSignOut = async () => {
-    await logout();
+    await handlePartialLogout();
   };
 
   return (

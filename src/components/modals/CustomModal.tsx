@@ -1,25 +1,37 @@
-import React, { ReactNode, useState } from "react";
-import { View, StyleSheet, Modal } from "react-native";
+import React, { ReactNode } from "react";
+import { View, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { AppIcon } from "../others/AppIcon";
 
 /**Reusable modal container */
 const CustomModal: React.FC<{
   visible: boolean;
   children: ReactNode;
   onClose: () => void;
-}> = ({ visible, children, onClose }) => {
-  const [modalVisible, setModalVisible] = useState(true);
+  /**Cancel icon to handle closing of modal */
+  withCancelIcon?: boolean;
+}> = ({ visible, children, onClose, withCancelIcon = false }) => {
   return (
     <View>
-      {/* {onModalClose() && ( */}
       <Modal
         animationType="fade"
         transparent={true}
-        visible={visible}//visibility based on child's request
-           onRequestClose={onClose} // handle Android back button
+        visible={visible} //visibility based on child's request
+        onRequestClose={onClose} // handle Android back button
       >
         {/* Modal container this can be made to be dynamic too */}
         <View style={styles.modalBackground}>
-          <View style={styles.modalChildrenContainer}>{children}</View>
+          <View style={styles.modalChildrenContainer}>
+            {children}
+            {withCancelIcon && (
+              /**Cancel icon to handle closing of modal */
+              <TouchableOpacity
+                style={styles.cancelContainer}
+                onPress={onClose}
+              >
+                <AppIcon name="x" />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </Modal>
       {/* )} */}
@@ -45,6 +57,12 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     width: "98%",
     alignItems: "center",
+  },
+  cancelContainer: {
+    position: "absolute",
+    right: 0,
+    zIndex: 10,
+    padding: 10,
   },
 });
 

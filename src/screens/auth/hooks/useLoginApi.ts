@@ -10,6 +10,7 @@ export default function useLoginApi() {
 
   const mutation = useMutation({
     mutationFn: async (payload:LoginRequestPayload) => {
+      console.log("loging payload :", payload)
       return loginUserApi(payload);
     },
     onSuccess: (res) => {

@@ -31,7 +31,7 @@ type MutationResult<T> = {
  *   navigation.navigate("EnterOTP", {
  *     message,
  *     email: data.email,
- *     purpose: VerifyOtpApis.VERIFY_EMAIL,
+ *     purpose: VerifyOtpPurposes.VERIFY_EMAIL,
  *   });
  * });
  *
@@ -51,7 +51,7 @@ export function useMutationHandler<T = unknown>(
     if (!isLoading && !error && message) {
       if (data) onSuccess(data, message);
       else {
-        onSuccess(null,message);
+        onSuccess(null, message);
       }
     }
   }, [isLoading, message, error, data]);

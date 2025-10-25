@@ -12,7 +12,7 @@ import ContinueModal from "@/components/modals/ContinueModal";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 import { User } from "@/contexts/AuthContext";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
-import { VerifyOtpApis } from "./constants";
+import { VerifyOtpPurposes } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
 
@@ -52,13 +52,13 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
       //   passCode,
       // },
       payload: { ...state },
-      purpose: VerifyOtpApis.RESET_PASSCODE,
+      purpose: VerifyOtpPurposes.RESET_PASSCODE,
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ErrorToast message={error || stateError} top={50}/>
+      <ErrorToast message={error || stateError} top={50} />
 
       {/*upper container */}
       <UpperTextsFrame header="Create new passcode" />
@@ -78,7 +78,7 @@ const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
         )}
-      
+
         <PassCodeUtils
           label="Create 6 digit passcode"
           genericPlaceholder="Create your 6 digit passcode"

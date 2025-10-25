@@ -9,6 +9,7 @@ import {
   VerifyPhonePayload,
   GenerateResetPasscodeOtpPayload,
   ResetPasscodePayload,
+  createJobIdRequestPayload,
 } from "./types";
 
 /**Login api call */
@@ -41,7 +42,6 @@ export function generateResetPasscodeOtpApi(
 
 /**Api to call to reset passcode */
 export function resetPasscodeApi(payload: ResetPasscodePayload) {
-  console.log("generate otp api called", { payloaded: payload });
   return request.post<GenericResponse<null>>("/auths/passcode", payload);
 }
 
@@ -64,4 +64,9 @@ export function changePhoneApi(payload: VerifyPhonePayload) {
     "verify/phone",
     payload
   );
+}
+
+/**Api to create job id with passcode */
+export function createJobId(payload: createJobIdRequestPayload) {
+  return request.put<GenericResponse<string>>("verify/phone", payload);
 }

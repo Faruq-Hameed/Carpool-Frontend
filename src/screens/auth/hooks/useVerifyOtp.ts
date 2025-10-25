@@ -18,7 +18,7 @@ import {
   VerifyEmailPayload,
   VerifyPhonePayload,
 } from "@/apis/auth/types";
-import { VerifyOtpApis } from "../constants";
+import { VerifyOtpPurposes } from "../constants";
 
 export default function useVerifyOtp() {
   const { handleLogin } = useAuth();
@@ -29,26 +29,26 @@ export default function useVerifyOtp() {
       purpose,
     }: {
       payload: VerifyEmailPayload | VerifyPhonePayload | ResetPasscodePayload;
-      purpose: VerifyOtpApis;
+      purpose: VerifyOtpPurposes;
     }) => {
-      console.log("mutant hitted")
+      console.log("mutant hitted");
       switch (purpose) {
-        case VerifyOtpApis.VERIFY_EMAIL:
+        case VerifyOtpPurposes.VERIFY_EMAIL:
           return verifyEmailApi(payload as VerifyEmailPayload);
-        case VerifyOtpApis.VERIFY_PHONE:
+        case VerifyOtpPurposes.VERIFY_PHONE:
           return verifyPhoneApi(payload as VerifyPhonePayload);
-        case VerifyOtpApis.CHANGE_EMAIL:
+        case VerifyOtpPurposes.CHANGE_EMAIL:
           return changeEmailApi(payload as VerifyEmailPayload);
-        case VerifyOtpApis.CHANGE_PHONE:
+        case VerifyOtpPurposes.CHANGE_PHONE:
           return changePhoneApi(payload as VerifyPhonePayload);
-        case VerifyOtpApis.RESET_PASSCODE:
+        case VerifyOtpPurposes.RESET_PASSCODE:
           const resetPayload = payload as ResetPasscodePayload;
-          console.log({resetPayload})
+          console.log({ resetPayload });
           return resetPasscodeApi({
             phoneNumber: resetPayload.phoneNumber,
             otp: resetPayload.otp,
             email: resetPayload.email,
-            passcode: resetPayload.passcode
+            passcode: resetPayload.passcode,
           });
         default:
           throw new Error("Invalid verification purpose");
@@ -56,7 +56,7 @@ export default function useVerifyOtp() {
     },
     onSuccess: (res, variables) => {
       const { purpose } = variables;
-      if (purpose === VerifyOtpApis.VERIFY_EMAIL) {
+      if (purpose === VerifyOtpPurposes.VERIFY_EMAIL) {
         console.log("Email verified successfully");
         handleLogin(res.data?.data!); // login user after email verification
       }

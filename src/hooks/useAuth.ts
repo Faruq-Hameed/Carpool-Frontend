@@ -6,6 +6,7 @@ import {
   storeUserToken,
   clearStoreUser,
   setUser,
+  removeUserToken,
 } from "../utils/asyncStorage";
 import { AuthResponsePayload } from "@/apis/auth/types";
 import User from "@/models/User";
@@ -64,6 +65,16 @@ function useAuth() {
     }
   }
 
+   /** Logout user that only remove token*/
+  async function handlePartialLogout() {
+    try {
+      await removeUserToken();
+      dispatch({ type: actionTypes.REMOVE_TOKEN, payload: null });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  }
+
   /** Save user data to storage + context */
   async function saveUser(user: User) {
     await setUser(user);
@@ -82,6 +93,7 @@ function useAuth() {
     isLoggedIn: state.isLoggedIn,
     loading,
     logout,
+    handlePartialLogout,
     saveUser,
     handleLogin,
     setLoginStatus,

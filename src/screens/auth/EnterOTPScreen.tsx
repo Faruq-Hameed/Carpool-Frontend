@@ -10,7 +10,7 @@ import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 import { EnterOTPProps } from "@/helpers/enterOtpProp";
 import ContinueModal from "@/components/modals/ContinueModal";
 import useVerifyEmailApi from "./hooks/useVerifyEmail";
-import { VerifyOtpApis } from "./constants";
+import { VerifyOtpPurposes } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import useVerifyOtp from "./hooks/useVerifyOtp";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
@@ -48,7 +48,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   );
   const handleVerifyOtp = async (otp: string) => {
     /** api is not called from here if it the otp is for reset passcode*/
-    if (purpose === VerifyOtpApis.RESET_PASSCODE) {
+    if (purpose === VerifyOtpPurposes.RESET_PASSCODE) {
       setOtp(otp);
       navigation.navigate("CreatePasscode");
     } else

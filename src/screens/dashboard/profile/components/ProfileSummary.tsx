@@ -3,8 +3,11 @@ import { StyleSheet, View } from "react-native";
 
 import Text from "@/components/texts";
 import { AppIcon } from "@/components/others/AppIcon";
+import { useAuth } from "@/hooks/useAuth";
 
 const ProfileSummary: React.FC<{}> = () => {
+  const { currentUser } = useAuth();
+  console.log({ currentUser });
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -14,7 +17,7 @@ const ProfileSummary: React.FC<{}> = () => {
       {/* Name container */}
       <View>
         <Text style={styles.name} h4>
-          Hameed Faruq
+          {`${currentUser?.lastName ?? ""} ${currentUser?.firstName ?? ""}`}
         </Text>
         {/* /Actual period will be used e.g*/}
         <Text style={styles.period}>Good afternoon</Text>

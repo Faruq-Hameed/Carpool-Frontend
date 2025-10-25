@@ -15,28 +15,44 @@ import ErrorTexts from "@/components/texts/ErrorTexts";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 
 import useLoginApi from "./hooks/useLoginApi";
+import { useAuth } from "@/hooks/useAuth";
+import { LoginWithPasscodeSchema } from "@/validations/userValidation";
 
 //I NEED TO MAKE THIS SCREEN DYNAMIC TO HANDLE LOGIN FOR THE CURRENT USER AND SWITCHED LOGIN
 //ONE IS WELCOME FARUQ SCREEN AND THE OTHER IS WELCOME BACK(tHE)
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const {isLoading, error, initiateLogin,reset, } = useLoginApi();
+  const { isLoading, error, initiateLogin, reset } = useLoginApi();
+  const {
+    currentUser, //this will b used to sign in if available
+  } = useAuth();
+  const isSavedUser = currentUser && currentUser.email && currentUser.firstName;
+
   return (
     <SafeAreaView style={styles.container}>
-      <ErrorToast message={error} title="Login Failed" top={50}/>
+      <ErrorToast message={error} title="Login Failed" top={50} />
       {/*upper container */}
       <UpperTextsFrame
-        header="Welcome Back"
-        normalText="Enter your details to login"
+        header={`Welcome Back ${currentUser?.firstName ?? ""}`}
+        normalText={
+          !isSavedUser
+            ? "Enter your details to login"
+            : "Enter passcode to continue"
+        }
       />
       {/*lower container */}
       <Formik
         initialValues={{ phoneNumberOrEmail: "", passcode: "" }}
-        validationSchema={userSchemas.LoginSchema}
+        validationSchema={
+          !isSavedUser ? userSchemas.LoginSchema : LoginWithPasscodeSchema
+        }
         onSubmit={async (values) => {
+          console.log({ values });
           // Example: store token after successful login
           initiateLogin({
-            userField: values.phoneNumberOrEmail,
+            userField: isSavedUser
+              ? currentUser.email
+              : values.phoneNumberOrEmail,
             passcode: values.passcode,
           });
 
@@ -54,18 +70,22 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           <View>
             {/**Form inputs container */}
             <View>
-              <FormInput
-                label="Phone number or email"
-                value={values.phoneNumberOrEmail} // Formik state for phone number or email field
-                onChangeText={handleChange("phoneNumberOrEmail")} // Update Formik state
-                onBlur={handleBlur("phoneNumberOrEmail")} // Handle blur event when user leaves input.
-                onFocus={() => error && reset()} // COMING TO PERFECT THISLATER Clear error on focus
-              />
-              {touched.phoneNumberOrEmail && errors.phoneNumberOrEmail && (
-                <ErrorTexts
-                  message={errors.phoneNumberOrEmail}
-                  style={styles.emailError}
-                />
+              {!isSavedUser && ( //only show if no current email
+                <>
+                  <FormInput
+                    label="Phone number or email"
+                    value={values.phoneNumberOrEmail} // Formik state for phone number or email field
+                    onChangeText={handleChange("phoneNumberOrEmail")} // Update Formik state
+                    onBlur={handleBlur("phoneNumberOrEmail")} // Handle blur event when user leaves input.
+                    onFocus={() => error && reset()} // COMING TO PERFECT THISLATER Clear error on focus
+                  />
+                  {touched.phoneNumberOrEmail && errors.phoneNumberOrEmail && (
+                    <ErrorTexts
+                      message={errors.phoneNumberOrEmail}
+                      style={styles.emailError}
+                    />
+                  )}
+                </>
               )}
               {/*password show and forget password*/}
               <PassCodeUtils
@@ -73,7 +93,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 setPassCode={handleChange("passcode")} // Update Formik state
                 onBlur={handleBlur("passcode")} // Handle blur event when user leaves input.
                 value={values.passcode} // Formik state for passcode field
-                onFocus={()=> error && reset()} // Clear error on focus
+                onFocus={() => error && reset()} // Clear error on focus
               />
               {touched.passcode && errors.passcode && (
                 <ErrorTexts
