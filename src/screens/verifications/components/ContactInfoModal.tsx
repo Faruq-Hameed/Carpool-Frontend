@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import Text from "@/components/texts";
-import FormInput from "@/components/forms/formInput";
 import NavButton from "@/components/buttons/GreenButton";
 import CustomModal from "@/components/modals/CustomModal";
+import ModalInput from "@/components/forms/ModalInput";
 
 interface Props {
   visible: boolean;
@@ -27,19 +27,18 @@ const ContactInfoModal: React.FC<Props> = ({
       withCancelIcon
       children={
         <View style={styles.container}>
-          <Text h4>
+          <Text h4 style={styles.headerStyle}>
             {isPhone ? "Phone Number Verification" : "Email Verification"}
           </Text>
           {isPhone ? (
-            <FormInput
+            <ModalInput
               label="Email"
               value={value}
               onChangeText={setValue}
               keyboardType="email-address"
-              
             />
           ) : (
-            <FormInput
+            <ModalInput
               label="Phone number"
               value={value}
               onChangeText={setValue}
@@ -48,7 +47,7 @@ const ContactInfoModal: React.FC<Props> = ({
           )}
           <NavButton
             onPress={() => {
-              console.log("Phone api will be called next");
+              console.log("Phone api will be called after validation");
             }}
             title="Continue"
           />
@@ -60,14 +59,14 @@ const ContactInfoModal: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    // borderRadius: 10,
-    // backgroundColor: "#FFFFFF",
-    // paddingHorizontal: 10,
-    // paddingVertical: 10,
+    backgroundColor: "#FFFFFF",
     width: "98%",
-    // alignItems: "center",
-    // borderWidth: 2,
-    // justifyContent: "center",
+    justifyContent: "center",
+  },
+  headerStyle: {
+    marginLeft: 10,
+    marginBottom: 20,
+    marginTop: 10,
   },
 });
 
