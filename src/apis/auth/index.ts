@@ -70,3 +70,8 @@ export function changePhoneApi(payload: VerifyPhonePayload) {
 export function createJobId(payload: createJobIdRequestPayload) {
   return request.put<GenericResponse<string>>("verify/phone", payload);
 }
+
+/**Api to get user */
+export function getMe() {
+  return request.put<GenericResponse<User>>("/users/me");
+}

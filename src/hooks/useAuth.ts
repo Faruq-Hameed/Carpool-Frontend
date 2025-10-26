@@ -8,11 +8,31 @@ import {
   setUser,
   removeUserToken,
 } from "../utils/asyncStorage";
-import { AuthResponsePayload } from "@/apis/auth/types";
+import { AuthResponsePayload, VerifyEmailPayload } from "@/apis/auth/types";
 import User from "@/models/User";
+import { getMe, verifyEmailApi } from "@/apis/auth";
+import { parseError } from "@/apis/errorParser";
+import { AxiosApiError } from "@/apis/types";
+import { useMutation } from "@tanstack/react-query";
 
 function useAuth() {
   const context = useContext(authContext);
+  /**function that handle refetch user from api */
+  const refetchUserFromApi = async () => {
+    const mutation = useMutation({
+      mutationFn: async () => {
+        return getMe();
+      },
+      onSuccess: async (res) => {
+        await saveUser(res.data.data);
+      },
+      onError: (err) => {
+        //WILL LOOK INTO THIS LATER
+        // console.log('Login successful:', res.data);
+        console.log("error occurred in otp verify ", { err });
+      },
+    });
+  };
 
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
@@ -65,7 +85,7 @@ function useAuth() {
     }
   }
 
-   /** Logout user that only remove token*/
+  /** Logout user that only remove token*/
   async function handlePartialLogout() {
     try {
       await removeUserToken();
@@ -90,6 +110,7 @@ function useAuth() {
 
   return {
     currentUser: state.currentUser,
+    refetchUser: refetchUserFromApi,
     isLoggedIn: state.isLoggedIn,
     loading,
     logout,

@@ -10,14 +10,6 @@ export default function useSignUpApi() {
     mutationFn: async (payload: RegisterRequestPayload) => {
       return SignUpApi(payload);
     },
-    // onSuccess: (res) => {
-    //     console.log('Login successful:', res.data);
-    //     console.log({message: res.data.message})
-    //   // handleLogin(res.data?.data);
-    // },
-    // onError: (err) => {
-    //   console.log({err})
-    // },
   });
 
   return {

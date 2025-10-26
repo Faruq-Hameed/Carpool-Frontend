@@ -41,7 +41,7 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
   const isPhoneNumber = type === "phone";
   //need to add local validator for input
   return (
-    <SafeAreaView>
+    <SafeAreaView style ={styles.container}>
       <UpperTextsFrame header={"Change" + " " + type} />
       <View
         style={styles.formContainer}

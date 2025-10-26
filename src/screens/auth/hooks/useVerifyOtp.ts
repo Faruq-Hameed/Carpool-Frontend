@@ -20,7 +20,7 @@ import { VerifyOtpPurposes } from "../constants";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 
 export default function useVerifyOtp() {
-  const { handleLogin } = useAuth();
+  const { handleLogin, refetchUser } = useAuth();
   const verificationNavigation = useVerificationNavigation();
 
   const mutation = useMutation({
@@ -56,15 +56,17 @@ export default function useVerifyOtp() {
           throw new Error("Invalid verification purpose");
       }
     },
-    onSuccess: (res, variables) => {
+    onSuccess: async (res, variables) => {
       const { purpose } = variables;
       switch (purpose) {
         case VerifyOtpPurposes.VERIFY_EMAIL:
           handleLogin(res.data?.data!); // login user after email verification
-        case VerifyOtpPurposes.CHANGE_PHONE: { //THIS NOT WORKING YET
+          return;
+        case VerifyOtpPurposes.CHANGE_PHONE:
+          //THIS NOT WORKING YET
           //need to refetch the user from backend
+          await refetchUser();
           verificationNavigation.navigate("ContactInfo");
-        }
       }
     },
     onError: (err) => {
