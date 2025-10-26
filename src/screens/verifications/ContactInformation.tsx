@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { VerificationStackParamList } from "../../navigation/VerificationNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UpperTextsFrame from "../../components/navigation/upperTextsFrame";
 
-import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
-import { userSchemas } from "@/validations";
-import ErrorTexts from "@/components/texts/ErrorTexts";
-
+import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
+import { VerificationStackParamList } from "@/navigation/VerificationNavigator";
 import SmallSpacer from "@/components/others/SmallSpacer";
-
-import InputWithIcon from "./components/InputWithIcon";
-import PseudoModalScreen from "@/components/modals/PseudoModalScreen";
 import { useAuth } from "@/hooks/useAuth";
-import VerifiedLabel from "@/components/others/LabelWithIcon";
 import { ApiStatus } from "@/utils/constants/ApiStatus";
-import EmptyInputBox from "./components/EmptyInput";
+import AddPhoneContainer from "./components/AddPhoneContainer";
+import VerifiedInfoBox from "./components/VerifiedInfoBox";
+import Spacer from "@/components/others/Spacer";
 
 type Props = StackScreenProps<VerificationStackParamList, "ContactInfo">;
 
 const ContactInfoScreen: React.FC<Props> = () => {
-  const navigation = useVerificationNavigation();
   const {
-    currentUser: { email, emailStatus, phoneNumber, phoneStatus },
+    currentUser: { email, phoneNumber, phoneStatus },
   } = useAuth();
   return (
     <SafeAreaView style={styles.container}>
@@ -32,43 +25,13 @@ const ContactInfoScreen: React.FC<Props> = () => {
       <SmallSpacer />
 
       <View style={styles.formContainer}>
-        <InputWithIcon
-          label={
-            emailStatus === ApiStatus.VERIFIED ? (
-              <VerifiedLabel label="Email" />
-            ) : (
-              "Email"
-            )
-          }
-          title="Email"
-          value={email}
-          onPasscodeContinue={(passcode) =>
-            navigation.navigate("ChangeContactInfo", {
-              type: "email",
-              passcode,
-            })
-          }
-        />
-        {phoneStatus !== ApiStatus.VERIFIED || !phoneNumber ? (
-          <EmptyInputBox />
+        <VerifiedInfoBox label="email" details={email} />
+      <Spacer />
+
+        {phoneStatus === ApiStatus.VERIFIED && phoneNumber ? (
+          <VerifiedInfoBox label="phone" details={phoneNumber} />
         ) : (
-          <InputWithIcon
-            label={
-              phoneStatus === ApiStatus.VERIFIED ? (
-                <VerifiedLabel label="Phone number" />
-              ) : (
-                "Phone number"
-              )
-            }
-            title="Phone"
-            value={phoneNumber ?? ""}
-            onPasscodeContinue={(passcode) =>
-              navigation.navigate("ChangeContactInfo", {
-                type: "phone",
-                passcode,
-              })
-            }
-          />
+          <AddPhoneContainer />
         )}
       </View>
     </SafeAreaView>
@@ -87,8 +50,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   formInputsContainer: {
-    // borderWidth: 2,
-    // marginVertical: 20,
     marginBottom: 50,
   },
   textsError: {

@@ -24,14 +24,6 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const { setOtp, state } = useResetPasscode(); //this is needed for passcode reset
   console.log("state in enter otp: ", state);
   const navigation = useAuthNavigation();
-  // const {
-  //   isLoading,
-  //   error,
-  //   data,
-  //   initiateApiCall,
-  //   message: successMessage,
-  // } = useVerifyOtp();
-  //HAVING ISSUE MAKING THIS DYNAMIC FOR PARAMS
 
   const [modalVisible, setModalVisible] = useState(false);
   const [code, setCode] = useState("");
@@ -52,15 +44,17 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
       setOtp(otp);
       navigation.navigate("CreatePasscode");
     } else
-      initiateApiCall({
-        payload: { email: email, phoneNumber, otp },
-        purpose,
-      });
+      console.log({ payload: { email: email, phoneNumber, otp }, purpose });
+
+    initiateApiCall({
+      payload: { email: email, phoneNumber, otp },
+      purpose,
+    });
     // setModalVisible(true);
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ErrorToast message={error} title="Verification Failed" />
+      <ErrorToast message={error} title="Verification Failed" top={40}/>
 
       {/* {modalVisible && (
         <ContinueModal

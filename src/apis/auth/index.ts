@@ -47,7 +47,7 @@ export function resetPasscodeApi(payload: ResetPasscodePayload) {
 
 export function verifyPhoneApi(payload: VerifyPhonePayload) {
   return request.post<GenericResponse<AuthResponsePayload>>(
-    "verify/phone",
+    "/auths/verify/phone",
     payload
   );
 }

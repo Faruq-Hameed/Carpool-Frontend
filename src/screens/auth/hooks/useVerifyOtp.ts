@@ -17,9 +17,11 @@ import {
   VerifyPhonePayload,
 } from "@/apis/auth/types";
 import { VerifyOtpPurposes } from "../constants";
+import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 
 export default function useVerifyOtp() {
   const { handleLogin } = useAuth();
+  const verificationNavigation = useVerificationNavigation();
 
   const mutation = useMutation({
     mutationFn: async ({
@@ -34,6 +36,8 @@ export default function useVerifyOtp() {
         case VerifyOtpPurposes.VERIFY_EMAIL:
           return verifyEmailApi(payload as VerifyEmailPayload);
         case VerifyOtpPurposes.VERIFY_PHONE:
+          {
+          }
           return verifyPhoneApi(payload as VerifyPhonePayload);
         case VerifyOtpPurposes.CHANGE_EMAIL:
           return changeEmailApi(payload as VerifyEmailPayload);
@@ -54,28 +58,16 @@ export default function useVerifyOtp() {
     },
     onSuccess: (res, variables) => {
       const { purpose } = variables;
-      if (purpose === VerifyOtpPurposes.VERIFY_EMAIL) {
-        console.log("Email verified successfully");
-        handleLogin(res.data?.data!); // login user after email verification
+      switch (purpose) {
+        case VerifyOtpPurposes.VERIFY_EMAIL:
+          handleLogin(res.data?.data!); // login user after email verification
+        case VerifyOtpPurposes.CHANGE_PHONE: { //THIS NOT WORKING YET
+          //need to refetch the user from backend
+          verificationNavigation.navigate("ContactInfo");
+        }
       }
-      console.log("OTP verification successful:", res.data);
     },
     onError: (err) => {
-      // handleLogin({
-      //   token: "token",
-      //   user: {
-      //     firstName: "John",
-      //     lastName: "Doe",
-      //     email: "email@m.com",
-      //     id: "1",
-      //     middleName: "middleName",
-      //     phoneNumber: "phoneNumber",
-      //     phoneStatus: "UNVERIFIED",
-      //     emailStatus: "VERIFIED",
-      //     createdAt: "string", // ISO date string
-      //   },
-      // }); // login user after email verification
-
       console.log("Error occurred during OTP verification:", err);
     },
   });
