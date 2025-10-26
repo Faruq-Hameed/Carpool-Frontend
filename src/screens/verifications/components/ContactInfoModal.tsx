@@ -5,11 +5,16 @@ import Text from "@/components/texts";
 import NavButton from "@/components/buttons/GreenButton";
 import CustomModal from "@/components/modals/CustomModal";
 import ModalInput from "@/components/forms/ModalInput";
+import ErrorTexts from "@/components/texts/ErrorTexts";
+import { isValidInput } from "@/validations/phoneEmailValidator";
+import useAddPhone from "../hooks/useGenerateVerifyPhoneOtp";
+import useGenerateVerifyPhoneOtp from "../hooks/useGenerateVerifyPhoneOtp";
+import { ErrorToast } from "@/components/modals/ErrorToast";
 
 interface Props {
   visible: boolean;
   onClose: () => void;
-  type?: "phone" | "email";
+  type?: "phone" | "email"; // ACTUALLY THIS MODAL IS FOR PHONE EMAIL WILL ALWAYS BE VERIFIED
 }
 /**Modal for input of phone number if the user don't have it registered */
 const ContactInfoModal: React.FC<Props> = ({
@@ -18,42 +23,50 @@ const ContactInfoModal: React.FC<Props> = ({
   onClose,
 }) => {
   const [value, setValue] = useState("");
+  const { error, isLoading, initiateApiCall } = useGenerateVerifyPhoneOtp();
 
-  const isPhone = type === "phone";
+  const isPhone = true;
   return (
-    <CustomModal
-      visible={visible}
-      onClose={onClose}
-      withCancelIcon
-      children={
-        <View style={styles.container}>
-          <Text h4 style={styles.headerStyle}>
-            {isPhone ? "Phone Number Verification" : "Email Verification"}
-          </Text>
-          {isPhone ? (
-            <ModalInput
-              label="Email"
-              value={value}
-              onChangeText={setValue}
-              keyboardType="email-address"
+    <>
+      <CustomModal
+        visible={visible}
+        onClose={onClose}
+        withCancelIcon
+        children={
+          <View style={styles.container}>
+            <Text h4 style={styles.headerStyle}>
+              {isPhone ? "Phone Number Verification" : "Email Verification"}
+            </Text>
+            {isPhone ? (
+              <ModalInput
+                label="Phone number"
+                value={value}
+                onChangeText={setValue}
+                keyboardType="numeric"
+              />
+            ) : (
+              <>
+                <ModalInput
+                  label="Phone number"
+                  value={value}
+                  onChangeText={setValue}
+                  keyboardType="numeric"
+                />
+                {error && <ErrorTexts message={error} />}
+              </>
+            )}
+            <NavButton
+              onPress={() => {
+                initiateApiCall(value);
+                onClose()
+              }}
+              title="Continue"
+              loading={isLoading}
             />
-          ) : (
-            <ModalInput
-              label="Phone number"
-              value={value}
-              onChangeText={setValue}
-              keyboardType="numeric"
-            />
-          )}
-          <NavButton
-            onPress={() => {
-              console.log("Phone api will be called after validation");
-            }}
-            title="Continue"
-          />
-        </View>
-      }
-    />
+          </View>
+        }
+      />
+    </>
   );
 };
 

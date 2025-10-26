@@ -9,5 +9,6 @@ export const mutationRegistry = {
   signUp: useSignUpApi,
   login: useLoginApi,
   verifyOtp: useVerifyOtp, //verifyOtp to the registry
-  generateResetPasscodeOtp: useGenerateResetPasscodeOtp
+  generateResetPasscodeOtp: useGenerateResetPasscodeOtp,
+  
 };

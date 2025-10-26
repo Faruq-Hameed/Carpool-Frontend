@@ -9,11 +9,9 @@ import {
   verifyPhoneApi,
   changeEmailApi,
   changePhoneApi,
-  generateResetPasscodeOtpApi,
   resetPasscodeApi,
 } from "@/apis/auth";
 import {
-  GenerateResetPasscodeOtpPayload,
   ResetPasscodePayload,
   VerifyEmailPayload,
   VerifyPhonePayload,
