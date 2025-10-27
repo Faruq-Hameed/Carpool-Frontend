@@ -17,10 +17,10 @@ const useGenerateVerifyPhoneOtp = () => {
   const [phoneNumber, setPhoneNumber] = useState("")
   const mutation = useMutation({
     mutationFn: async (value: string) => {
-      setPhoneNumber(value)
+      setPhoneNumber(value)  //i need the number to pass to the next screen
       return generateVerifyPhoneOtpApi({
-        phoneNumber, //i need the number to pass to the next screen
-        purpose: VerifyOtpPurposes.VERIFY_PHONE
+        phoneNumber: value, // pass fresh value
+        purpose: VerifyOtpPurposes.VERIFY_PHONE,
       });
     },
     onSuccess: (res) => {
@@ -29,6 +29,9 @@ const useGenerateVerifyPhoneOtp = () => {
         phoneNumber,
         purpose: VerifyOtpPurposes.VERIFY_PHONE,
         message: res.data.message,
+        onContinue: ()=>{
+          navigation.goBack()
+        }
       });
     },
   });

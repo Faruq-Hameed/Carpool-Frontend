@@ -19,8 +19,6 @@ const AddPhoneContainer: React.FC<Prop> = ({ errorMessage, onError }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const { error, isLoading, initiateApiCall, reset } =
     useGenerateVerifyPhoneOtp();
-  const [displayError, setDisplayError] = useState("");
-  const inputError = isValidInput("phone", phoneNumber);
   return (
     <View style={styles.container}>
       <FormInput

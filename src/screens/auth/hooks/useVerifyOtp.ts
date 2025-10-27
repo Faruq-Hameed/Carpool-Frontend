@@ -21,7 +21,7 @@ import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 
 export default function useVerifyOtp() {
   const { handleLogin, refetchUser } = useAuth();
-  const verificationNavigation = useVerificationNavigation();
+  const navigation = useVerificationNavigation();
 
   const mutation = useMutation({
     mutationFn: async ({
@@ -36,8 +36,6 @@ export default function useVerifyOtp() {
         case VerifyOtpPurposes.VERIFY_EMAIL:
           return verifyEmailApi(payload as VerifyEmailPayload);
         case VerifyOtpPurposes.VERIFY_PHONE:
-          {
-          }
           return verifyPhoneApi(payload as VerifyPhonePayload);
         case VerifyOtpPurposes.CHANGE_EMAIL:
           return changeEmailApi(payload as VerifyEmailPayload);
@@ -45,7 +43,6 @@ export default function useVerifyOtp() {
           return changePhoneApi(payload as VerifyPhonePayload);
         case VerifyOtpPurposes.RESET_PASSCODE:
           const resetPayload = payload as ResetPasscodePayload;
-          console.log({ resetPayload });
           return resetPasscodeApi({
             phoneNumber: resetPayload.phoneNumber,
             otp: resetPayload.otp,
@@ -56,17 +53,21 @@ export default function useVerifyOtp() {
           throw new Error("Invalid verification purpose");
       }
     },
-    onSuccess: async (res, variables) => {
+    /**My on success handlers */
+    onSuccess:  (res, variables) => {
       const { purpose } = variables;
       switch (purpose) {
         case VerifyOtpPurposes.VERIFY_EMAIL:
           handleLogin(res.data?.data!); // login user after email verification
           return;
-        case VerifyOtpPurposes.CHANGE_PHONE:
+        case VerifyOtpPurposes.VERIFY_PHONE:
           //THIS NOT WORKING YET
           //need to refetch the user from backend
-          await refetchUser();
-          verificationNavigation.navigate("ContactInfo");
+          console.log("on success tried")
+           refetchUser();
+           console.log("tried navigating after user update")
+           navigation.navigate("ContactInfo");
+           
       }
     },
     onError: (err) => {

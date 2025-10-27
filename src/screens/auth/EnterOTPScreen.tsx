@@ -20,9 +20,14 @@ import User from "@/models/User";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
-  const { email, message: messageParam, purpose, phoneNumber } = route.params;
+  const {
+    email,
+    message: messageParam,
+    purpose,
+    phoneNumber,
+    onContinue,
+  } = route.params;
   const { setOtp, state } = useResetPasscode(); //this is needed for passcode reset
-  console.log("state in enter otp: ", state);
   const navigation = useAuthNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,10 +35,11 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const [timer, setTimer] = useState(30); // timer for resend OTP button
   const [modalMessage, setModalMessage] = useState("");
 
-  const { initiateApiCall, isLoading, error } = useMutationHandler<User>(
+  const { initiateApiCall, isLoading, error, data } = useMutationHandler<User>(
     "verifyOtp",
     (data, message) => {
       setModalMessage(message); //the api message
+      console.log("Final message and date", { message, data });
       setModalVisible(true);
       // I can also navigate or do other things here maybe based on purpose
     }
@@ -44,29 +50,30 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
       setOtp(otp);
       navigation.navigate("CreatePasscode");
     } else
-      console.log({ payload: { email: email, phoneNumber, otp }, purpose });
-
-    initiateApiCall({
-      payload: { email: email, phoneNumber, otp },
-      purpose,
-    });
+      initiateApiCall({
+        payload: { email: email, phoneNumber, otp },
+        purpose,
+      });
     // setModalVisible(true);
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ErrorToast message={error} title="Verification Failed" top={40}/>
+      <ErrorToast message={error} title="Verification Failed" top={40} />
 
-      {/* {modalVisible && (
+      {modalVisible && (
         <ContinueModal
           title="Continue"
-          message={"modalMessage modalMessage modalMessage "} // ✅ Dynamic message from mutation
+          message={modalMessage} // ✅ Dynamic message from mutation
           visible={modalVisible}
           onPress={() => {
             console.log("confirmed pressed");
+            if (onContinue) { //THIS IS NOT EFFECTIVE WHEN I PASSED NAVIGATION, IT JUST HANDLE IT SELF INSTEAD
+              onContinue();
+            }
             setModalVisible(false);
           }}
         />
-      )} */}
+      )}
       <UpperTextsFrame
         header="Enter code"
         normalText={messageParam} //API MESSAGE WILL BE USED

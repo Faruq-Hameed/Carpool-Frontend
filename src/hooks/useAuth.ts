@@ -17,29 +17,27 @@ import { useMutation } from "@tanstack/react-query";
 
 function useAuth() {
   const context = useContext(authContext);
-  /**function that handle refetch user from api */
-  const refetchUserFromApi = async () => {
-    const mutation = useMutation({
-      mutationFn: async () => {
-        return getMe();
-      },
-      onSuccess: async (res) => {
-        await saveUser(res.data.data);
-      },
-      onError: (err) => {
-        //WILL LOOK INTO THIS LATER
-        // console.log('Login successful:', res.data);
-        console.log("error occurred in otp verify ", { err });
-      },
-    });
-  };
-
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
 
   const { state, dispatch } = context;
   const [loading, setLoading] = useState(false);
+
+  /**function that handle refetch user from api */
+
+   const refetchUserMutation = useMutation({
+    mutationFn: getMe,
+    onSuccess: async (res) => {
+      console.log("fetch user successful");
+      await saveUser(res.data.data);
+    },
+    onError: (err) => {
+      console.log("Error occurred while refetching user:", err);
+    },
+  });
+
+  /** Trigger refetch user manually if not it will violate hook rules and lead to error */
+  const refetchUser = () => {
+    refetchUserMutation.mutate();
+  };
 
   /** Update current user in context */
   function setCurrentUser(user: User) {
@@ -110,7 +108,7 @@ function useAuth() {
 
   return {
     currentUser: state.currentUser,
-    refetchUser: refetchUserFromApi,
+    refetchUser,
     isLoggedIn: state.isLoggedIn,
     loading,
     logout,

@@ -73,5 +73,5 @@ export function createJobId(payload: createJobIdRequestPayload) {
 
 /**Api to get user */
 export function getMe() {
-  return request.put<GenericResponse<User>>("/users/me");
+  return request.get<GenericResponse<User>>("/users/me");
 }

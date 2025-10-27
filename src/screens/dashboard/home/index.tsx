@@ -44,7 +44,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
           visible={modalVisible}
           children={
             <PseudoModalScreen
-              headerText="Welcome, Faruq" //This should come from state i.e current user.firstname
+              headerText={`Welcome, ${currentUser.firstName??'User'}`} //This should come from state i.e current user.firstname
               description="For everyone’s safety, only verified users can join or offer rides on Share."
               upperBtnTitle="OK, Let’s do it now"
               onUpperBtnPress={() => {

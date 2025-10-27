@@ -88,7 +88,6 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
         <GreenNavButton
           title="Continue"
           onPress={() => {
-            console.log("Going to enter otp next");
             handleSubmit();
           }}
         />
