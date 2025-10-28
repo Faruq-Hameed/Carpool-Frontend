@@ -7,9 +7,9 @@ import CustomModal from "@/components/modals/CustomModal";
 import ModalInput from "@/components/forms/ModalInput";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { isValidInput } from "@/validations/phoneEmailValidator";
-import useAddPhone from "../hooks/useGenerateVerifyPhoneOtp";
-import useGenerateVerifyPhoneOtp from "../hooks/useGenerateVerifyPhoneOtp";
+// import useGenerateVerifyPhoneOtp from "../hooks/useGenerateChangePhoneOtp";
 import { ErrorToast } from "@/components/modals/ErrorToast";
+import useGenerateVerifyPhoneOtp from "../hooks/useGenerateVerifyPhoneOtp";
 
 interface Props {
   visible: boolean;
@@ -58,7 +58,7 @@ const ContactInfoModal: React.FC<Props> = ({
             <NavButton
               onPress={() => {
                 initiateApiCall(value);
-                onClose()
+                onClose();
               }}
               title="Continue"
               loading={isLoading}

@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 
-// import { verifyEmailApi, verifyPhoneApi, changeEmailApi, changePhoneApi } from "@/api/otpApis";
 import { parseError } from "@/apis/errorParser";
 import { AxiosApiError } from "@/apis/types";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,16 +11,20 @@ import {
   resetPasscodeApi,
 } from "@/apis/auth";
 import {
+  changeEmailPayload,
   ResetPasscodePayload,
   VerifyEmailPayload,
   VerifyPhonePayload,
 } from "@/apis/auth/types";
-import { VerifyOtpPurposes } from "../constants";
-import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
+import { VerifyOtpPurposes } from "../screens/auth/constants";
 
+/**useVerifyOtp is a custom hook that handles OTP verification
+ * by calling different APIs based on the verification purpose.
+ * On success, it either logs in the user or refreshes their data,
+ * depending on the action taken.
+ */
 export default function useVerifyOtp() {
   const { handleLogin, refetchUser } = useAuth();
-  const navigation = useVerificationNavigation();
 
   const mutation = useMutation({
     mutationFn: async ({
@@ -31,14 +34,13 @@ export default function useVerifyOtp() {
       payload: VerifyEmailPayload | VerifyPhonePayload | ResetPasscodePayload;
       purpose: VerifyOtpPurposes;
     }) => {
-      console.log("mutant hitted");
       switch (purpose) {
         case VerifyOtpPurposes.VERIFY_EMAIL:
           return verifyEmailApi(payload as VerifyEmailPayload);
         case VerifyOtpPurposes.VERIFY_PHONE:
           return verifyPhoneApi(payload as VerifyPhonePayload);
-        case VerifyOtpPurposes.CHANGE_EMAIL:
-          return changeEmailApi(payload as VerifyEmailPayload);
+        case VerifyOtpPurposes.RESET_EMAIL:
+          return changeEmailApi(payload as changeEmailPayload);
         case VerifyOtpPurposes.CHANGE_PHONE:
           return changePhoneApi(payload as VerifyPhonePayload);
         case VerifyOtpPurposes.RESET_PASSCODE:
@@ -54,20 +56,17 @@ export default function useVerifyOtp() {
       }
     },
     /**My on success handlers */
-    onSuccess:  (res, variables) => {
+    onSuccess: (res, variables) => {
       const { purpose } = variables;
       switch (purpose) {
         case VerifyOtpPurposes.VERIFY_EMAIL:
           handleLogin(res.data?.data!); // login user after email verification
           return;
         case VerifyOtpPurposes.VERIFY_PHONE:
-          //THIS NOT WORKING YET
-          //need to refetch the user from backend
-          console.log("on success tried")
-           refetchUser();
-           console.log("tried navigating after user update")
-           navigation.navigate("ContactInfo");
-           
+        case VerifyOtpPurposes.CHANGE_PHONE:
+        case VerifyOtpPurposes.RESET_EMAIL:
+          refetchUser();
+          return;
       }
     },
     onError: (err) => {

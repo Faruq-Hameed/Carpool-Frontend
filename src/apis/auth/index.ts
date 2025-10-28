@@ -10,6 +10,7 @@ import {
   GenerateResetPasscodeOtpPayload,
   ResetPasscodePayload,
   createJobIdRequestPayload,
+  changeEmailPayload,
 } from "./types";
 
 /**Login api call */
@@ -52,16 +53,17 @@ export function verifyPhoneApi(payload: VerifyPhonePayload) {
   );
 }
 
-export function changeEmailApi(payload: VerifyEmailPayload) {
-  return request.put<GenericResponse<AuthResponsePayload>>(
-    "verify/email",
+/**Change email api */
+export function changeEmailApi(payload: changeEmailPayload) {
+  return request.put<GenericResponse<null>>(
+    "auths/verify/email",
     payload
   );
 }
 
 export function changePhoneApi(payload: VerifyPhonePayload) {
   return request.put<GenericResponse<AuthResponsePayload>>(
-    "verify/phone",
+    "/auths/verify/phone",
     payload
   );
 }

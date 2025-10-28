@@ -5,9 +5,10 @@ export interface ValidatePhoneRequestPayload {
   phoneNumber: string;
 }
 
-export interface GenerateVerifyPhoneOtpPayload {
-  phoneNumber: string;
-  purpose: VerifyOtpPurposes.VERIFY_PHONE;
+export interface GeneratePrivateOtpPayload {
+  phoneNumber?: string;
+  email?: string;
+  purpose: VerifyOtpPurposes;
   passcode?: string; //need to change phone
 }
 
@@ -15,6 +16,13 @@ export interface VerifyPhonePayload {
   phoneNumber: string;
   otp: string;
 }
+
+export interface GenerateChangeEmailOtpPayload {
+  email: string;
+  purpose: VerifyOtpPurposes.RESET_EMAIL;
+  passcode: string; //need to job id
+}
+
 
 /**Payload to create jobId with the passcode */
 export interface createJobIdRequestPayload {

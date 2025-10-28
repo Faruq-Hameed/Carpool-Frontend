@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export function ErrorToast({
   title,
   message,
-  top,
+  top=20,
 }: {
   title?: string;
   message: string | undefined;
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 6,
     elevation: 4,
+    top: 20,
     zIndex: 999,
   },
   title: {

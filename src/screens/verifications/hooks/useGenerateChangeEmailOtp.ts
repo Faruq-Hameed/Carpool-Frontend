@@ -1,39 +1,42 @@
-import React from "react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 import { VerifyOtpPurposes } from "@/screens/auth/constants";
-import {
-  GenerateVerifyPhoneOtpPayload,
-} from "@/apis/verifications/types";
-import { generateVerifyPhoneOtpApi  } from "@/apis/verifications";
+import { GeneratePrivateOtpPayload } from "@/apis/verifications/types";
+import { generatePrivateOtpApi } from "@/apis/verifications";
 import { parseError } from "@/apis/errorParser";
 import { AxiosApiError } from "@/apis/types";
 
 /**Hook to generate otp to verify phone number*/
-const useGenerateVerifyPhoneOtp = () => {
+const useGenerateChangeEmailOtp = () => {
+  const [payload, setPayload] = useState<GeneratePrivateOtpPayload>({
+    email: "",
+    purpose : VerifyOtpPurposes.RESET_EMAIL,
+    passcode: ""
+  })
+
   const navigation = useVerificationNavigation();
-  const [phoneNumber, setPhoneNumber] = useState("")
+
   const mutation = useMutation({
-    mutationFn: async (value: string) => {
-      setPhoneNumber(value)  //i need the number to pass to the next screen
-      return generateVerifyPhoneOtpApi({
-        phoneNumber: value, // pass fresh value
-        purpose: VerifyOtpPurposes.VERIFY_PHONE,
+    mutationFn: async (values: GeneratePrivateOtpPayload) => {
+
+      setPayload(values)
+      return generatePrivateOtpApi({
+        ...values,
       });
     },
     onSuccess: (res) => {
       console.log("Otp created:", res.data);
       navigation.navigate("VerificationOtp", {
-        phoneNumber,
-        purpose: VerifyOtpPurposes.VERIFY_PHONE,
+        ...payload, //this will also be useful for resend otp
         message: res.data.message,
-        onContinue: ()=>{
-          navigation.goBack()
-        }
+      
       });
     },
+    onError: (err)=>{
+      console.log("unable to call api ", {err})
+    }
   });
 
   return {
@@ -48,4 +51,4 @@ const useGenerateVerifyPhoneOtp = () => {
   };
 };
 
-export default useGenerateVerifyPhoneOtp;
+export default useGenerateChangeEmailOtp;

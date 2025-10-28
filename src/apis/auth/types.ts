@@ -23,6 +23,11 @@ export interface VerifyEmailPayload {
   otp: string;
 }
 
+export interface changeEmailPayload {
+  email: string;
+  otp: string;
+}
+
 export interface VerifyEmailResponse {
   message: string;
   data: AuthResponsePayload;

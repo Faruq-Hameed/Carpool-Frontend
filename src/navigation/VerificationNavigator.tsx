@@ -33,7 +33,6 @@ export type VerificationStackParamList = {
     email?: string; //api message
     phoneNumber?: string; // to pass the phone number to the EnterOTPScreen from screen we came from
     purpose: VerifyOtpPurposes; // to know which api to call for verification
-    onContinue?: () => void; //optional onContinue after otp verifcation
   };
   ChangeContactInfo: {
     type: "email" | "phone";

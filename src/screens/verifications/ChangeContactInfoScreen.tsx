@@ -11,6 +11,9 @@ import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 import { VerifyOtpPurposes } from "../auth/constants";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { isValidInput } from "@/validations/phoneEmailValidator";
+import useGenerateVerifyPhoneOtp from "./hooks/useGenerateVerifyPhoneOtp";
+import { ErrorToast } from "@/components/modals/ErrorToast";
+import useGenerateChangeEmailOtp from "./hooks/useGenerateChangeEmailOtp";
 
 type Props = StackScreenProps<VerificationStackParamList, "ChangeContactInfo">;
 
@@ -19,29 +22,57 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
   const { type, passcode } = route.params; //passcode here will be sent to create otp
   const [value, setValue] = useState(""); //value here can be email or phone number as determine by the type in the param
   const [uiError, setUiError] = useState<string | null>(null);
-  const navigation = useVerificationNavigation();
   const { currentUser } = useAuth();
+  const {
+    error: phoneError,
+    isLoading: phoneLoading,
+    initiateApiCall: phoneApiCall,
+    reset: phoneReset,
+  } = useGenerateVerifyPhoneOtp();
+
+   const {
+    error: emailError,
+    isLoading: emailLoading,
+    initiateApiCall: emailApiCall,
+    reset: emailReset,
+  } = useGenerateChangeEmailOtp();
+
+  const navigation = useVerificationNavigation()
+  const isPhoneNumber = type === "phone";
 
   /**Handle submit based on type */
   const handleSubmit = () => {
     const error = isValidInput(type, value);
     setUiError(error);
     if (!error) {
-      //call api and use the message
-      navigation.navigate("VerificationOtp", {
-        message: "message",
-        purpose:
-          type === "email"
-            ? VerifyOtpPurposes.CHANGE_EMAIL
-            : VerifyOtpPurposes.CHANGE_PHONE,
-      });
+      // onPress={() => initiateApiCall({phoneNumber, purpose: VerifyOtpPurposes.VERIFY_PHONE})}
+
+     isPhoneNumber? phoneApiCall({
+        phoneNumber: value,
+        purpose: VerifyOtpPurposes.CHANGE_PHONE,
+        passcode
+      }) :
+      emailApiCall({
+        email: value,
+        purpose: VerifyOtpPurposes.RESET_EMAIL,
+        passcode
+      }) 
+      //PLACEHOLDER FOR EMAIL VERIFY
+      // navigation.navigate("VerificationOtp", {
+      //   message: "message",
+      //   purpose:
+      //     type === "email"
+      //       ? VerifyOtpPurposes.CHANGE_EMAIL
+      //       : VerifyOtpPurposes.CHANGE_PHONE,
+      
+      // });
     }
   };
 
-  const isPhoneNumber = type === "phone";
   //need to add local validator for input
   return (
-    <SafeAreaView style ={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ErrorToast message={phoneError || emailError}/>
       <UpperTextsFrame header={"Change" + " " + type} />
       <View
         style={styles.formContainer}
@@ -90,6 +121,7 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
           onPress={() => {
             handleSubmit();
           }}
+          loading={phoneLoading || emailLoading}
         />
       </View>
     </SafeAreaView>

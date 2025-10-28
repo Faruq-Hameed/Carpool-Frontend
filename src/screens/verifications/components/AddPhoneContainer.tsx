@@ -9,6 +9,7 @@ import { isValidInput } from "@/validations/phoneEmailValidator";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import ErrorTexts from "@/components/texts/ErrorTexts";
 import { useAuth } from "@/hooks/useAuth";
+import { VerifyOtpPurposes } from "@/screens/auth/constants";
 //NEEDED TO HANDLE API ERROR AGAIN
 interface Prop {
   errorMessage?: string;
@@ -28,14 +29,10 @@ const AddPhoneContainer: React.FC<Prop> = ({ errorMessage, onError }) => {
         keyboardType="phone-pad"
         maxLength={11}
       />
-      {error && <ErrorTexts message={error} />}
+      {error && <ErrorTexts message={error} style={{ marginRight: 10}}/>}
       <GreenNavButton
         title="Verify Phone number"
-        onPress={() => {
-          console.log("phone number before call : ", phoneNumber);
-          //THE CALL NOT CALLING AS EXPECTED. BUT ERROR IS FROM THE API CALL HANLDER
-          initiateApiCall(phoneNumber);
-        }}
+        onPress={() => initiateApiCall({phoneNumber, purpose: VerifyOtpPurposes.VERIFY_PHONE})}
         loading={isLoading}
       />
     </View>

@@ -12,28 +12,33 @@ import ContinueModal from "@/components/modals/ContinueModal";
 import useVerifyEmailApi from "./hooks/useVerifyEmail";
 import { VerifyOtpPurposes } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
-import useVerifyOtp from "./hooks/useVerifyOtp";
+import useVerifyOtp from "../../hooks/useVerifyOtp";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
-import { useAuthNavigation } from "@/hooks/useTypedNavigation";
+import {
+  useAuthNavigation,
+  useVerificationNavigation,
+} from "@/hooks/useTypedNavigation";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 import User from "@/models/User";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
-  const {
-    email,
-    message: messageParam,
-    purpose,
-    phoneNumber,
-    onContinue,
-  } = route.params;
   const { setOtp, state } = useResetPasscode(); //this is needed for passcode reset
-  const navigation = useAuthNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(30); // timer for resend OTP button
   const [modalMessage, setModalMessage] = useState("");
+
+  const navigation = useAuthNavigation();
+  const verificationNavigation = useVerificationNavigation();
+  const {
+    email,
+    message: messageParam,
+    purpose,
+
+    phoneNumber,
+  } = route.params;
 
   const { initiateApiCall, isLoading, error, data } = useMutationHandler<User>(
     "verifyOtp",
@@ -60,17 +65,34 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
     <SafeAreaView style={styles.container}>
       <ErrorToast message={error} title="Verification Failed" top={40} />
 
-      {modalVisible && (
+      {!error && modalVisible && (
         <ContinueModal
           title="Continue"
           message={modalMessage} // ✅ Dynamic message from mutation
           visible={modalVisible}
           onPress={() => {
-            console.log("confirmed pressed");
-            if (onContinue) { //THIS IS NOT EFFECTIVE WHEN I PASSED NAVIGATION, IT JUST HANDLE IT SELF INSTEAD
-              onContinue();
+            // if (onContinue) {
+            //   onContinue();
+            //   setModalVisible(false);
+            // }
+            console.log(purpose);
+
+            switch (purpose) {
+              case VerifyOtpPurposes.VERIFY_PHONE:
+                verificationNavigation.goBack(); // this will take me to the contact info screen
+                setModalVisible(false);
+                break;
+
+              case VerifyOtpPurposes.CHANGE_PHONE:
+              case VerifyOtpPurposes.RESET_EMAIL:
+                verificationNavigation.pop(2); // this will take me to the contact info screen
+                setModalVisible(false);
+                break;
+
+              default:
+
+              // setModalVisible(false);
             }
-            setModalVisible(false);
           }}
         />
       )}
@@ -91,13 +113,10 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
         <NavButton
           title="Verify"
           loading={isLoading}
-          onPress={
-            async () => {
-              setModalVisible(true);
-              await handleVerifyOtp(code);
-            }
-            // () => handleLogin("token12345") //API TO VERIFY NEEDED TO BE CALLED. ALSO AUTH TOKEN WILL BE RECEIVED
-          }
+          onPress={async () => {
+            setModalVisible(true);
+            await handleVerifyOtp(code);
+          }}
           disabled={code && code.length === 4 ? false : true} // Disable button if input is not complete //LATER
         />
       </View>

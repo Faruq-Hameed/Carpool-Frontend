@@ -2,17 +2,24 @@ import User from "@/models/User";
 import request from "../interceptor";
 import { GenericResponse } from "../types";
 import {
-  GenerateVerifyPhoneOtpPayload,
+  GeneratePrivateOtpPayload,
   ValidatePhoneRequestPayload,
   VerifyPhonePayload,
 } from "./types";
+import { VerifyOtpPurposes } from "@/screens/auth/constants";
 
 /**Create verify phone otp */
-export function generateVerifyPhoneOtpApi(
-  payload: GenerateVerifyPhoneOtpPayload
-) {
+export function generatePrivateOtpApi(payload: GeneratePrivateOtpPayload) {
   console.log("payload passed is :", payload);
-  return request.post<GenericResponse<null>>("/otps/private", payload);
+  const { purpose } = payload;
+  return request.post<GenericResponse<null>>("/otps/private", {
+    ...payload,
+    purpose:
+      purpose === VerifyOtpPurposes.CHANGE_PHONE
+        ? "VERIFY_PHONE" //change phone must be verify phone too
+      
+        : purpose, 
+  });
 }
 
 /**Api that validates if phone number already in used or not */

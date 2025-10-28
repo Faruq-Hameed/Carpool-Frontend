@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet,View } from "react-native";
 
-import ContactInfoModal from "./ContactInfoModal";
 import Text from "@/components/texts";
 import { AppIcon } from "@/components/others/AppIcon";
 import VerifiedLabel from "@/components/others/LabelWithIcon";
