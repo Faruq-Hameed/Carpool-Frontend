@@ -38,10 +38,10 @@ export interface VerifyPhonePayload {
   otp: string;
 }
 
-export interface GenerateResetPasscodeOtpPayload {
+export interface GeneratePublicOtpPayload {
   email?: string;
   phoneNumber?: string;
-  purpose: "RESET_PASSCODE";
+  purpose: VerifyOtpPurposes;
   // passcode: string;
 }
 
@@ -57,4 +57,3 @@ export interface createJobIdRequestPayload {
   passcode: string;
   purpose: VerifyOtpPurposes;
 }
-

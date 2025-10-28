@@ -7,7 +7,7 @@ import {
   RegisterRequestPayload,
   VerifyEmailPayload,
   VerifyPhonePayload,
-  GenerateResetPasscodeOtpPayload,
+  GeneratePublicOtpPayload,
   ResetPasscodePayload,
   createJobIdRequestPayload,
   changeEmailPayload,
@@ -34,10 +34,8 @@ export function verifyEmailApi(payload: VerifyEmailPayload) {
   );
 }
 
-/**Create reset passcode otp */
-export function generateResetPasscodeOtpApi(
-  payload: GenerateResetPasscodeOtpPayload
-) {
+/**Create public otp */
+export function generatePublicOtpApi(payload: GeneratePublicOtpPayload) {
   return request.post<GenericResponse<null>>("/otps", payload);
 }
 
@@ -55,10 +53,7 @@ export function verifyPhoneApi(payload: VerifyPhonePayload) {
 
 /**Change email api */
 export function changeEmailApi(payload: changeEmailPayload) {
-  return request.put<GenericResponse<null>>(
-    "auths/verify/email",
-    payload
-  );
+  return request.put<GenericResponse<null>>("auths/verify/email", payload);
 }
 
 export function changePhoneApi(payload: VerifyPhonePayload) {

@@ -40,21 +40,24 @@ type MutationResult<T> = {
  */
 export function useMutationHandler<T = unknown>(
   key: keyof typeof mutationRegistry,
-  onSuccess: (data: T | null, message: string) => void
+  onSuccess: (data: T | null, message: string) => void,
+  onError?: (message: string)=> void
 ) {
   const useMutation = mutationRegistry[key];
   const mutation = useMutation() as MutationResult<T>;
 
   const { isLoading, message, error, data } = mutation;
 
-  useEffect(() => {
-    if (!isLoading && !error && message) {
-      if (data) onSuccess(data, message);
-      else {
-        onSuccess(null, message);
+   useEffect(() => {
+    if (!isLoading) {
+      if (error && onError) {
+        onError(message || "Something went wrong"); //this give me direct access to error
+      } else if (message) {
+        onSuccess(data ?? null, message);
       }
     }
   }, [isLoading, message, error, data]);
+
 
   return mutation; // gives access to error, isLoading, etc.
 }

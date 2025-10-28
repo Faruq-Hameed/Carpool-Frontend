@@ -20,6 +20,8 @@ import {
 } from "@/hooks/useTypedNavigation";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
 import User from "@/models/User";
+import useResendOtp from "@/hooks/useResendOtp";
+import ResendOtp from "@/components/buttons/ResentOtp";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {

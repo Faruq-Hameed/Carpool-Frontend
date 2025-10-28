@@ -1,19 +1,23 @@
 import { useMutation } from "@tanstack/react-query";
-import { generateResetPasscodeOtpApi, loginUserApi } from "@/apis/auth";
+import { generatePublicOtpApi, loginUserApi } from "@/apis/auth";
 import { useAuth } from "@/hooks/useAuth";
 import {
-  GenerateResetPasscodeOtpPayload,
+  GeneratePublicOtpPayload,
   LoginRequestPayload,
 } from "@/apis/auth/types";
 import { parseError } from "@/apis/errorParser";
 import { AxiosApiError } from "@/apis/types";
 import { useNavigation } from "@react-navigation/native";
+import { VerifyOtpPurposes } from "../constants";
 
 export default function useGenerateResetPasscodeOtp() {
   const mutation = useMutation({
-    mutationFn: async (payload: GenerateResetPasscodeOtpPayload) => {
-      console.log({payload})
-      return generateResetPasscodeOtpApi({...payload, purpose: "RESET_PASSCODE"});
+    mutationFn: async (payload: GeneratePublicOtpPayload) => {
+      console.log({ payload });
+      return generatePublicOtpApi({
+        ...payload,
+        purpose: VerifyOtpPurposes.RESET_PASSCODE,
+      });
     },
     onSuccess: (res) => {
       // navigation.navigate()

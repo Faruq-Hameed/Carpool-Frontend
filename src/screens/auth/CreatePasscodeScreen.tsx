@@ -6,23 +6,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthStackParamList } from "@/navigation/AuthNavigator";
 import NavButton from "@/components/buttons/GreenButton";
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
-import PassCodeInput from "@/components/forms/PassCodeInput";
-import ShowPassCheckBox from "@/components/forms/ShowPassCheckBox";
 import ContinueModal from "@/components/modals/ContinueModal";
 import { useResetPasscode } from "@/hooks/useResetPasscode";
-import { User } from "@/contexts/AuthContext";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import { VerifyOtpPurposes } from "./constants";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import PassCodeUtils from "@/components/forms/passcodeUtils";
+import User from "@/models/User";
 
 type Props = StackScreenProps<AuthStackParamList, "CreatePasscode">;
 const ForgotPasscodeScreen: React.FC<Props> = ({ navigation }) => {
   const { state, setError, setCompletionMessage, setPasscode } =
     useResetPasscode();
   const { completionMessage, passcode, error: stateError } = state;
-  // State variables for passcode visibility
-  const [hidePasscode, setHidePasscode] = useState(true);
 
   const { initiateApiCall, isLoading, error } = useMutationHandler<User>(
     "verifyOtp",
