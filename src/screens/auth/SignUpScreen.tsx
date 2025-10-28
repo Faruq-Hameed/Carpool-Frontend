@@ -109,6 +109,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                     value={values.email}
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
+                    keyboardType="email-address"
                   />
                   {touched.email && errors.email && (
                     <ErrorTexts

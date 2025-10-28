@@ -31,6 +31,7 @@ export type VerificationStackParamList = {
   VerificationOtp: {
     message: string; //api message
     email?: string; //api message
+    passcode?: string; 
     phoneNumber?: string; // to pass the phone number to the EnterOTPScreen from screen we came from
     purpose: VerifyOtpPurposes; // to know which api to call for verification
   };

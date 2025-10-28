@@ -27,6 +27,7 @@ export type AuthStackParamList = {
   EnterOTP: {
     message: string; //api message
     email?: string; // to pass the email to the EnterOTPScreen from screen we came from
+    passcode?: string
     phoneNumber?: string; // to pass the phone number to the EnterOTPScreen from screen we came from
     purpose: VerifyOtpPurposes; // to know which api to call for verification
     // onVerify: (code: string) => void| string; //api to call and extract the response message. void will be removed later

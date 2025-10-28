@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
@@ -22,6 +22,11 @@ import { useResetPasscode } from "@/hooks/useResetPasscode";
 import User from "@/models/User";
 import useResendOtp from "@/hooks/useResendOtp";
 import ResendOtp from "@/components/buttons/ResentOtp";
+import { parseError } from "@/apis/errorParser";
+import { useMutation } from "@tanstack/react-query";
+import { generatePrivateOtpApi } from "@/apis/verifications";
+import { generatePublicOtpApi } from "@/apis/auth";
+import Text from "@/components/texts";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
@@ -31,6 +36,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(30); // timer for resend OTP button
   const [modalMessage, setModalMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const navigation = useAuthNavigation();
   const verificationNavigation = useVerificationNavigation();
@@ -38,7 +44,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
     email,
     message: messageParam,
     purpose,
-
+    passcode,
     phoneNumber,
   } = route.params;
 
@@ -63,6 +69,45 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
       });
     // setModalVisible(true);
   };
+
+  // inside EnterOTPScreen
+
+  useEffect(() => {
+    if (timer <= 0) return;
+    const interval = setInterval(() => setTimer((t) => t - 1), 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const { mutate: resendOtp, isPending: isResending } = useMutation({
+    mutationFn: async () => {
+      switch (purpose) {
+        case VerifyOtpPurposes.VERIFY_PHONE:
+        case VerifyOtpPurposes.CHANGE_PHONE:
+          return generatePrivateOtpApi({ phoneNumber, purpose, passcode });
+        case VerifyOtpPurposes.VERIFY_EMAIL:
+          return generatePublicOtpApi({ email, phoneNumber, purpose });
+
+        case VerifyOtpPurposes.RESET_EMAIL:
+          return generatePrivateOtpApi({ email, purpose, passcode });
+        case VerifyOtpPurposes.RESET_PASSCODE:
+          return generatePublicOtpApi({ email, phoneNumber, purpose });
+        default:
+          throw new Error("Unsupported purpose for resend OTP");
+      }
+    },
+    onSuccess: (res) => {
+      setModalMessage(res.data.message || "OTP resent successfully!");
+      // setModalVisible(true);
+      setTimer(30);
+      setIsError(false);
+    },
+    onError: (err) => {
+      setModalMessage(err.message);
+      setIsError(true);
+      // setModalVisible(true);
+    },
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ErrorToast message={error} title="Verification Failed" top={40} />
@@ -93,7 +138,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
 
               default:
 
-              // setModalVisible(false);
+              setModalVisible(false);
             }
           }}
         />
@@ -121,6 +166,21 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
           }}
           disabled={code && code.length === 4 ? false : true} // Disable button if input is not complete //LATER
         />
+        <View style={{ marginTop: 20, alignItems: "center" }}>
+          <TouchableOpacity
+            disabled={timer > 0 || isResending}
+            onPress={() => resendOtp()}
+            style={{ opacity: timer > 0 ? 0.5 : 1 }}
+          >
+            <Text style={{ color: "#1B5E20", fontWeight: "bold" }}>
+              {isResending
+                ? "Sending..."
+                : timer > 0
+                ? `Resend OTP in ${timer}s`
+                : "Resend OTP"}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
