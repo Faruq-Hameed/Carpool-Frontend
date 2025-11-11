@@ -31,18 +31,25 @@ const FormInput: React.FC<FormInputProps> = ({
   disabled = false,
   rightIconName, //right icon
 }) => {
+  const [focus, setFocus] = React.useState(false);
   return (
     <Input
       label={label}
-      style={styles.inputStyle}
-      inputContainerStyle={styles.inputContainer}
+      style={[styles.inputStyle]}
+      inputContainerStyle={[styles.inputContainer, focus && styles.inputFocus]}
       labelStyle={styles.label}
       placeholder={placeholder || `Enter your ${label}`}
       placeholderTextColor={"#404040"}
       value={value}
       onChangeText={onChangeText}
-      onBlur={onBlur}
-      onFocus={onFocus}
+      onBlur={(e) => {
+        onBlur?.(e);
+        setFocus(false);
+      }}
+      onFocus={(e) => {
+        onFocus?.(e);
+        setFocus(true); //so the green color border appears
+      }}
       keyboardType={keyboardType}
       {...(maxLength && { maxLength })}
       autoCapitalize="none"
@@ -70,6 +77,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     width: getResponsiveWidth(0.9),
+  },
+  inputFocus: {
+    borderColor: "#126415",
+    borderWidth: 2,
   },
   label: {
     fontSize: 16,

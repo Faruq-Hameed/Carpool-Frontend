@@ -27,6 +27,7 @@ import { useMutation } from "@tanstack/react-query";
 import { generatePrivateOtpApi } from "@/apis/verifications";
 import { generatePublicOtpApi } from "@/apis/auth";
 import Text from "@/components/texts";
+import OtpBoxInput from "@/components/forms/OtpBoxInput";
 
 // type Props = StackScreenProps<AuthStackParamList, "EnterOTP">;
 const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
@@ -70,7 +71,6 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
     // setModalVisible(true);
   };
 
-  // inside EnterOTPScreen
 
   useEffect(() => {
     if (timer <= 0) return;
@@ -150,13 +150,14 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
       <Spacer />
       {/* OTP input container */}
       <View>
-        <FormInput
+        <OtpBoxInput length={4} value={code} onChange={setCode} />
+        {/* <FormInput
           label="Enter OTP"
           value={code}
           onChangeText={setCode}
           keyboardType="numeric"
           maxLength={4}
-        />
+        /> */}
         <NavButton
           title="Verify"
           loading={isLoading}

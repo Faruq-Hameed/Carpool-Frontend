@@ -11,7 +11,7 @@ type PassCodeInputProps = {
   hidePassCode: boolean;
   label?: string;
   genericPlaceholder?: string;
-  labelStyle?:ViewStyle
+  labelStyle?: ViewStyle;
 };
 
 /**  Reusable PassCodeInput component. Expecting title, placeholder, value, onChangeText, keyboardType */
@@ -25,13 +25,14 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
   genericPlaceholder,
   labelStyle,
 }) => {
-  // console.log({hidePassCode})
+  const [focus, setFocus] = React.useState(false);
   return (
     // <Spacer>
     <Input
       label={label ? label : "Passcode"}
       style={styles.inputStyle}
-      inputContainerStyle={styles.inputContainer}
+      inputContainerStyle={[styles.inputContainer, focus && styles.inputFocus]}
+
       labelStyle={[styles.label, labelStyle]}
       placeholder={
         genericPlaceholder ? genericPlaceholder : `Enter your ${label}`
@@ -40,8 +41,14 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
       value={value}
       secureTextEntry={hidePassCode} //hide passcode
       onChangeText={onChangeText}
-      onBlur={onBlur}
-      onFocus={onFocus}
+      onBlur={(e) => {
+        onBlur?.(e);
+        setFocus(false);
+      }}
+      onFocus={(e) => {
+        onFocus?.(e);
+        setFocus(true); //so the green color border appears
+      }}
       keyboardType="number-pad"
       returnKeyLabel=""
       returnKeyType="send"
@@ -68,6 +75,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 5,
     width: getResponsiveWidth(0.9),
+  },
+  inputFocus: {
+    borderColor: "#126415",
+
+    borderWidth: 2,
   },
   label: {
     fontSize: 16,
