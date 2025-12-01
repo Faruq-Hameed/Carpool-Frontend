@@ -1,5 +1,5 @@
 //green button component for navigation
-import React from "react";
+import React, { useState } from "react";
 import { Button, Text } from "@rneui/themed";
 
 import { Dimensions, StyleSheet, View } from "react-native";
@@ -23,7 +23,7 @@ const GreenNavButton = ({
   loading = false,
 }: {
   title: string;
-  onPress: () => void;
+  onPress: (e?: any) => void;
   titleColor?: string;
   bgColor?: string;
   btnType?: "solid" | "clear" | "outline";
@@ -34,12 +34,16 @@ const GreenNavButton = ({
   iconName?: IconName;
   loading?: boolean;
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Spacer>
       <Button
         title={title}
         disabled={disabled}
-        onPress={onPress}
+        onPress={(e) => {
+          setIsLoading(true);
+          onPress(e);
+        }}
         type={btnType}
         icon={
           iconName ? (

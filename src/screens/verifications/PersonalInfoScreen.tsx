@@ -22,21 +22,25 @@ import Spacer from "@/components/others/Spacer";
 import SmallSpacer from "@/components/others/SmallSpacer";
 import PleaseWaitModal from "@/components/modals/PleaseWaitModal";
 import DOBDatePicker from "@/components/forms/DOBDatePicker";
+import { useAuth } from "@/hooks/useAuth";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
 const PersonalInfoScreen: React.FC<Props> = () => {
-  const navigation = useVerificationNavigation();
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    currentUser: { firstName, lastName, middleName },
+  } = useAuth();
 
   return (
     <SafeAreaView style={styles.container}>
       {isLoading && (
-        <></>
-        // <PleaseWaitModal
-        //   visible={isLoading}
-        //   onClose={() => setIsLoading(false)}
-        // />
+        <>
+          <PleaseWaitModal
+            visible={isLoading}
+            onClose={() => setIsLoading(false)}
+          />
+        </>
       )}
 
       {/* Account verification header */}
@@ -63,9 +67,9 @@ const PersonalInfoScreen: React.FC<Props> = () => {
 
         <Formik
           initialValues={{
-            firstName: "",
-            lastName: "",
-            middleName: "",
+            firstName: firstName ?? "",
+            lastName: lastName ?? "",
+            middleName: middleName ?? "",
             dob: "",
             nin: "",
           }}
@@ -73,7 +77,8 @@ const PersonalInfoScreen: React.FC<Props> = () => {
           onSubmit={
             (values) => {
               console.log("Form submitted clicked");
-              setIsLoading(false);
+              console.log({ values });
+              setIsLoading(true);
             }
             // navigation.navigate("VerificationOtp", {
             //   phonenumber: values.phoneNumber,
@@ -130,16 +135,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
                     message={errors.middleName}
                   />
                 )}
-                <FormInput
-                  label="Date of birth"
-                  value={values.dob}
-                  onChangeText={handleChange("dob")}
-                  onBlur={handleBlur("dob")}
-                  // keyboardType="numeric"
-                />
-                {touched.dob && errors.dob && (
-                  <ErrorTexts style={styles.textsError} message={errors.dob} />
-                )}
+
                 {/*FORM CONTROLLED DOB PICKER */}
                 <DOBDatePicker
                   value={values.dob}
@@ -161,7 +157,11 @@ const PersonalInfoScreen: React.FC<Props> = () => {
               </View>
               {/* Button container */}
               <View>
-                <NavButton title="Next" onPress={handleSubmit} />
+                <NavButton
+                  title="Next"
+                  onPress={handleSubmit}
+                  loading={isLoading}
+                />
               </View>
             </View>
           )}

@@ -26,6 +26,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const {
     currentUser, //this will b used to sign in if available
   } = useAuth();
+  
   const isSavedUser = currentUser && currentUser.email && currentUser.firstName;
 
   return (
