@@ -21,6 +21,7 @@ import HeaderWithSubText from "@/components/texts/HeaderWithSubText";
 import Spacer from "@/components/others/Spacer";
 import SmallSpacer from "@/components/others/SmallSpacer";
 import PleaseWaitModal from "@/components/modals/PleaseWaitModal";
+import DOBDatePicker from "@/components/forms/DOBDatePicker";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 
@@ -85,6 +86,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
             handleBlur,
             handleChange,
             handleSubmit,
+            setFieldValue,
             values,
             errors,
             touched,
@@ -138,6 +140,13 @@ const PersonalInfoScreen: React.FC<Props> = () => {
                 {touched.dob && errors.dob && (
                   <ErrorTexts style={styles.textsError} message={errors.dob} />
                 )}
+                {/*FORM CONTROLLED DOB PICKER */}
+                <DOBDatePicker
+                  value={values.dob}
+                  touched={touched.dob}
+                  error={errors.dob}
+                  setFieldValue={setFieldValue}
+                />
 
                 <FormInput
                   label="NIN"

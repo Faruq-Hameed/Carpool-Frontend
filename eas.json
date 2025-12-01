@@ -1,0 +1,14 @@
+{
+  "build": {
+    "preview": {
+      "node": "20.19.4",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "production": {
+      "node": "20.19.4"
+    }
+  }
+}

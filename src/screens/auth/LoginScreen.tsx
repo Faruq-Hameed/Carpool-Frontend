@@ -85,6 +85,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                       style={styles.emailError}
                     />
                   )}
+
                 </>
               )}
               {/*password show and forget password*/}

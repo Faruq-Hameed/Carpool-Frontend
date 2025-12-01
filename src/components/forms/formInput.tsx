@@ -15,6 +15,8 @@ type FormInputProps = {
   placeholder?: string;
   maxLength?: number;
   disabled?: boolean;
+  editable?: boolean;
+  pointerEvents?:"auto" | "box-none" | "none" | "box-only"
   rightIconName?: IconName;
 };
 
@@ -29,6 +31,8 @@ const FormInput: React.FC<FormInputProps> = ({
   placeholder = "",
   maxLength,
   disabled = false,
+  editable=true,
+  pointerEvents="auto",
   rightIconName, //right icon
 }) => {
   const [focus, setFocus] = React.useState(false);
@@ -55,6 +59,8 @@ const FormInput: React.FC<FormInputProps> = ({
       autoCapitalize="none"
       autoCorrect={false}
       disabled={disabled}
+      editable={editable}
+      pointerEvents={pointerEvents}
       rightIcon={rightIconName ? <AppIcon name={rightIconName} /> : undefined}
       // leftIcon={{ type: 'font-awesome', name: 'chevron-left', color: '#404040', size: 16 }}
       // containerStyle={styles.inputContainer}
