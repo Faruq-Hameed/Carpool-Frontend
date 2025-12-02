@@ -24,6 +24,7 @@ const ChangeContactInfoScreen: React.FC<Props> = ({ route }) => {
   const [uiError, setUiError] = useState<string | null>(null);
   const { currentUser } = useAuth();
   const {
+    
     error: phoneError,
     isLoading: phoneLoading,
     initiateApiCall: phoneApiCall,

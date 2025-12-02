@@ -11,8 +11,6 @@ import {
 import { AuthResponsePayload, VerifyEmailPayload } from "@/apis/auth/types";
 import User from "@/models/User";
 import { getMe, verifyEmailApi } from "@/apis/auth";
-import { parseError } from "@/apis/errorParser";
-import { AxiosApiError } from "@/apis/types";
 import { useMutation } from "@tanstack/react-query";
 
 function useAuth() {

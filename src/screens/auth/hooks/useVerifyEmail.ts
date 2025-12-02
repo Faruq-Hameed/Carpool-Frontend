@@ -13,7 +13,6 @@ export default function useVerifyEmailApi() {
       return verifyEmailApi(payload);
     },
     onSuccess: (res) => {
-        console.log('Otp verify successful:', res.data);
       handleLogin(res.data?.data);
     },
      onError: (err) => {
