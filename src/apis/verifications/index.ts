@@ -26,16 +26,17 @@ export function generatePrivateOtpApi(payload: GeneratePrivateOtpPayload) {
 
 /**Api that validates if phone number already in used or not */
 export function validatePhoneNumberApi(payload: ValidatePhoneRequestPayload) {
-  return request.get<GenericResponse<null>>("users/exist", { params: payload });
+  return request.get<GenericResponse<null>>("/users/exist", { params: payload });
 }
 
 /**Api to update any part of names[first, last or middle name] */
 export function updateUserNamesApi(payload: UpdateNamesRequestPayload) {
-  return request.put<GenericResponse<User>>("users/names", payload);
+  return request.put<GenericResponse<User>>("/users/names", payload);
 }
 
 /**Api to verify nin */
 export function verifyNinApi(payload: VerifyNinRequestPayload) {
+  console.log({payload})
   return request.post<GenericResponse<KycStatusResponsePayload>>(
     "users/nin",
     payload

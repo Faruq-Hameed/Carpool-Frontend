@@ -7,6 +7,7 @@ type MutationResult<T> = {
   message?: string;
   error?: any;
   data?: T;
+  
 };
 
 /**
@@ -40,11 +41,11 @@ type MutationResult<T> = {
  */
 export function useMutationHandler<T = unknown>(
   key: keyof typeof mutationRegistry,
-  onSuccess: (data: T | null, message: string) => void,
+  onSuccess: (data: T | null, message: string, context?: any) => void,
   onError?: (message: string)=> void
 ) {
   const useMutation = mutationRegistry[key];
-  const mutation = useMutation() as MutationResult<T>;
+  const mutation = useMutation() as MutationResult<T>  & { _context?: any };
 
   const { isLoading, message, error, data } = mutation;
 
@@ -53,11 +54,20 @@ export function useMutationHandler<T = unknown>(
       if (error && onError) {
         onError(message || "Something went wrong"); //this give me direct access to error
       } else if (message) {
-        onSuccess(data ?? null, message);
+        // Pass context through with the on success. Incase it is needed
+
+        onSuccess(data ?? null, message, mutation._context);
       }
     }
   }, [isLoading, message, error, data]);
 
+ // Wrap initiateApiCall to capture context
+  const initiateApiCall = (payload: any, context?: any) => {
+    mutation._context = context; // stash context
+    mutation.initiateApiCall(payload);
+  };
 
-  return mutation; // gives access to error, isLoading, etc.
+  return { ...mutation, initiateApiCall };
+
+  // return mutation; // gives access to error, isLoading, etc.
 }

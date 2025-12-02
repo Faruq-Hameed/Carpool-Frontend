@@ -42,9 +42,15 @@ const PersonalInfoScreen: React.FC<Props> = () => {
     initiateApiCall: initiateNamesApiCall,
     isLoading: updateNamesLoading,
     error,
-  } = useMutationHandler<User>(
+  } = useMutationHandler<{user: User}>(
     "updateNames",
-    (data, message) => {},
+    (data, message, context?: { nin: string; dob: string }) => {
+      console.log({data, message, context})
+      saveUser(data?.user as User)
+      if (context) {
+        initiateNinApiCall({ nin: context.nin, dob: context.dob });
+      }
+    },
     (error) => {
       setApiError(error);
     }
@@ -64,6 +70,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       // I can also navigate or do other things here maybe based on purpose
     },
     (error) => {
+      console.log({error})
       setApiError(error);
     }
   );
@@ -73,44 +80,49 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       lastName: savedLastName,
       middleName: savedMiddleName,
     },
+    saveUser
   } = useAuth();
 
   const navigation = useVerificationNavigation();
-  /**Handle api call I NEEDED TO OPTIMIZE THIS API LOGIC AND FLOW HERE */
+  // /**Handle api call I NEEDED TO OPTIMIZE THIS API LOGIC AND FLOW HERE */
   const handleSubmit = (data: FormPayload) => {
-    const { firstName, lastName, middleName } = data;
-    const combinedSavedNames = (
-      savedFirstName +
-      savedLastName +
-      savedMiddleName
-    )
-      .trim()
-      .toLowerCase();
-    const updatedNames = (firstName + lastName + middleName)
-      .trim()
-      .toLowerCase();
-    /**If no name was changed the nin api only is called */
-    if (combinedSavedNames === updatedNames) {
-      initiateNinApiCall({
-        nin: data.nin,
-        dob: data.dob,
-      });
+    console.log({data})
+    const { firstName, lastName, middleName, nin, dob } = data;
+
+    //First normalize the saved names and updated names 
+    const normalize = (val?: string) => (val ?? "").trim().toLowerCase();
+    const savedNames = {
+      firstName: normalize(savedFirstName),
+      lastName: normalize(savedLastName),
+      middleName: normalize(savedMiddleName ?? ""),
+    };
+    const updatedNames = {
+      firstName: normalize(firstName),
+      lastName: normalize(lastName),
+      middleName: normalize(middleName),
+    };
+
+    //check if any one of the names was changed
+    const namesChanged =
+      savedNames.firstName !== updatedNames.firstName ||
+      savedNames.lastName !== updatedNames.lastName ||
+      savedNames.middleName !== updatedNames.middleName;
+
+    if (!namesChanged) {
+      // Directly verify NIN if no change occurred
+      initiateNinApiCall({ nin, dob });
     } else {
-      //call names api first. This will make updateNamesLoading true until completion
-      initiateNamesApiCall({
-        // I NEED TO ADJUST THIS SUCH HAT ONLY CHANGED NAMES ARE SENT TO API
-        firstName,
-        lastName,
-        middleName,
-      });
-        //if the api has ended without error
-        //I NEED TO CHAIN THIS TWO . A STALE MIGHT BE PASSED updateNamesLoading
-      if (!updateNamesLoading && !apiError) {
-        initiateNinApiCall({
-          nin: data.nin,
-          dob: data.dob,
-        });
-      }
+      //Pass only changed names to updateNames api
+      const payload: Partial<FormPayload> = {};
+      if (savedNames.firstName !== updatedNames.firstName)
+        payload.firstName = firstName;
+      if (savedNames.lastName !== updatedNames.lastName)
+        payload.lastName = lastName;
+      if (savedNames.middleName !== updatedNames.middleName)
+        payload.middleName = middleName;
+
+      //Keep nin/dob in closure, it will come back via on success
+      initiateNamesApiCall(payload, { nin, dob });
     }
   };
 
@@ -118,17 +130,18 @@ const PersonalInfoScreen: React.FC<Props> = () => {
     <SafeAreaView style={styles.container}>
       <ErrorToast message={apiError} />
 
-      {!apiError && completionMessage && ( //if no api error and we got our final completion message
-        <ContinueModal
-          title="Continue"
-          message={completionMessage} // ✅ Dynamic message from mutation
-          visible={completionMessage ? true : false}
-          onPress={() => {
-            setCompletionMessage("");
-            navigation.goBack();
-          }}
-        />
-      )}
+      {!apiError &&
+        completionMessage && ( //if no api error and we got our final completion message
+          <ContinueModal
+            title="Continue"
+            message={completionMessage} // ✅ Dynamic message from mutation
+            visible={completionMessage ? true : false}
+            onPress={() => {
+              setCompletionMessage("");
+              navigation.goBack();
+            }}
+          />
+        )}
 
       {updateNamesLoading ||
         (verifyNinIsLoading && (

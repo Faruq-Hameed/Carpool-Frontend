@@ -24,7 +24,7 @@ const DOBDatePicker: React.FC<Props> = ({
   const [open, setOpen] = useState(false);
 
   const handleConfirm = (date: Date) => {
-    const formatted = format(date, "dd/MM/yyyy");
+    const formatted = format(date, "yyyy-MM-dd");
     setFieldValue("dob", formatted); // ← updates Formik
     setOpen(false);
   };

@@ -39,7 +39,7 @@ export const PersonalInfoConfirmationSchema = Yup.object().shape({
   dob: Yup.string()
   // .datetime()
   .required("Date of birth is required"),
-  nin: Yup.string().length(10).required("NIN is required"),
+  nin: Yup.string().length(11).required("NIN is required"),
 
   // phoneNumber: Yup.string()
   //   .required("Phone number is required")
