@@ -3,7 +3,7 @@ import request from "../interceptor";
 import { GenericResponse } from "../types";
 import {
   GeneratePrivateOtpPayload,
-  KycStatusResponsePayload,
+  KycStatus,
   UpdateNamesRequestPayload,
   ValidatePhoneRequestPayload,
   VerifyNinRequestPayload,
@@ -13,7 +13,6 @@ import { VerifyOtpPurposes } from "@/screens/auth/constants";
 
 /**Create verify phone otp */
 export function generatePrivateOtpApi(payload: GeneratePrivateOtpPayload) {
-  console.log("payload passed is :", payload);
   const { purpose } = payload;
   return request.post<GenericResponse<null>>("/otps/private", {
     ...payload,
@@ -26,7 +25,9 @@ export function generatePrivateOtpApi(payload: GeneratePrivateOtpPayload) {
 
 /**Api that validates if phone number already in used or not */
 export function validatePhoneNumberApi(payload: ValidatePhoneRequestPayload) {
-  return request.get<GenericResponse<null>>("/users/exist", { params: payload });
+  return request.get<GenericResponse<null>>("/users/exist", {
+    params: payload,
+  });
 }
 
 /**Api to update any part of names[first, last or middle name] */
@@ -36,11 +37,8 @@ export function updateUserNamesApi(payload: UpdateNamesRequestPayload) {
 
 /**Api to verify nin */
 export function verifyNinApi(payload: VerifyNinRequestPayload) {
-  console.log({payload})
-  return request.post<GenericResponse<KycStatusResponsePayload>>(
-    "users/nin",
-    payload
-  );
+  console.log({ payload });
+  return request.post<GenericResponse<KycStatus>>("users/nin", payload);
 }
 
 // export function changeEmailApi(payload: VerifyEmailPayload) {

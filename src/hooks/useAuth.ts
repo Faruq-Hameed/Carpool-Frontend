@@ -7,11 +7,14 @@ import {
   clearStoreUser,
   setUser,
   removeUserToken,
+  storeUserKycStatusToStorage,
+  getUserKycStatusFromStorage,
 } from "../utils/asyncStorage";
 import { AuthResponsePayload, VerifyEmailPayload } from "@/apis/auth/types";
 import User from "@/models/User";
 import { getMe, verifyEmailApi } from "@/apis/auth";
 import { useMutation } from "@tanstack/react-query";
+import { KycStatus } from "@/apis/verifications/types";
 
 function useAuth() {
   const context = useContext(authContext);
@@ -21,10 +24,9 @@ function useAuth() {
 
   /**function that handle refetch user from api */
 
-   const refetchUserMutation = useMutation({
+  const refetchUserMutation = useMutation({
     mutationFn: getMe,
     onSuccess: async (res) => {
-      console.log("fetch user successful");
       await saveUser(res.data.data);
     },
     onError: (err) => {
@@ -99,13 +101,24 @@ function useAuth() {
 
   /** Handle login success (save token + mark logged in) */
   async function handleLogin(data: AuthResponsePayload) {
+    //only called if refresh token failed
     saveAuthTokenToStorage(data.token);
     await saveUser(data.user);
     setLoginStatus(true);
+
+    const kycStatus = getUserKycStatusFromStorage();
+    dispatch({ type: actionTypes.SET_KYC_STATUS, payload: kycStatus });
+  }
+
+  /**Handle set kyc status after updates is got from api */
+  async function saveKycStatus(data: KycStatus) {
+    dispatch({ type: actionTypes.SET_KYC_STATUS, payload: data });
+    storeUserKycStatusToStorage(data);
   }
 
   return {
     currentUser: state.currentUser,
+    kycStatus: state.kycStatus,
     refetchUser,
     isLoggedIn: state.isLoggedIn,
     loading,
@@ -114,6 +127,7 @@ function useAuth() {
     saveUser,
     handleLogin,
     setLoginStatus,
+    saveKycStatus,
   };
 }
 

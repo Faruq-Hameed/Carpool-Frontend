@@ -7,7 +7,6 @@ import { useAuth } from "@/hooks/useAuth";
 
 const ProfileSummary: React.FC<{}> = () => {
   const { currentUser } = useAuth();
-  console.log({ currentUser });
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>

@@ -20,7 +20,7 @@ import DOBDatePicker from "@/components/forms/DOBDatePicker";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import User from "@/models/User";
-import { KycStatusResponsePayload } from "@/apis/verifications/types";
+import { KycStatus } from "@/apis/verifications/types";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import ContinueModal from "@/components/modals/ContinueModal";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
@@ -42,11 +42,11 @@ const PersonalInfoScreen: React.FC<Props> = () => {
     initiateApiCall: initiateNamesApiCall,
     isLoading: updateNamesLoading,
     error,
-  } = useMutationHandler<{user: User}>(
+  } = useMutationHandler<{ user: User }>(
     "updateNames",
     (data, message, context?: { nin: string; dob: string }) => {
-      console.log({data, message, context})
-      saveUser(data?.user as User)
+      console.log({ data, message, context });
+      saveUser(data?.user as User);
       if (context) {
         initiateNinApiCall({ nin: context.nin, dob: context.dob });
       }
@@ -59,7 +59,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
     initiateApiCall: initiateNinApiCall,
     isLoading: verifyNinIsLoading,
     error: verifyNinError,
-  } = useMutationHandler<KycStatusResponsePayload>(
+  } = useMutationHandler<KycStatus>(
     "verifyNin",
     (data, message) => {
       //TODO: SET KYC STATUS TO CONTEXT
@@ -70,7 +70,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       // I can also navigate or do other things here maybe based on purpose
     },
     (error) => {
-      console.log({error})
+      console.log({ error });
       setApiError(error);
     }
   );
@@ -80,16 +80,16 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       lastName: savedLastName,
       middleName: savedMiddleName,
     },
-    saveUser
+    saveUser,
   } = useAuth();
 
   const navigation = useVerificationNavigation();
   // /**Handle api call I NEEDED TO OPTIMIZE THIS API LOGIC AND FLOW HERE */
   const handleSubmit = (data: FormPayload) => {
-    console.log({data})
+    console.log({ data });
     const { firstName, lastName, middleName, nin, dob } = data;
 
-    //First normalize the saved names and updated names 
+    //First normalize the saved names and updated names
     const normalize = (val?: string) => (val ?? "").trim().toLowerCase();
     const savedNames = {
       firstName: normalize(savedFirstName),

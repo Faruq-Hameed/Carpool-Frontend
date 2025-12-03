@@ -49,7 +49,7 @@ export interface VerifyNinRequestPayload {
   dob: Date;
 }
 
-export interface KycStatusResponsePayload {
+export interface KycStatus {
   ninStatus: ApiStatus;
   dobStatus: ApiStatus;
   //other kyc statuses will be added

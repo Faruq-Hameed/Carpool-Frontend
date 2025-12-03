@@ -62,10 +62,8 @@ export default function useResendOtp() {
       }
     },
     onSuccess: (res) => {
-      console.log("OTP resent successfully:", res);
     },
     onError: (err) => {
-      console.log("Error resending OTP:", err);
     },
   });
 

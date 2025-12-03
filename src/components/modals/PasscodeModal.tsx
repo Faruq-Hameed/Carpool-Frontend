@@ -57,7 +57,6 @@ const PasscodeModal: React.FC<PasscodeModalProps> = ({
         <GreenNavButton
           title="Continue"
           onPress={() => {
-            console.log("Api to confirm passcode will be called");
             //then navigate to change contact info screen
             //if any api to verify the passcode, it can be called here first possibly return jobId
             onContinue(passcode);

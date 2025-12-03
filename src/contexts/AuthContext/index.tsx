@@ -3,6 +3,7 @@ import { useMemo, useReducer } from "react";
 import authContext from "./context";
 import { authReducer } from "./reducer";
 import User from "@/models/User";
+import { ApiStatus } from "@/utils/constants/ApiStatus";
 // import { Us
 // export interface User {
 //   //this should be  import { User } from '@/models/user'
@@ -11,7 +12,7 @@ import User from "@/models/User";
 //   firstName: string;
 //   lastName: string;
 // }
-const intialState = {
+export const intialAuthContextState = {
   currentUser: {
     id: "", //place holder
     isVerified: false,
@@ -28,13 +29,17 @@ const intialState = {
   } as User,
   isLoggedIn: false,
   token: null,
+  kycStatus: {
+    dobStatus: ApiStatus.NOT_VERIFIED,
+    ninStatus: ApiStatus.NOT_VERIFIED,
+  }
 };
-export type InitialState = typeof intialState;
+export type InitialState = typeof intialAuthContextState;
 
 export type Action = { type: string; payload: any };
 
 export default function AuthContextProvider({ children }: { children: any }) {
-  const [state, dispatch] = useReducer(authReducer, intialState);
+  const [state, dispatch] = useReducer(authReducer, intialAuthContextState);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);
 

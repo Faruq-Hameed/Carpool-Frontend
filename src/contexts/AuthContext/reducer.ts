@@ -1,4 +1,5 @@
-import type { InitialState } from ".";
+import { KycStatus } from "@/apis/verifications/types";
+import { intialAuthContextState, type InitialState } from ".";
 
 export const actionTypes = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
@@ -6,6 +7,7 @@ export const actionTypes = {
   LOGOUT: "LOGOUT",
   SET_TOKEN: "SET_TOKEN",
   REMOVE_TOKEN: "REMOVE_TOKEN",
+  SET_KYC_STATUS: "SET_KYC_STATUS",
 };
 
 export function authReducer(
@@ -26,13 +28,11 @@ export function authReducer(
     case actionTypes.SET_LOGIN_STATUS:
       return { ...state, isLoggedIn: payload };
 
+    case actionTypes.SET_KYC_STATUS:
+      return { ...state, kycStatus: payload as KycStatus };
+
     case actionTypes.LOGOUT:
-      return {
-        ...state,
-        currentUser: null,
-        isLoggedIn: false,
-        token: null,
-      };
+      return intialAuthContextState
 
     default:
       return { ...state };
