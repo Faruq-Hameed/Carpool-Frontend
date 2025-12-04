@@ -3,7 +3,7 @@ import { API_BASE_URL, UNAUTHORIZED_ERROR_CODE } from '@/utils/constants/apiCons
 import { clearStoreUser, getUserToken } from '@/utils/asyncStorage';
 
 const request = axios.create({ baseURL: API_BASE_URL });
-
+console.log(API_BASE_URL)
 // 🔐 Request Interceptor: Attach token if needed
 request.interceptors.request.use(async (config) => {
   const token = await getUserToken();

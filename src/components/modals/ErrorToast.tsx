@@ -46,10 +46,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     alignContent: "center",
     width: getResponsiveWidth(0.95), // 80% of screen width
     // marginTop: 50,
-    padding: 12,
+    paddingVertical: 12,
     borderWidth: 1,
     borderRadius: 4,
     borderColor: "#CE0000",

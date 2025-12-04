@@ -4,6 +4,7 @@ import { AppIcon } from "../others/AppIcon";
 import { IconName } from "@/helpers/icons";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 import Text from "../texts";
+import { Icon } from "@rneui/themed";
 
 interface NavigationChildFrameProps {
   title: string;
@@ -12,6 +13,7 @@ interface NavigationChildFrameProps {
   rightIcon?: IconName;
   textsStyle?: React.CSSProperties;
   lowerText?: string;
+  showVerifiedIcon?: boolean; //show verified icon with the name
   // children: React.ReactNode;
 }
 
@@ -25,6 +27,7 @@ const NavigationChildFrame: React.FC<NavigationChildFrameProps> = ({
   rightIcon = "arrowRight",
   textsStyle: StyleProp,
   lowerText,
+  showVerifiedIcon = false,
   // children
 }) => {
   return (
@@ -32,7 +35,18 @@ const NavigationChildFrame: React.FC<NavigationChildFrameProps> = ({
       <View style={styles.leftContainer}>
         {leftIcon && <AppIcon name={leftIcon} />}
         <View style={styles.textContainer}>
-          <Text>{title}</Text>
+          <View style={styles.textWithIcon}>
+            <Text>{title}</Text>
+            {showVerifiedIcon && (
+              <Icon
+                name="check-decagram"
+                type="material-community"
+                color="#126415"
+                size={24}
+                // style={styles.verifyIcon}
+              />
+            )}
+          </View>
           {lowerText && <Text style={{ fontSize: 14 }}>{lowerText}</Text>}
         </View>
       </View>
@@ -60,6 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  textWithIcon:{
+    flexDirection: "row",
+    columnGap: 5
+  },
+
   textContainer: {
     rowGap: 5,
   },

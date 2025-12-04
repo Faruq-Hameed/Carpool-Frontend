@@ -106,7 +106,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             </View>
             {/* Button container */}
             <View>
-              <NavButton title="Login" onPress={handleSubmit} />
+              <NavButton title="Login" onPress={handleSubmit} loading={isLoading}/>
               <UnderlineButton
                 title="create an account"
                 onPress={() => navigation.navigate("SignUp")}

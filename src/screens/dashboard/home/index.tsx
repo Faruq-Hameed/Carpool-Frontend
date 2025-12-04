@@ -13,6 +13,7 @@ import {
 } from "@/hooks/useTypedNavigation";
 import { useAuth } from "@/hooks/useAuth";
 import VerificationBox from "./components/VerificationBox";
+import { ApiStatus } from "@/utils/constants/ApiStatus";
 
 // Use BottomTabScreenProps instead of StackScreenProps for tab navigation
 type Props = BottomTabScreenProps<DashboardTabParamList, "Home">;
@@ -21,9 +22,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const rootNavigation = useRootNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [hasModalShown, setHasShown] = useState(false); // track if modal was shown once
-  const {
-    currentUser,
-  } = useAuth();
+  const { currentUser, kycStatus } = useAuth();
   useEffect(() => {
     if (!hasModalShown) {
       const timer = setTimeout(() => {
@@ -34,17 +33,22 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
       return () => clearTimeout(timer); // cleanup
     }
   }, [hasModalShown]);
+  /**User is verified if nin and dob are verified */
+  const isVerified =
+    kycStatus.dobStatus === ApiStatus.VERIFIED &&
+    kycStatus.ninStatus === ApiStatus.VERIFIED;
   return (
     <SafeAreaView style={styles.container}>
       <ProfileSummary />
-      {!currentUser?.isVerified && <VerificationBox />}
-      {modalVisible && !currentUser?.isVerified && (
+      {/* Show verification box if user is not verified */}
+      {!isVerified && <VerificationBox />}
+      {modalVisible && !isVerified && (
         <CustomModal
           onClose={() => setModalVisible(false)}
           visible={modalVisible}
           children={
             <PseudoModalScreen
-              headerText={`Welcome, ${currentUser.firstName??'User'}`} //This should come from state i.e current user.firstname
+              headerText={`Welcome, ${currentUser.firstName ?? "User"}`} //This should come from state i.e current user.firstname
               description="For everyone’s safety, only verified users can join or offer rides on Share."
               upperBtnTitle="OK, Let’s do it now"
               onUpperBtnPress={() => {

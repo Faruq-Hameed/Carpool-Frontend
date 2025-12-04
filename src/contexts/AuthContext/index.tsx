@@ -2,39 +2,8 @@ import { useMemo, useReducer } from "react";
 
 import authContext from "./context";
 import { authReducer } from "./reducer";
-import User from "@/models/User";
-import { ApiStatus } from "@/utils/constants/ApiStatus";
-// import { Us
-// export interface User {
-//   //this should be  import { User } from '@/models/user'
-//   id: string;
-//   isVerified: boolean;
-//   firstName: string;
-//   lastName: string;
-// }
-export const intialAuthContextState = {
-  currentUser: {
-    id: "", //place holder
-    isVerified: false,
-    firstName: "",
-    lastName: "",
-    middleName: "",
-    phoneNumber: "",
-    phoneStatus: "",
-    email: "",
-    emailStatus: "",
-    profilePicture: "",
-    createdAt: "", // ISO date string
-    verificationLevel: "",
-  } as User,
-  isLoggedIn: false,
-  token: null,
-  kycStatus: {
-    dobStatus: ApiStatus.NOT_VERIFIED,
-    ninStatus: ApiStatus.NOT_VERIFIED,
-  }
-};
-export type InitialState = typeof intialAuthContextState;
+import {  intialAuthContextState } from "./initialState";
+
 
 export type Action = { type: string; payload: any };
 

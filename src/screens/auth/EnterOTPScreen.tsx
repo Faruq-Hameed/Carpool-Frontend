@@ -53,7 +53,6 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
     "verifyOtp",
     (data, message) => {
       setModalMessage(message); //the api message
-      console.log("Final message and date", { message, data });
       setModalVisible(true);
       // I can also navigate or do other things here maybe based on purpose
     }

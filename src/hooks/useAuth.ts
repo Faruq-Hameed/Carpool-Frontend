@@ -105,13 +105,10 @@ function useAuth() {
     saveAuthTokenToStorage(data.token);
     await saveUser(data.user);
     setLoginStatus(true);
-
-    const kycStatus = getUserKycStatusFromStorage();
-    dispatch({ type: actionTypes.SET_KYC_STATUS, payload: kycStatus });
   }
 
   /**Handle set kyc status after updates is got from api */
-  async function saveKycStatus(data: KycStatus) {
+  async function setKycStatus(data: KycStatus) {
     dispatch({ type: actionTypes.SET_KYC_STATUS, payload: data });
     storeUserKycStatusToStorage(data);
   }
@@ -127,7 +124,7 @@ function useAuth() {
     saveUser,
     handleLogin,
     setLoginStatus,
-    saveKycStatus,
+    setKycStatus,
   };
 }
 

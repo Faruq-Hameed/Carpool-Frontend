@@ -41,7 +41,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
   const {
     initiateApiCall: initiateNamesApiCall,
     isLoading: updateNamesLoading,
-    error,
+    error:namesError,
   } = useMutationHandler<{ user: User }>(
     "updateNames",
     (data, message, context?: { nin: string; dob: string }) => {
@@ -52,7 +52,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       }
     },
     (error) => {
-      setApiError(error);
+      setApiError(error??namesError??"");
     }
   );
   const {
@@ -66,12 +66,13 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       // IMPLEMENT ASYNC STORAGE FOR KYC STATUS
       //on api call success callback
       setCompletionMessage(message);
+      setKycStatus(data!);
       // setModalMessage(message); //the api message
       // I can also navigate or do other things here maybe based on purpose
     },
     (error) => {
-      console.log({ error });
-      setApiError(error);
+      console.log({ error, verifyNinError });
+      setApiError(verifyNinError??error??"");
     }
   );
   const {
@@ -81,6 +82,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       middleName: savedMiddleName,
     },
     saveUser,
+    setKycStatus,
   } = useAuth();
 
   const navigation = useVerificationNavigation();

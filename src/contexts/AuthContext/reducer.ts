@@ -1,5 +1,5 @@
 import { KycStatus } from "@/apis/verifications/types";
-import { intialAuthContextState, type InitialState } from ".";
+import { InitialState, intialAuthContextState } from "./initialState";
 
 export const actionTypes = {
   SET_CURRENT_USER: "SET_CURRENT_USER",

@@ -5,22 +5,37 @@ import LightStackFrame from "@components/navigation/NavigationChildFrame";
 
 import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
+import { useAuth } from "@/hooks/useAuth";
+import { ApiStatus } from "@/utils/constants/ApiStatus";
 
 /**Identity verification list screen showing various verification item */
 const IdentityVerificationTwoScreen: React.FC = () => {
   const navigation = useVerificationNavigation();
+  const {
+    currentUser: { phoneStatus, emailStatus },
+    kycStatus: { ninStatus, dobStatus },
+  } = useAuth();
+  const contactVerified =
+    phoneStatus === ApiStatus.VERIFIED && emailStatus === ApiStatus.VERIFIED;
 
+  const personalInfoVerified =
+    ninStatus === ApiStatus.VERIFIED && dobStatus === ApiStatus.VERIFIED;
   return (
     <SafeAreaView style={styles.mainContainer}>
       <UpperTextsFrame header="Identity Verification" />
       <LightStackFrame
         title="Contact Information"
         onPress={() => navigation.navigate("ContactInfo")}
+        showVerifiedIcon={contactVerified} //show verified seal if contacts are verified
       />
       <LightStackFrame
         title="Personal Information/NIN"
-        onPress={() => navigation.navigate("PersonalInfo")} //THIS SHOULD BE CONDITIONAL BASED ON KYC LEVEL
-
+        onPress={() => {
+          if (!personalInfoVerified) {
+            navigation.navigate("PersonalInfo"); //only clickable if personal inf is not verified
+          }
+        }}
+        showVerifiedIcon={personalInfoVerified}
         //   onPress={() => {}}
       />
       <LightStackFrame title="Face Capture" onPress={() => {}} />

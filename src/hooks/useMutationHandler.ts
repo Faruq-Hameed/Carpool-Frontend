@@ -59,7 +59,7 @@ export function useMutationHandler<T = unknown>(
         onSuccess(data ?? null, message, mutation._context);
       }
     }
-  }, [isLoading, message, error, data]);
+  }, [isLoading, message, error, data, mutation._context]);
 
  // Wrap initiateApiCall to capture context
   const initiateApiCall = (payload: any, context?: any) => {
