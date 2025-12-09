@@ -11,6 +11,7 @@ import {
   IdentityVerificationTwoScreen,
   ContactInfoScreen,
   ChangeContactInfoScreen,
+  FaceCaptureScreen,
 } from "@/screens/verifications";
 import EnterOTPScreen from "@/screens/auth/EnterOTPScreen";
 import { VerifyOtpPurposes } from "@/screens/auth/constants";
@@ -26,12 +27,13 @@ export type VerificationStackParamList = {
   EntireLicense: undefined;
   ConfirmImage: undefined;
   VehicleInformation: undefined;
+  FaceCapture: undefined;
   // EnterOTP: //to pass the phone number to the EnterOTPScreen from screen we came from
 
   VerificationOtp: {
     message: string; //api message
     email?: string; //api message
-    passcode?: string; 
+    passcode?: string;
     phoneNumber?: string; // to pass the phone number to the EnterOTPScreen from screen we came from
     purpose: VerifyOtpPurposes; // to know which api to call for verification
   };
@@ -101,7 +103,13 @@ const VerificationNavigator: React.FC = () => (
       component={ChangeContactInfoScreen}
       // options={{ headerShown: false }}
     />
+    <Stack.Screen
+      name="FaceCapture"
+      component={FaceCaptureScreen}
+      // options={{ headerShown: false }}
+    />
   </Stack.Navigator>
+
 );
 
 export default VerificationNavigator;

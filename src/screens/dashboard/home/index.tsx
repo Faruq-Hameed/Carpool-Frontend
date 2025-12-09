@@ -22,7 +22,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const rootNavigation = useRootNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [hasModalShown, setHasShown] = useState(false); // track if modal was shown once
-  const { currentUser, kycStatus } = useAuth();
+  const { currentUser, UserKycStatus } = useAuth();
   useEffect(() => {
     if (!hasModalShown) {
       const timer = setTimeout(() => {
@@ -35,8 +35,8 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   }, [hasModalShown]);
   /**User is verified if nin and dob are verified */
   const isVerified =
-    kycStatus.dobStatus === ApiStatus.VERIFIED &&
-    kycStatus.ninStatus === ApiStatus.VERIFIED;
+    UserKycStatus.dobStatus === ApiStatus.VERIFIED &&
+    UserKycStatus.ninStatus === ApiStatus.VERIFIED;
   return (
     <SafeAreaView style={styles.container}>
       <ProfileSummary />

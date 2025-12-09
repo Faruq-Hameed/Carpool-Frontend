@@ -4,7 +4,7 @@ import {
   USER_KYC_STATUS_STORAGE_KEY,
   USER_STORAGE_KEY,
 } from "./constants";
-import { KycStatus } from "@/apis/verifications/types";
+import { UserKycStatu } from "@/apis/verifications/types";
 import { ApiStatus } from "./constants/ApiStatus";
 
 /**util function to store token in async storage after login or anytime a new is generated */
@@ -94,7 +94,7 @@ export const setUser = async (user: any) => {
 
 /**Set user kyc status can be set anytime a kyc action was performed
 and also value in get user by id changes or other user data being stored in the user */
-export const storeUserKycStatusToStorage = async (data: KycStatus) => {
+export const storeUserUserKycStatusToStorage = async (data: UserKycStatus) => {
   try {
     const jsonValue = JSON.stringify(data);
     await AsyncStorage.setItem(USER_KYC_STATUS_STORAGE_KEY, jsonValue);
@@ -104,21 +104,22 @@ export const storeUserKycStatusToStorage = async (data: KycStatus) => {
   }
 };
 
-export const getUserKycStatusFromStorage = async (): Promise<KycStatus> => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(USER_KYC_STATUS_STORAGE_KEY);
-    return jsonValue != null
-      ? JSON.parse(jsonValue)
-      : {
-          dobStatus: ApiStatus.NOT_VERIFIED,
-          ninStatus: ApiStatus.NOT_VERIFIED,
-        };
-  } catch (e) {
-    console.log(e);
-    // reading error
-    return {
-      dobStatus: ApiStatus.NOT_VERIFIED,
-      ninStatus: ApiStatus.NOT_VERIFIED,
-    };
-  }
-};
+export const getUserUserKycStatusFromStorage =
+  async (): Promise<UserKycStatus> => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(USER_KYC_STATUS_STORAGE_KEY);
+      return jsonValue != null
+        ? JSON.parse(jsonValue)
+        : {
+            dobStatus: ApiStatus.NOT_VERIFIED,
+            ninStatus: ApiStatus.NOT_VERIFIED,
+          };
+    } catch (e) {
+      console.log(e);
+      // reading error
+      return {
+        dobStatus: ApiStatus.NOT_VERIFIED,
+        ninStatus: ApiStatus.NOT_VERIFIED,
+      };
+    }
+  };

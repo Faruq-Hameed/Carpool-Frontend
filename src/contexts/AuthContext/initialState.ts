@@ -1,4 +1,5 @@
 import User from "@/models/User";
+import UserKycStatus from "@/models/UserKycStatus";
 import { ApiStatus } from "@/utils/constants/ApiStatus";
 
 export const intialAuthContextState = {
@@ -18,10 +19,11 @@ export const intialAuthContextState = {
   } as User,
   isLoggedIn: false,
   token: null,
-  kycStatus: {
+  UserKycStatus: {
     dobStatus: ApiStatus.NOT_VERIFIED,
     ninStatus: ApiStatus.NOT_VERIFIED,
-  }
+    faceCapture: ApiStatus.NOT_VERIFIED,
+  } as UserKycStatus
 };
 
 export type InitialState = typeof intialAuthContextState;

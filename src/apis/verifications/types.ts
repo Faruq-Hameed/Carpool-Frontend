@@ -48,10 +48,3 @@ export interface VerifyNinRequestPayload {
   nin: string;
   dob: Date;
 }
-
-export interface KycStatus {
-  ninStatus: ApiStatus;
-  dobStatus: ApiStatus;
-  //other kyc statuses will be added
-  //This interface can be used when we need to check any user kyc status
-}

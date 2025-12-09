@@ -20,10 +20,10 @@ import DOBDatePicker from "@/components/forms/DOBDatePicker";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
 import User from "@/models/User";
-import { KycStatus } from "@/apis/verifications/types";
 import { ErrorToast } from "@/components/modals/ErrorToast";
 import ContinueModal from "@/components/modals/ContinueModal";
 import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
+import UserKycStatus from "@/models/UserKycStatus";
 
 type Props = StackScreenProps<VerificationStackParamList, "PersonalInfo">;
 type FormPayload = {
@@ -41,7 +41,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
   const {
     initiateApiCall: initiateNamesApiCall,
     isLoading: updateNamesLoading,
-    error:namesError,
+    error: namesError,
   } = useMutationHandler<{ user: User }>(
     "updateNames",
     (data, message, context?: { nin: string; dob: string }) => {
@@ -52,27 +52,24 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       }
     },
     (error) => {
-      setApiError(error??namesError??"");
+      setApiError(error ?? namesError ?? "");
     }
   );
   const {
     initiateApiCall: initiateNinApiCall,
     isLoading: verifyNinIsLoading,
     error: verifyNinError,
-  } = useMutationHandler<KycStatus>(
+  } = useMutationHandler<UserKycStatus>(
     "verifyNin",
     (data, message) => {
-      //TODO: SET KYC STATUS TO CONTEXT
-      // IMPLEMENT ASYNC STORAGE FOR KYC STATUS
       //on api call success callback
       setCompletionMessage(message);
-      setKycStatus(data!);
+      setUserKycStatus(data!);
       // setModalMessage(message); //the api message
-      // I can also navigate or do other things here maybe based on purpose
     },
     (error) => {
       console.log({ error, verifyNinError });
-      setApiError(verifyNinError??error??"");
+      setApiError(verifyNinError ?? error ?? "");
     }
   );
   const {
@@ -82,7 +79,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       middleName: savedMiddleName,
     },
     saveUser,
-    setKycStatus,
+    setUserKycStatus,
   } = useAuth();
 
   const navigation = useVerificationNavigation();

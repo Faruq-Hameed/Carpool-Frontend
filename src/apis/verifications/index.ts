@@ -3,13 +3,13 @@ import request from "../interceptor";
 import { GenericResponse } from "../types";
 import {
   GeneratePrivateOtpPayload,
-  KycStatus,
   UpdateNamesRequestPayload,
   ValidatePhoneRequestPayload,
   VerifyNinRequestPayload,
   VerifyPhonePayload,
 } from "./types";
 import { VerifyOtpPurposes } from "@/screens/auth/constants";
+import UserKycStatus from "@/models/UserKycStatus";
 
 /**Create verify phone otp */
 export function generatePrivateOtpApi(payload: GeneratePrivateOtpPayload) {
@@ -38,7 +38,7 @@ export function updateUserNamesApi(payload: UpdateNamesRequestPayload) {
 /**Api to verify nin */
 export function verifyNinApi(payload: VerifyNinRequestPayload) {
   console.log({ payload });
-  return request.post<GenericResponse<KycStatus>>("users/nin", payload);
+  return request.post<GenericResponse<UserKycStatus>>("users/nin", payload);
 }
 
 // export function changeEmailApi(payload: VerifyEmailPayload) {
