@@ -99,18 +99,18 @@ function useAuth() {
     setCurrentUser(user);
   }
 
-  /** Handle login success (save token + mark logged in) */
-  async function handleLogin(data: AuthResponsePayload) {
+  /** Handle login success (save token + mark logged in) complete data means login straight*/
+  async function handleLogin(data: AuthResponsePayload, completeData = true) {
     //only called if refresh token failed
     saveAuthTokenToStorage(data.token);
     await saveUser(data.user);
-    setLoginStatus(true);
+    if (completeData) setLoginStatus(true);
   }
 
   /**Handle set kyc status after updates is got from api */
   async function setUserKycStatus(data: UserKycStatus) {
     dispatch({ type: actionTypes.SET_KYC_STATUS, payload: data });
-    storeUserUserKycStatusToStorage(data);
+    // storeUserUserKycStatusToStorage(data);
   }
 
   return {

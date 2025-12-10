@@ -52,6 +52,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
       }
     },
     (error) => {
+      console.log({ error, namesError });
       setApiError(error ?? namesError ?? "");
     }
   );

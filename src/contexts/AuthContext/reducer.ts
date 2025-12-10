@@ -29,6 +29,7 @@ export function authReducer(
       return { ...state, isLoggedIn: payload };
 
     case actionTypes.SET_KYC_STATUS:
+      console.log("Setting KYC status in context:", payload);
       return { ...state, UserKycStatus: payload as UserKycStatus };
 
     case actionTypes.LOGOUT:

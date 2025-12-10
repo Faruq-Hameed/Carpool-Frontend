@@ -24,7 +24,7 @@ export type RootStackParamList = {
 const RootStack = createStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const { isLoggedIn, loading } = useAuth();
+  const { isLoggedIn, loading, } = useAuth();
 
   if (loading) {
     return (

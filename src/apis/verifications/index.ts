@@ -37,8 +37,14 @@ export function updateUserNamesApi(payload: UpdateNamesRequestPayload) {
 
 /**Api to verify nin */
 export function verifyNinApi(payload: VerifyNinRequestPayload) {
-  console.log({ payload });
-  return request.post<GenericResponse<UserKycStatus>>("users/nin", payload);
+  return request.post<GenericResponse<UserKycStatus>>("/users/nin", payload);
+}
+
+/**Api to Get user kyc staus */ //WILL BE MOVED LATER TO GENERAL USER APIs
+export function getUserKycStatusApi(userId: string) {
+  return request.get<GenericResponse<UserKycStatus>>("/users/kyc", {
+    params: {userId},
+  });
 }
 
 // export function changeEmailApi(payload: VerifyEmailPayload) {
