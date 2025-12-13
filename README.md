@@ -50,6 +50,7 @@ Below are the key dependencies used in the project:
 - **react-native-safe-area-context**: For handling safe area views on different devices.
 - **react-native-screens**: For optimizing navigation performance by using native screen components.
 
+
 ### Development Commands
 
 To get started with the project, you can use the following commands:
@@ -58,7 +59,7 @@ To get started with the project, you can use the following commands:
 - `npm run android`: Runs the app on an Android emulator or connected device.
 - `npm run ios`: Runs the app on an iOS emulator or connected device.
 - `npm run web`: Runs the app in a web browser.
-
+- `npx eas build --platform android --profile preview`: create apk
 ## Next Steps
 
 - Implement additional screens like `ProfileScreen`, `RideDetailsScreen`, `RideBookingScreen` etc.
