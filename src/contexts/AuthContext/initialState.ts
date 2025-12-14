@@ -22,7 +22,7 @@ export const intialAuthContextState = {
   UserKycStatus: {
     dobStatus: ApiStatus.NOT_VERIFIED,
     ninStatus: ApiStatus.NOT_VERIFIED,
-    faceCapture: ApiStatus.NOT_VERIFIED,
+    selfieStatus: ApiStatus.NOT_VERIFIED,
   } as UserKycStatus
 };
 
