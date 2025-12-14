@@ -1,8 +1,8 @@
 
 // export const API_BASE_URL = 'http://172.20.10.4:3000'; //work
 // export const API_BASE_URL = 'http://192.168.1.162:3000'; //iphone
-// export const API_BASE_URL = 'http://192.168.236.202:3000'; //wife
-// export const API_BASE_URL = 'http://192.168.113.108:3000'; //mubarak
+// export const API_BASE_URL = 'http://192.168.157.108:3000'; //wife
+// export const API_BASE_URL = 'http://192.168.182.108:3000'; //mubarak
 export const API_BASE_URL = 'https://carpool-nest-backend.onrender.com'; //deployed dev 
 // 
 

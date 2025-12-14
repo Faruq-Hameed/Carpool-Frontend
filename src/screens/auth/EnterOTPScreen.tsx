@@ -161,7 +161,7 @@ const EnterOTPScreen: React.FC<EnterOTPProps> = ({ route }) => {
           title="Verify"
           loading={isLoading}
           onPress={async () => {
-            setModalVisible(true);
+            // setModalVisible(true);
             await handleVerifyOtp(code);
           }}
           disabled={code && code.length === 4 ? false : true} // Disable button if input is not complete //LATER

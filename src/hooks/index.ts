@@ -7,6 +7,7 @@ import useVerifyOtp from "@/hooks/useVerifyOtp";
 import useResendOtp from "./useResendOtp";
 import useUpdateNamesApi from "@/screens/verifications/hooks/useUpdateNames";
 import useVerifyNinApi from "@/screens/verifications/hooks/useVerifyNin";
+import useFaceVerification from "@/screens/verifications/hooks/useFaceVerification";
 
 export const mutationRegistry = {
   signUp: useSignUpApi,
@@ -15,5 +16,6 @@ export const mutationRegistry = {
   generateResetPasscodeOtp: useGenerateResetPasscodeOtp,
   resendOtp: useResendOtp,
   updateNames: useUpdateNamesApi,
-  verifyNin: useVerifyNinApi
+  verifyNin: useVerifyNinApi,
+  faceVeriication: useFaceVerification
 };

@@ -19,47 +19,57 @@ import Spacer from "@/components/others/Spacer";
 import SmallSpacer from "@/components/others/SmallSpacer";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiStatus } from "@/utils/constants/ApiStatus";
+import { useMutationHandler } from "@/hooks/useMutationHandler";
+import UserKycStatus from "@/models/UserKycStatus";
 
 /**Face Capture verification prep screen */
 const FaceCaptureScreen: React.FC = () => {
-  const [state, dispatch] = useReducer(
-    faceCaptureReducer,
-    BaseFaceCaptureState
-  );
+  // const [state, dispatch] = useReducer(
+  //   faceCaptureReducer,
+  //   BaseFaceCaptureState
+  // );
   const { setUserKycStatus, UserKycStatus } = useAuth();
-  const { isLoading, error, completionMessage } = state;
+
+  const { initiateApiCall, isLoading, error, message } = useMutationHandler<{
+    userKyc: UserKycStatus;
+  }>("faceVeriication", (data, message) => {
+    console.log({ data, message });
+    setUserKycStatus(data?.userKyc as UserKycStatus);
+  });
+
+  // const { isLoading, error, completionMessage } = state;
   const navigation = useVerificationNavigation();
 
   const handleVerificationCall = (success = false) => {
     console.log("Face capture initiated");
-    dispatch({ type: actionTypes.SET_LOADING, payload: true });
+    // dispatch({ type: actionTypes.SET_LOADING, payload: true });
     console.log({ isLoading });
     const message = success
       ? "Face captured successfully"
       : "Face verification failed!";
     //handle the provider call
     //simulating for now
-    setTimeout(() => {
-      if (!success) {
-        //simulating error
-        dispatch({ type: actionTypes.SET_ERROR, payload: message });
-        dispatch({ type: actionTypes.SET_LOADING, payload: false });
-        return;
-      }
-      //simulate success
-      else {
-        dispatch({ type: actionTypes.SET_LOADING, payload: false });
-        dispatch({
-          type: actionTypes.SET_COMPLETION_MESSAGE,
-          payload: message,
-        });
-        setUserKycStatus({
-          ninStatus: UserKycStatus.ninStatus,
-          dobStatus: UserKycStatus.dobStatus,
-          faceCapture: ApiStatus.VERIFIED,
-        });
-      }
-    }, 3000);
+    // setTimeout(() => {
+    //   if (!success) {
+    //     //simulating error
+    //     dispatch({ type: actionTypes.SET_ERROR, payload: message });
+    //     dispatch({ type: actionTypes.SET_LOADING, payload: false });
+    //     return;
+    //   }
+    //   //simulate success
+    //   else {
+    //     dispatch({ type: actionTypes.SET_LOADING, payload: false });
+    //     dispatch({
+    //       type: actionTypes.SET_COMPLETION_MESSAGE,
+    //       payload: message,
+    //     });
+    //     setUserKycStatus({
+    //       ninStatus: UserKycStatus.ninStatus,
+    //       dobStatus: UserKycStatus.dobStatus,
+    //       faceCapture: ApiStatus.VERIFIED,
+    //     });
+    //   }
+    // }, 3000);
   };
 
   return (
@@ -68,11 +78,11 @@ const FaceCaptureScreen: React.FC = () => {
       <ErrorToast message={error} />
       <PleaseWaitModal visible={isLoading} onClose={() => {}} />
       {!error &&
-        completionMessage && ( //if no error and we got our final completion message
+        message && ( //if no error and we got our final completion message
           <ContinueModal
             title="Continue"
-            message={completionMessage} // ✅ Dynamic message from provider or my api
-            visible={completionMessage ? true : false}
+            message={message} // ✅ Dynamic message from provider or my api
+            visible={message ? true : false}
             onPress={() => {
               navigation.goBack();
             }}
@@ -113,7 +123,7 @@ const FaceCaptureScreen: React.FC = () => {
       <View style={styles.btnContainer}>
         <NavButton
           title="I'm ready, Continue"
-          onPress={handleVerificationCall}
+          onPress={initiateApiCall}
         />
         {/* <NavButton
             title="I'm ready, Continue"

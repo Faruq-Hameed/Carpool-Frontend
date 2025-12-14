@@ -1,19 +1,25 @@
-import axios from 'axios';
-import { API_BASE_URL, UNAUTHORIZED_ERROR_CODE } from '@/utils/constants/apiConstants';
-import { clearStoreUser, getUserToken } from '@/utils/asyncStorage';
+import axios from "axios";
+import {
+  API_BASE_URL,
+  UNAUTHORIZED_ERROR_CODE,
+} from "@/utils/constants/apiConstants";
+import { clearStoreUser, getUserToken } from "@/utils/asyncStorage";
 
 const request = axios.create({ baseURL: API_BASE_URL });
-console.log(API_BASE_URL)
+console.log(API_BASE_URL);
 // 🔐 Request Interceptor: Attach token if needed
 request.interceptors.request.use(async (config) => {
   const token = await getUserToken();
   const noToken = config.headers?.noToken;
-
+  // Log the full URL
+  console.log(`[Axios Request] ${config.baseURL}${config.url}`);
   if (noToken || !token) return config;
 
   config.headers.Authorization = `Bearer ${token}`;
   delete config.headers.noToken;
 
+  // Log the full URL
+  console.log(`[Axios Request] ${config.baseURL}${config.url}`);
   return config;
 });
 
@@ -33,4 +39,3 @@ request.interceptors.response.use(
 );
 
 export default request;
-

@@ -5,6 +5,9 @@ import { LoginRequestPayload } from "@/apis/auth/types";
 import { parseError } from "@/apis/errorParser";
 import { AxiosApiError } from "@/apis/types";
 import { getUserKycStatusApi } from "@/apis/verifications";
+import { use } from "react";
+import { useAuthNavigation } from "@/hooks/useTypedNavigation";
+import { VerifyOtpPurposes } from "../constants";
 
 // export default function useLoginApi() {
 //   const { handleLogin } = useAuth();
@@ -30,11 +33,23 @@ import { getUserKycStatusApi } from "@/apis/verifications";
 
 export default function useLoginApi() {
   const { handleLogin, setLoginStatus, setUserKycStatus } = useAuth();
+  const navigation = useAuthNavigation();
 
   const mutation = useMutation({
     mutationFn: async (payload: LoginRequestPayload) => {
       const loginRes = await loginUserApi(payload);
       const authData = loginRes.data?.data;
+      const token = authData?.token;
+      const message = loginRes.data?.message;
+      if(!token){
+        //if the email is not erified, token will be null
+        //so I will navigate to Otp screen from here
+        navigation.navigate("EnterOTP", {
+          purpose:VerifyOtpPurposes.VERIFY_EMAIL,
+          email: payload.userField,
+          message: message || "Please verify your email to continue",
+        });
+      }
       if (authData.token && authData.user) {
         console.log("Storing user and token");
         //store token in the context and storage first
