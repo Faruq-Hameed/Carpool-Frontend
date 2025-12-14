@@ -13,7 +13,7 @@ const IdentityVerificationTwoScreen: React.FC = () => {
   const navigation = useVerificationNavigation();
   const {
     currentUser: { phoneStatus, emailStatus },
-    UserKycStatus: { ninStatus, dobStatus, faceCapture },
+    UserKycStatus: { ninStatus, dobStatus, selfieStatus },
   } = useAuth();
   const contactVerified =
     phoneStatus === ApiStatus.VERIFIED && emailStatus === ApiStatus.VERIFIED;
@@ -21,7 +21,7 @@ const IdentityVerificationTwoScreen: React.FC = () => {
   const personalInfoVerified =
     ninStatus === ApiStatus.VERIFIED && dobStatus === ApiStatus.VERIFIED;
 
-  const faceCaptured = faceCapture === ApiStatus.VERIFIED;
+  const faceCaptured = selfieStatus === ApiStatus.VERIFIED;
   return (
     <SafeAreaView style={styles.mainContainer}>
       <UpperTextsFrame header="Identity Verification" />

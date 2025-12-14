@@ -31,10 +31,10 @@ const FaceCaptureScreen: React.FC = () => {
   const { setUserKycStatus, UserKycStatus } = useAuth();
 
   const { initiateApiCall, isLoading, error, message } = useMutationHandler<{
-    userKyc: UserKycStatus;
+    userKyc: any;
   }>("faceVeriication", (data, message) => {
     console.log({ data, message });
-    setUserKycStatus(data?.userKyc as UserKycStatus);
+    setUserKycStatus(data as unknown as UserKycStatus);
   });
 
   // const { isLoading, error, completionMessage } = state;

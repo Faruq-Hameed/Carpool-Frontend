@@ -54,6 +54,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const isVerified =
     UserKycStatus.dobStatus === ApiStatus.VERIFIED &&
     UserKycStatus.ninStatus === ApiStatus.VERIFIED;
+    UserKycStatus.selfieStatus === ApiStatus.VERIFIED;
 
 
      const handleDatePress = () => {

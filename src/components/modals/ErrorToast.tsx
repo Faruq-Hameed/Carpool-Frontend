@@ -97,7 +97,7 @@ export function ErrorToast({
   useEffect(() => {
     if (message) {
       setIsVisible(true);
-      const timer = setTimeout(() => setIsVisible(false), 700000); // Changed from 700000 to 7000 (7 seconds)
+      const timer = setTimeout(() => setIsVisible(false), 7000); 
       return () => clearTimeout(timer);
     }
   }, [message]);

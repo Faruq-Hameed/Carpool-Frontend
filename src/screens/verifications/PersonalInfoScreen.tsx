@@ -145,12 +145,10 @@ const PersonalInfoScreen: React.FC<Props> = () => {
 
       {updateNamesLoading ||
         (verifyNinIsLoading && (
-          <>
-            <PleaseWaitModal
-              visible={updateNamesLoading || verifyNinIsLoading}
-              onClose={() => {}}
-            />
-          </>
+          <PleaseWaitModal
+            visible={updateNamesLoading || verifyNinIsLoading}
+            onClose={() => {}}
+          />
         ))}
 
       {/* Account verification header */}
@@ -263,7 +261,7 @@ const PersonalInfoScreen: React.FC<Props> = () => {
                 <NavButton
                   title="Next"
                   onPress={handleSubmit}
-                  loading={updateNamesLoading || verifyNinIsLoading}
+                  // loading={updateNamesLoading || verifyNinIsLoading}
                 />
               </View>
             </View>
