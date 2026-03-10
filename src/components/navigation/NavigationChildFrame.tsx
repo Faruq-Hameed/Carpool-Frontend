@@ -4,7 +4,7 @@ import { AppIcon } from "../others/AppIcon";
 import { IconName } from "@/helpers/icons";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 import Text from "../texts";
-import { Icon } from "@rneui/themed";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface NavigationChildFrameProps {
   title: string;
@@ -38,12 +38,10 @@ const NavigationChildFrame: React.FC<NavigationChildFrameProps> = ({
           <View style={styles.textWithIcon}>
             <Text>{title}</Text>
             {showVerifiedIcon && (
-              <Icon
+              <MaterialCommunityIcons
                 name="check-decagram"
-                type="material-community"
                 color="#126415"
                 size={24}
-                // style={styles.verifyIcon}
               />
             )}
           </View>

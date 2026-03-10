@@ -105,7 +105,7 @@ export function ErrorToast({
   if (!isVisible || !message) return null;
 
   return (
-    <View style={[styles.toast, { top }]}>
+    <View style={[styles.toast]}>
       <View style={styles.iconContainer}>
         <AppIcon name="warning" size={40} />
       </View>
@@ -145,7 +145,8 @@ const styles = StyleSheet.create({
     elevation: 4,
     zIndex: 999,
     alignSelf: "center", //move to the middele
-    columnGap: 8
+    columnGap: 8,
+    top: 5,
   },
   iconContainer: {
     width: 40, // Fixed width for icons

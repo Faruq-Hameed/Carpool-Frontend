@@ -1,9 +1,6 @@
 import React from "react";
-import { Input } from "@rneui/themed";
-import { StyleSheet, View } from "react-native";
+import { TextInput, StyleSheet, View } from "react-native";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
-import { AppIcon } from "../others/AppIcon";
-import { IconName } from "@/helpers/icons";
 import Text from "../texts";
 
 type FormInputProps = {
@@ -27,15 +24,17 @@ const ModalInput: React.FC<FormInputProps> = ({
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <Input
+      <TextInput
         style={styles.inputStyle}
-        inputContainerStyle={styles.inputContainer}
-        placeholder={placeholder || `Enter your ${label}`}
-        placeholderTextColor={"#404040"}
+        placeholder={
+          placeholder ||
+          (typeof label === "string" ? `Enter your ${label}` : "")
+        }
+        placeholderTextColor="#404040"
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
-        {...(maxLength && { maxLength })}
+        maxLength={maxLength}
         autoCapitalize="none"
         autoCorrect={false}
       />
@@ -45,13 +44,10 @@ const ModalInput: React.FC<FormInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-//  borderWidth: 1,
-//  marginTop: 10,
+    marginBottom: 8,
   },
   inputStyle: {
     fontSize: 16,
-  },
-  inputContainer: {
     borderWidth: 2,
     borderColor: "#404040",
     height: 48,
@@ -59,16 +55,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "white",
     marginTop: 5,
+    color: "#1A1A1A",
   },
   label: {
     fontSize: 16,
-    fontWeight: 400,
-    fontFamily: "popping",
+    fontWeight: "400",
     color: "#1A1A1A",
-    marginLeft: 10, //to align the label with the input
-    // alignSelf: "center"
-
-    // textTransform: "capitalize",
+    marginLeft: 10,
   },
 });
 

@@ -1,8 +1,7 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text, Header } from "@rneui/themed";
-import { Icon } from "@rneui/base";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 type NavigationHeaderProps = {
   title: string;
@@ -25,7 +24,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({
           onPress={() => navigation.goBack()}
           style={styles.iconContainer}
         >
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
       ) : null}
         {/* {onGoBack ? (
@@ -35,7 +34,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({
         >
         </TouchableOpacity>
       ) : null} */}
-      <Text h3 style={styles.title}>
+      <Text style={[styles.title, { fontSize: 22, fontWeight: "700" }]}>
         {title}
       </Text>
       {/* Empty view to balance the layout */}

@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Icon, Text } from "@rneui/themed";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 // import { width } from '../utils/constants/constants';
@@ -22,10 +22,10 @@ const UpperTextsFrame: React.FC<{
             onPress={() => navigation.goBack()}
             style={styles.iconContainer}
           >
-            <Icon name="arrow-back" size={20} color="#000" />
+            <Ionicons name="arrow-back" size={20} color="#000" />
           </TouchableOpacity>
         ) : null}
-        <Text h3 style={styles.header}>
+        <Text style={[styles.header, { fontSize: 22, fontWeight: "700" }]}>
           {header}
         </Text>
         {/* Empty view to balance the layout */}
@@ -35,7 +35,7 @@ const UpperTextsFrame: React.FC<{
       {/* <Text h3 h4Style={styles.header}>
        
       </Text> */}
-      {normalText && <Text style={styles.normalText}>{normalText}</Text>}
+      {normalText && <Text style={[styles.normalText, { fontSize: 16 }]}>{normalText}</Text>}
     </View>
   );
 };

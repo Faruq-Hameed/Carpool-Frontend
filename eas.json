@@ -5,10 +5,16 @@
       "android": {
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "NODE_ENV": "production"
       }
     },
     "production": {
-      "node": "20.19.4"
+      "node": "20.19.4",
+      "android": {
+        "buildType": "app-bundle"
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Input, Icon } from "@rneui/themed";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Text from "../texts";
 
 interface VerifiedLabelProps {
@@ -11,9 +11,8 @@ const VerifiedLabel: React.FC<VerifiedLabelProps> = ({ label }) => {
   return (
     <View style={styles.labelTextContainer}>
       <Text>{label}</Text>
-      <Icon
+      <MaterialCommunityIcons
         name="check-decagram"
-        type="material-community"
         color="#126415"
         size={24}
         style={styles.verifyIcon}

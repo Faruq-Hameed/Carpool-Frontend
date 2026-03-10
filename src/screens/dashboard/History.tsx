@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { removeUserToken } from "../../utils/asyncStorage";
-import { Button } from "@rneui/themed";
+import { TouchableOpacity } from "react-native";
 import { useAuth } from "../../hooks/useAuth";
 
 type Props = {
@@ -19,7 +18,9 @@ const HistoryScreen: React.FC<Props> = ({ navigation }) => {
       <Text style={{ fontSize: 18, fontWeight: "bold" }}>
         Welcome to the History!
       </Text>
-      <Button onPress={handleSignOut}>Sign Out</Button>
+      <TouchableOpacity onPress={handleSignOut} style={{ marginTop: 16, padding: 12, backgroundColor: "#126415", borderRadius: 4 }}>
+        <Text style={{ color: "#fff", fontWeight: "bold" }}>Sign Out</Text>
+      </TouchableOpacity>
     </View>
   );
 };

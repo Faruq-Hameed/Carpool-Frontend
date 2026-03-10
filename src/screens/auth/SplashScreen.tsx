@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
-import { Text } from "@rneui/base";
+import { Text } from "react-native";
 import { useAuthNavigation } from "@/hooks/useTypedNavigation";
 import { ScreenProps } from "@/types/navigation";
 
@@ -24,7 +24,7 @@ const SplashScreen: React.FC<ScreenProps<"Splash">> = () => {
         style={styles.logo}
       />
       {/* Display logo text */}
-      <Text h2 style={styles.text}>
+      <Text style={[styles.text, { fontSize: 26, fontWeight: "700" }]}>
         Share
       </Text>
     </View>

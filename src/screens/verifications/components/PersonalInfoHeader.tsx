@@ -1,13 +1,12 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Text } from "@rneui/themed";
+import { View, Text, StyleSheet } from "react-native";
 // import { width } from '../utils/constants/constants';
 
 /**Reusable PersonalInfoHeader component frame with header and normal text */
 const PersonalInfoHeader: React.FC = () => {
   return (
     <View style={[{ ...styles.container }]}>
-      <Text  h4 h4Style={styles.header}>Personal Information</Text>
+      <Text style={[styles.header, { fontSize: 18, fontWeight: "700" }]}>Personal Information</Text>
       <Text style={styles.normalText}>
         Only your name will be visible to other users
       </Text>

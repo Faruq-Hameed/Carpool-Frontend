@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Text } from "@rneui/themed";
+import { Text } from "react-native";
 
 import { VerificationStackParamList } from "../../navigation/VerificationNavigator";
 import FormInput from "../../components/forms/formInput";
@@ -28,7 +28,7 @@ const EnterLicenseScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <VerificationHeader />
       <VerificationStepsBar currentStep={3} />
-      <Text h2>Enter License Details</Text>
+      <Text style={{ fontSize: 26, fontWeight: "700" }}>Enter License Details</Text>
     </SafeAreaView>
   );
 };

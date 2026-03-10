@@ -3,7 +3,7 @@ import React from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { DashboardTabParamList } from "../../navigation/DashboardNavigator";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { Text } from "@rneui/themed";
+import { Text } from "react-native";
 
 // const LoginScreen: React.FC<Props> = ({ navigation }) => {
 type Props = BottomTabScreenProps<DashboardTabParamList, "Messages">;

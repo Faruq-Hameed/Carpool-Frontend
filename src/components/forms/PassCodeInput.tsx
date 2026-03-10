@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, ViewStyle } from "react-native";
-import { Input } from "@rneui/themed";
+import { TextInput, View, Text, StyleSheet, ViewStyle } from "react-native";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 
 type PassCodeInputProps = {
@@ -26,47 +25,54 @@ const PassCodeInput: React.FC<PassCodeInputProps> = ({
   labelStyle,
 }) => {
   const [focus, setFocus] = React.useState(false);
-  return (
-    // <Spacer>
-    <Input
-      label={label ? label : "Passcode"}
-      style={styles.inputStyle}
-      inputContainerStyle={[styles.inputContainer, focus && styles.inputFocus]}
 
-      labelStyle={[styles.label, labelStyle]}
-      placeholder={
-        genericPlaceholder ? genericPlaceholder : `Enter your ${label}`
-      }
-      placeholderTextColor={"#404040"}
-      value={value}
-      secureTextEntry={hidePassCode} //hide passcode
-      onChangeText={onChangeText}
-      onBlur={(e) => {
-        onBlur?.(e);
-        setFocus(false);
-      }}
-      onFocus={(e) => {
-        onFocus?.(e);
-        setFocus(true); //so the green color border appears
-      }}
-      keyboardType="number-pad"
-      returnKeyLabel=""
-      returnKeyType="send"
-      maxLength={6}
-      // containerStyle={styles.inputContainer}
-      // inputContainerStyle={styles.input}
-    />
-    // </Spacer>
+  return (
+    <View style={styles.wrapper}>
+      <Text style={[styles.label, labelStyle]}>{label ?? "Passcode"}</Text>
+      <View style={[styles.inputContainer, focus && styles.inputFocus]}>
+        <TextInput
+          style={styles.inputStyle}
+          placeholder={genericPlaceholder ?? `Enter your ${label ?? "passcode"}`}
+          placeholderTextColor="#404040"
+          value={value}
+          secureTextEntry={hidePassCode}
+          onChangeText={onChangeText}
+          onBlur={(e) => {
+            onBlur?.(e);
+            setFocus(false);
+          }}
+          onFocus={(e) => {
+            onFocus?.(e);
+            setFocus(true);
+          }}
+          keyboardType="number-pad"
+          returnKeyType="send"
+          maxLength={6}
+        />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  inputStyle: {
-    // letterSpacing: 4,
+  wrapper: {
+    marginBottom: 8,
+  },
+  label: {
     fontSize: 16,
+    fontWeight: "400",
+    color: "#1A1A1A",
+    marginBottom: 4,
+    marginLeft: 2,
+  },
+  inputStyle: {
     flex: 1,
+    fontSize: 16,
+    color: "#1A1A1A",
   },
   inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: "#404040",
     height: 48,
@@ -78,14 +84,7 @@ const styles = StyleSheet.create({
   },
   inputFocus: {
     borderColor: "#126415",
-
     borderWidth: 2,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 400,
-    fontFamily: "popping",
-    color: "#1A1A1A",
   },
 });
 

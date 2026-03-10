@@ -1,6 +1,5 @@
 import React from "react";
-import { Input } from "@rneui/themed";
-import { StyleSheet } from "react-native";
+import { TextInput, View, Text, StyleSheet } from "react-native";
 import { getResponsiveWidth } from "../../helpers/getScreenDimension";
 import { AppIcon } from "../others/AppIcon";
 import { IconName } from "@/helpers/icons";
@@ -36,45 +35,69 @@ const FormInput: React.FC<FormInputProps> = ({
   rightIconName, //right icon
 }) => {
   const [focus, setFocus] = React.useState(false);
+
   return (
-    <Input
-      label={label}
-      style={[styles.inputStyle]}
-      inputContainerStyle={[styles.inputContainer, focus && styles.inputFocus]}
-      labelStyle={styles.label}
-      placeholder={placeholder || `Enter your ${label}`}
-      placeholderTextColor={"#404040"}
-      value={value}
-      onChangeText={onChangeText}
-      onBlur={(e) => {
-        onBlur?.(e);
-        setFocus(false);
-      }}
-      onFocus={(e) => {
-        onFocus?.(e);
-        setFocus(true); //so the green color border appears
-      }}
-      keyboardType={keyboardType}
-      {...(maxLength && { maxLength })}
-      autoCapitalize="none"
-      autoCorrect={false}
-      disabled={disabled}
-      editable={editable}
-      pointerEvents={pointerEvents}
-      rightIcon={rightIconName ? <AppIcon name={rightIconName} /> : undefined}
-      // leftIcon={{ type: 'font-awesome', name: 'chevron-left', color: '#404040', size: 16 }}
-      // containerStyle={styles.inputContainer}
-      // inputContainerStyle={styles.input}
-    />
+    <View style={styles.wrapper} pointerEvents={pointerEvents}>
+      {label ? <Text style={styles.label}>{label}</Text> : null}
+      <View
+        style={[
+          styles.inputContainer,
+          focus && styles.inputFocus,
+          (disabled || !editable) && styles.inputDisabled,
+        ]}
+      >
+        <TextInput
+          style={styles.inputStyle}
+          placeholder={
+            placeholder ||
+            (typeof label === "string" ? `Enter your ${label}` : "")
+          }
+          placeholderTextColor="#404040"
+          value={value}
+          onChangeText={onChangeText}
+          onBlur={(e) => {
+            onBlur?.(e);
+            setFocus(false);
+          }}
+          onFocus={(e) => {
+            onFocus?.(e);
+            setFocus(true);
+          }}
+          keyboardType={keyboardType}
+          maxLength={maxLength}
+          autoCapitalize="none"
+          autoCorrect={false}
+          editable={!disabled && editable}
+        />
+        {rightIconName && (
+          <View style={styles.rightIcon}>
+            <AppIcon name={rightIconName} />
+          </View>
+        )}
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  inputStyle: {
-    // letterSpacing: 4,
+  wrapper: {
+    marginBottom: 8,
+  },
+  label: {
     fontSize: 16,
+    fontWeight: "400",
+    color: "#1A1A1A",
+    marginBottom: 4,
+    marginLeft: 2,
+  },
+  inputStyle: {
+    flex: 1,
+    fontSize: 16,
+    color: "#1A1A1A",
   },
   inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: "#404040",
     height: 48,
@@ -88,14 +111,12 @@ const styles = StyleSheet.create({
     borderColor: "#126415",
     borderWidth: 2,
   },
-  label: {
-    fontSize: 16,
-    fontWeight: 400,
-    fontFamily: "popping",
-    color: "#1A1A1A",
-    // alignSelf: "center"
-
-    // textTransform: "capitalize",
+  inputDisabled: {
+    backgroundColor: "#F5F5F5",
+    opacity: 0.7,
+  },
+  rightIcon: {
+    marginLeft: 8,
   },
 });
 

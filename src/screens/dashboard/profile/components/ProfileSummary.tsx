@@ -11,7 +11,7 @@ const ProfileSummary: React.FC<{}> = () => {
     <View style={styles.container}>
       <View style={styles.leftContainer}>
         {/* The user profile pic should be displayed here. or first char of name */}
-        <Text>F</Text>
+        <Text>{currentUser?.firstName?.charAt(0).toLocaleUpperCase() ?? ""}</Text>
       </View>
       {/* Name container */}
       <View>

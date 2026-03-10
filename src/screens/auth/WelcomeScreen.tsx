@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenProps } from "@/types/navigation";
 import { useAuthNavigation } from "@/hooks/useTypedNavigation";
 import NavButton from "@/components/buttons/GreenButton";
-import { Text } from "@rneui/themed";
+import { Text } from "react-native";
 import { width } from "@/utils/constants";
 import { getResponsiveWidth } from "@/helpers/getScreenDimension";
 
@@ -23,10 +23,10 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
         />
         {/*Text container*/}
         <View style={styles.textsContainer}>
-          <Text h3 h3Style={{ textAlign: "center" }}>
+          <Text style={{ textAlign: "center", fontSize: 22, fontWeight: "700" }}>
             Share Ride, Share Cost
           </Text>
-          <Text style={{ textAlign: "center" }}>
+          <Text style={{ textAlign: "center", fontSize: 16 }}>
             Split your transport cost when you carpool and keep your wallet
             happy. All within a secured, trusted platform
           </Text>

@@ -24,11 +24,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "experiments": {
-      "newArchEnabled": true
-    },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-splash-screen"
     ],
     "extra": {
       "eas": {
