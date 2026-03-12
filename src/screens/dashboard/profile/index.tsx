@@ -25,6 +25,11 @@ const Profile: React.FC = () => {
         }}
         leftIcon="userGear"
       />
+      <LightStackFrame
+        title="My Cars"
+        onPress={() => profileNavigation.navigate("MyCars")}
+        leftIcon="userGear"
+      />
       <LightStackFrame title="Wallet" onPress={() => {}} leftIcon="wallet" />
       <LightStackFrame title="Support" onPress={() => {}} leftIcon="headset" />
       <LightStackFrame

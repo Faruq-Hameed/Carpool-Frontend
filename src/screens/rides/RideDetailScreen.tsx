@@ -11,7 +11,17 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 
 import { RideStackParamList } from "@/navigation/RideStackNavigator";
 import { useRideNavigation, useRootNavigation } from "@/hooks/useTypedNavigation";
-import { useRideById, useBookRide, useCancelBooking } from "@/hooks/useRides";
+import {
+  useRideById,
+  useRideBookings,
+  useBookRide,
+  useCancelBooking,
+  useAcceptBooking,
+  useRejectBooking,
+  useStartRide,
+  useCompleteRide,
+  useCancelRide,
+} from "@/hooks/useRides";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiStatus } from "@/utils/constants/ApiStatus";
 import { ScreenHeader } from "@/components/shared/ScreenHeader";
@@ -19,10 +29,20 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { InlineAlert } from "@/components/shared/InlineAlert";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { Colors, Spacing, Radius, FontSize, formatNaira, formatShortDate, formatTime } from "@/theme";
+import {
+  Colors,
+  Spacing,
+  Radius,
+  FontSize,
+  formatNaira,
+  formatShortDate,
+  formatTime,
+} from "@/theme";
 import { RideInfoRow } from "./components/RideInfoRow";
 import { DriverInfo } from "./components/DriverInfo";
 import { BookingStatusBar } from "./components/BookingStatusBar";
+import { BookingRequestCard } from "./components/BookingRequestCard";
+import { RideStatusActions } from "./components/RideStatusActions";
 
 type RouteProps = RouteProp<RideStackParamList, "RideDetail">;
 
@@ -40,28 +60,38 @@ const RideDetailScreen: React.FC = () => {
 
   const { data: ride, isLoading, error } = useRideById(rideId);
 
+  const isOwner = ride?.ownerId === currentUser?.id;
+
+  // ── Passenger mutations ───────────────────────────────────────────────────
   const bookRideMutation = useBookRide();
   const cancelBookingMutation = useCancelBooking();
 
-  // Find the current user's booking on this ride (if any)
+  // ── Driver mutations ──────────────────────────────────────────────────────
+  const acceptBookingMutation = useAcceptBooking();
+  const rejectBookingMutation = useRejectBooking();
+  const startRideMutation = useStartRide();
+  const completeRideMutation = useCompleteRide();
+  const cancelRideMutation = useCancelRide();
+
+  // Fetch booking requests only when user is the owner
+  const { data: rideBookings = [] } = useRideBookings(isOwner ? rideId : "");
+
+  // Current user's booking (passenger view)
   const myBooking = ride?.bookings?.find(
     (b) => b.passengerId === currentUser?.id
   );
 
-  const isOwner = ride?.ownerId === currentUser?.id;
-
+  // ── Passenger handlers ────────────────────────────────────────────────────
   const handleBook = useCallback(() => {
     if (!ride) return;
     bookRideMutation.mutate(
       { rideId: ride.id, dto: { seatsBooked: 1 } },
       {
-        onSuccess: () => {
+        onSuccess: () =>
           Alert.alert(
-            "Booking Confirmed!",
-            "Your seat has been requested. You will be notified once the driver accepts.",
-            [{ text: "OK" }]
-          );
-        },
+            "Booking Requested!",
+            "Your seat has been requested. You will be notified once the driver accepts."
+          ),
         onError: (err: any) => {
           const message =
             err?.response?.data?.message ?? "Failed to book ride. Please try again.";
@@ -74,40 +104,155 @@ const RideDetailScreen: React.FC = () => {
   const handleCancelBooking = useCallback(
     (bookingId: string) => {
       if (!ride) return;
-      Alert.alert(
-        "Cancel Booking",
-        "Are you sure you want to cancel this booking?",
-        [
-          { text: "No", style: "cancel" },
-          {
-            text: "Yes, Cancel",
-            style: "destructive",
-            onPress: () => {
-              cancelBookingMutation.mutate(
-                { rideId: ride.id, bookingId },
-                {
-                  onSuccess: () =>
-                    Alert.alert("Cancelled", "Your booking has been cancelled."),
-                  onError: () =>
-                    Alert.alert("Error", "Could not cancel your booking. Please try again."),
-                }
-              );
-            },
-          },
-        ]
-      );
+      Alert.alert("Cancel Booking", "Are you sure you want to cancel this booking?", [
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes, Cancel",
+          style: "destructive",
+          onPress: () =>
+            cancelBookingMutation.mutate(
+              { rideId: ride.id, bookingId },
+              {
+                onSuccess: () =>
+                  Alert.alert("Cancelled", "Your booking has been cancelled."),
+                onError: () =>
+                  Alert.alert("Error", "Could not cancel booking. Please try again."),
+              }
+            ),
+        },
+      ]);
     },
     [ride, cancelBookingMutation]
   );
 
+  // ── Driver handlers ───────────────────────────────────────────────────────
+  const handleAcceptBooking = useCallback(
+    (bookingId: string) => {
+      acceptBookingMutation.mutate(
+        { rideId, bookingId },
+        {
+          onError: (err: any) => {
+            const message =
+              err?.response?.data?.message ?? "Failed to accept booking.";
+            Alert.alert("Error", message);
+          },
+        }
+      );
+    },
+    [rideId, acceptBookingMutation]
+  );
+
+  const handleRejectBooking = useCallback(
+    (bookingId: string) => {
+      Alert.alert("Decline Booking", "Decline this passenger's request?", [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Decline",
+          style: "destructive",
+          onPress: () =>
+            rejectBookingMutation.mutate(
+              { rideId, bookingId },
+              {
+                onError: (err: any) => {
+                  const message =
+                    err?.response?.data?.message ?? "Failed to decline booking.";
+                  Alert.alert("Error", message);
+                },
+              }
+            ),
+        },
+      ]);
+    },
+    [rideId, rejectBookingMutation]
+  );
+
+  const handleStartRide = useCallback(() => {
+    Alert.alert("Start Ride", "Are you ready to start this ride?", [
+      { text: "Not yet", style: "cancel" },
+      {
+        text: "Start",
+        onPress: () =>
+          startRideMutation.mutate(rideId, {
+            onSuccess: () =>
+              Alert.alert("Ride Started", "Your ride is now underway."),
+            onError: (err: any) => {
+              const message =
+                err?.response?.data?.message ?? "Could not start ride.";
+              Alert.alert("Error", message);
+            },
+          }),
+      },
+    ]);
+  }, [rideId, startRideMutation]);
+
+  const handleCompleteRide = useCallback(() => {
+    Alert.alert(
+      "Complete Ride",
+      "Mark this ride as completed? All accepted passengers will be marked as dropped off.",
+      [
+        { text: "Not yet", style: "cancel" },
+        {
+          text: "Complete",
+          onPress: () =>
+            completeRideMutation.mutate(
+              { id: rideId },
+              {
+                onSuccess: () =>
+                  Alert.alert(
+                    "Ride Completed",
+                    "This ride has been marked as complete."
+                  ),
+                onError: (err: any) => {
+                  const message =
+                    err?.response?.data?.message ?? "Could not complete ride.";
+                  Alert.alert("Error", message);
+                },
+              }
+            ),
+        },
+      ]
+    );
+  }, [rideId, completeRideMutation]);
+
+  const handleCancelRide = useCallback(() => {
+    Alert.alert(
+      "Cancel Ride",
+      "Are you sure you want to cancel this ride? All passengers will be notified.",
+      [
+        { text: "Keep Ride", style: "cancel" },
+        {
+          text: "Cancel Ride",
+          style: "destructive",
+          onPress: () =>
+            cancelRideMutation.mutate(rideId, {
+              onSuccess: () => {
+                Alert.alert("Ride Cancelled", "Your ride has been cancelled.", [
+                  { text: "OK", onPress: () => rideNavigation.goBack() },
+                ]);
+              },
+              onError: (err: any) => {
+                const message =
+                  err?.response?.data?.message ?? "Could not cancel ride.";
+                Alert.alert("Error", message);
+              },
+            }),
+        },
+      ]
+    );
+  }, [rideId, cancelRideMutation, rideNavigation]);
+
+  // ── Loading / Error states ────────────────────────────────────────────────
   if (isLoading) return <LoadingState message="Loading ride..." />;
 
   if (error || !ride) {
     return (
       <SafeAreaView style={styles.container} edges={["top"]}>
         <ScreenHeader title="Ride Details" onBack={() => rideNavigation.goBack()} />
-        <View style={styles.errorContainer}>
-          <InlineAlert type="error" message="Could not load ride details. Please go back and try again." />
+        <View style={styles.pad}>
+          <InlineAlert
+            type="error"
+            message="Could not load ride details. Please go back and try again."
+          />
         </View>
       </SafeAreaView>
     );
@@ -126,9 +271,8 @@ const RideDetailScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Route card ─────────────────────────────────────────── */}
+        {/* ── Route card ─────────────────────────────────────────────── */}
         <View style={styles.routeCard}>
-          {/* Origin */}
           <View style={styles.routePoint}>
             <View style={[styles.dot, styles.dotOrigin]} />
             <View style={styles.routeTextBlock}>
@@ -137,12 +281,31 @@ const RideDetailScreen: React.FC = () => {
             </View>
           </View>
 
-          {/* Connecting line */}
           <View style={styles.routeLineWrap}>
             <View style={styles.routeLine} />
           </View>
 
-          {/* Destination */}
+          {/* Intermediate stops */}
+          {ride.routePoints
+            ?.filter((p) => p.pointType === "INTERMEDIATE")
+            .sort((a, b) => a.orderIndex - b.orderIndex)
+            .map((stop) => (
+              <React.Fragment key={stop.id}>
+                <View style={styles.routePoint}>
+                  <View style={[styles.dot, styles.dotStop]} />
+                  <View style={styles.routeTextBlock}>
+                    <Text style={styles.routePointLabel}>Stop</Text>
+                    <Text style={[styles.routePointValue, styles.routePointValueStop]}>
+                      {stop.label ?? `Stop ${stop.orderIndex}`}
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.routeLineWrap}>
+                  <View style={styles.routeLine} />
+                </View>
+              </React.Fragment>
+            ))}
+
           <View style={styles.routePoint}>
             <View style={[styles.dot, styles.dotDest]} />
             <View style={styles.routeTextBlock}>
@@ -152,7 +315,7 @@ const RideDetailScreen: React.FC = () => {
           </View>
         </View>
 
-        {/* ── Info rows ──────────────────────────────────────────── */}
+        {/* ── Trip details ────────────────────────────────────────────── */}
         <View style={styles.infoSection}>
           <SectionHeader title="Trip Details" />
           <RideInfoRow
@@ -177,14 +340,14 @@ const RideDetailScreen: React.FC = () => {
           />
         </View>
 
-        {/* ── Driver info ────────────────────────────────────────── */}
-        {ride.owner && (
+        {/* ── Driver info (passenger view only) ──────────────────────── */}
+        {ride.owner && !isOwner && (
           <View style={styles.driverSection}>
             <DriverInfo driver={ride.owner} car={ride.car} />
           </View>
         )}
 
-        {/* ── Notes ─────────────────────────────────────────────── */}
+        {/* ── Notes ──────────────────────────────────────────────────── */}
         {ride.notes ? (
           <View style={styles.notesSection}>
             <SectionHeader title="Notes from driver" />
@@ -192,36 +355,83 @@ const RideDetailScreen: React.FC = () => {
           </View>
         ) : null}
 
-        {/* ── Verification warning ───────────────────────────────── */}
+        {/* ── Verification warning (passenger only) ───────────────────── */}
         {!isVerified && !isOwner && (
-          <InlineAlert
-            type="warning"
-            message="Verify your account to book this ride. Only verified users can join rides."
-          />
+          <>
+            <InlineAlert
+              type="warning"
+              message="Verify your account to book this ride. Only verified users can join rides."
+            />
+            <Text
+              style={styles.verifyLink}
+              onPress={() => rootNavigation.navigate("AccountVerification")}
+            >
+              Tap here to verify your account →
+            </Text>
+          </>
         )}
 
-        {/* ── Verify CTA ─────────────────────────────────────────── */}
-        {!isVerified && !isOwner && (
-          <Text
-            style={styles.verifyLink}
-            onPress={() => rootNavigation.navigate("AccountVerification")}
-          >
-            Tap here to verify your account →
-          </Text>
+        {/* ── 6c: Driver — Booking requests ──────────────────────────── */}
+        {isOwner && (
+          <View style={styles.bookingsSection}>
+            <SectionHeader
+              title={`Booking Requests (${rideBookings.length})`}
+            />
+
+            {rideBookings.length === 0 ? (
+              <View style={styles.emptyBookings}>
+                <Text style={styles.emptyBookingsText}>
+                  No booking requests yet. Share your ride so passengers can find it.
+                </Text>
+              </View>
+            ) : (
+              rideBookings.map((booking) => (
+                <BookingRequestCard
+                  key={booking.id}
+                  booking={booking}
+                  onAccept={handleAcceptBooking}
+                  onReject={handleRejectBooking}
+                  isAccepting={
+                    acceptBookingMutation.isPending &&
+                    (acceptBookingMutation.variables as any)?.bookingId === booking.id
+                  }
+                  isRejecting={
+                    rejectBookingMutation.isPending &&
+                    (rejectBookingMutation.variables as any)?.bookingId === booking.id
+                  }
+                />
+              ))
+            )}
+          </View>
         )}
       </ScrollView>
 
-      {/* ── Sticky booking footer ───────────────────────────────── */}
-      <BookingStatusBar
-        ride={ride}
-        myBooking={myBooking}
-        isVerified={isVerified}
-        isOwner={isOwner}
-        onBook={handleBook}
-        onCancelBooking={handleCancelBooking}
-        isBooking={bookRideMutation.isPending}
-        isCancelling={cancelBookingMutation.isPending}
-      />
+      {/* ── Passenger sticky footer ─────────────────────────────────── */}
+      {!isOwner && (
+        <BookingStatusBar
+          ride={ride}
+          myBooking={myBooking}
+          isVerified={isVerified}
+          isOwner={false}
+          onBook={handleBook}
+          onCancelBooking={handleCancelBooking}
+          isBooking={bookRideMutation.isPending}
+          isCancelling={cancelBookingMutation.isPending}
+        />
+      )}
+
+      {/* ── 6d: Driver sticky footer — lifecycle controls ────────────── */}
+      {isOwner && (
+        <RideStatusActions
+          rideStatus={ride.status}
+          onStart={handleStartRide}
+          onComplete={handleCompleteRide}
+          onCancel={handleCancelRide}
+          isStarting={startRideMutation.isPending}
+          isCompleting={completeRideMutation.isPending}
+          isCancelling={cancelRideMutation.isPending}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -238,7 +448,7 @@ const styles = StyleSheet.create({
     padding: Spacing.base,
     paddingBottom: Spacing.xxl,
   },
-  errorContainer: {
+  pad: {
     padding: Spacing.base,
   },
 
@@ -266,6 +476,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryMedium,
     borderColor: Colors.primaryMedium,
   },
+  dotStop: {
+    backgroundColor: Colors.white,
+    borderColor: Colors.warning,
+  },
   dotDest: {
     backgroundColor: Colors.white,
     borderColor: Colors.primary,
@@ -282,6 +496,11 @@ const styles = StyleSheet.create({
     fontSize: FontSize.md,
     fontWeight: "700",
     color: Colors.text,
+  },
+  routePointValueStop: {
+    fontSize: FontSize.base,
+    fontWeight: "500",
+    color: Colors.textMuted,
   },
   routeLineWrap: {
     paddingLeft: 5,
@@ -325,6 +544,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: Spacing.base,
     textDecorationLine: "underline",
+  },
+
+  // Driver bookings section
+  bookingsSection: {
+    marginBottom: Spacing.base,
+  },
+  emptyBookings: {
+    padding: Spacing.base,
+    backgroundColor: Colors.surface,
+    borderRadius: Radius.sm,
+    alignItems: "center",
+  },
+  emptyBookingsText: {
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    textAlign: "center",
+    lineHeight: 18,
   },
 });
 
