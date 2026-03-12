@@ -105,4 +105,8 @@ export interface RideSearchQuery {
   origin?: string;
   destination?: string;
   date?: string;
+  originLat?: number;
+  originLng?: number;
+  destinationLat?: number;
+  destinationLng?: number;
 }

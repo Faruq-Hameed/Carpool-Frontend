@@ -14,6 +14,7 @@ import { Colors, Spacing, FontSize } from "@/theme";
 import ProfileSummary from "../profile/components/ProfileSummary";
 import VerificationBox from "./components/VerificationBox";
 import { TabSelector, RideSearchForm } from "./components";
+import { PlaceSelection } from "./components/PlacesInput";
 import CustomModal from "@/components/modals/CustomModal";
 import { PseudoModalScreen } from "../profile/components";
 
@@ -42,8 +43,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   }, [hasModalShown, isVerified]);
 
   // ─── Search form state ───────────────────────────────────────
-  const [leavingFrom, setLeavingFrom] = useState("");
-  const [goingTo, setGoingTo] = useState("");
+  const [origin, setOrigin] = useState<PlaceSelection | null>(null);
+  const [destination, setDestination] = useState<PlaceSelection | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [datePickerVisible, setDatePickerVisible] = useState(false);
@@ -51,17 +52,13 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [searchError, setSearchError] = useState("");
 
   // ─── Handlers ────────────────────────────────────────────────
-  const clearError = () => {
-    if (searchError) setSearchError("");
-  };
-
   const handleFindRide = () => {
-    if (!leavingFrom.trim()) {
-      setSearchError("Please enter your pick-up location.");
+    if (!origin) {
+      setSearchError("Please select your pick-up location.");
       return;
     }
-    if (!goingTo.trim()) {
-      setSearchError("Please enter your destination.");
+    if (!destination) {
+      setSearchError("Please select your destination.");
       return;
     }
     setSearchError("");
@@ -70,8 +67,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       screen: "RideResults",
       params: {
         query: {
-          origin: leavingFrom.trim(),
-          destination: goingTo.trim(),
+          origin: origin.label,
+          destination: destination.label,
+          originLat: origin.lat,
+          originLng: origin.lng,
+          destinationLat: destination.lat,
+          destinationLng: destination.lng,
           date: format(selectedDate, "yyyy-MM-dd"),
           page: 1,
           size: 20,
@@ -88,7 +89,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="always"
       >
         <ProfileSummary />
 
@@ -123,17 +124,15 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
         {/* Search form */}
         <RideSearchForm
-          leavingFrom={leavingFrom}
-          goingTo={goingTo}
           selectedDate={displayDate}
           selectedTime={displayTime}
-          onLeavingFromChange={(t) => {
-            setLeavingFrom(t);
-            clearError();
+          onOriginSelect={(place) => {
+            setOrigin(place);
+            if (searchError) setSearchError("");
           }}
-          onGoingToChange={(t) => {
-            setGoingTo(t);
-            clearError();
+          onDestinationSelect={(place) => {
+            setDestination(place);
+            if (searchError) setSearchError("");
           }}
           onDatePress={() => setDatePickerVisible(true)}
           onTimePress={() => setTimePickerVisible(true)}
