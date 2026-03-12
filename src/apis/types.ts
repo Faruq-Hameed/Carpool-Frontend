@@ -5,6 +5,14 @@ export interface GenericResponse<T> {
   data: T;
 }
 
+/** Shape returned by all paginated backend endpoints */
+export interface PaginatedData<T> {
+  total_docs: number;
+  page: number;
+  total_pages: number;
+  size: number;
+  docs: T[];
+}
 
 export interface ApiError {
   message: string;

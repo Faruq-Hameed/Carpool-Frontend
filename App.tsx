@@ -13,10 +13,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "./src/contexts/AuthContext";
 import RootStackNavigator from "./src/navigation/RootNavigator";
 import { ResetPasscodeProvider } from "@/contexts/ResetPasscodeContext";
+import { configureForegroundNotifications } from "@/utils/registerPushToken";
 
 // SplashScreen.preventAutoHideAsync();
 // Initialize React Query Client
 const queryClient = new QueryClient();
+
+// Configure how notifications appear while the app is open (must run at module level)
+configureForegroundNotifications();
 
 // Loading component
 const LoadingScreen = () => (

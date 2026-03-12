@@ -26,7 +26,15 @@
     },
     "plugins": [
       "expo-font",
-      "expo-splash-screen"
+      "expo-splash-screen",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#126415",
+          "sounds": []
+        }
+      ]
     ],
     "extra": {
       "eas": {

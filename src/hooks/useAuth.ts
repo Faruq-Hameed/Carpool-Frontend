@@ -15,6 +15,10 @@ import User from "@/models/User";
 import { getMe, verifyEmailApi } from "@/apis/auth";
 import { useMutation } from "@tanstack/react-query";
 import UserKycStatus from "@/models/UserKycStatus";
+import {
+  registerPushToken,
+  deregisterPushToken,
+} from "@/utils/registerPushToken";
 
 function useAuth() {
   const context = useContext(authContext);
@@ -76,6 +80,8 @@ function useAuth() {
   /** Logout user */
   async function logout() {
     try {
+      // Deregister push token before clearing storage (needs the stored token)
+      await deregisterPushToken();
       await clearStoreUser();
       dispatch({ type: actionTypes.LOGOUT, payload: null });
     } catch (error) {
@@ -105,6 +111,10 @@ function useAuth() {
     saveAuthTokenToStorage(data.token);
     await saveUser(data.user);
     if (completeData) setLoginStatus(true);
+    // Register device for push notifications — fire-and-forget, never blocks login
+    registerPushToken().catch((err) =>
+      console.warn("[push] registration skipped:", err)
+    );
   }
 
   /**Handle set kyc status after updates is got from api */

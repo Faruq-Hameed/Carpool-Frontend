@@ -1,147 +1,218 @@
 import React, { useEffect, useState } from "react";
-import { View, Text as RNText, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { DashboardTabParamList } from "../../../navigation/DashboardNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProfileSummary from "../profile/components/ProfileSummary";
-import { PseudoModalScreen } from "../profile/components";
-import CustomModal from "@/components/modals/CustomModal";
-import VerificationNavigator from "@/navigation/VerificationNavigator";
-import {
-  useProfileNavigation,
-  useRootNavigation,
-} from "@/hooks/useTypedNavigation";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Ionicons } from "@expo/vector-icons";
+import { format } from "date-fns";
+
+import { DashboardTabParamList } from "@/navigation/DashboardNavigator";
+import { useRootNavigation } from "@/hooks/useTypedNavigation";
 import { useAuth } from "@/hooks/useAuth";
-import VerificationBox from "./components/VerificationBox";
 import { ApiStatus } from "@/utils/constants/ApiStatus";
+import { Colors, Spacing, FontSize } from "@/theme";
+import ProfileSummary from "../profile/components/ProfileSummary";
+import VerificationBox from "./components/VerificationBox";
+import { TabSelector, RideSearchForm } from "./components";
+import CustomModal from "@/components/modals/CustomModal";
+import { PseudoModalScreen } from "../profile/components";
 
-import { 
-  LocationInput, 
-  DateTimePicker, 
-  TabSelector, 
-  RideSearchForm 
-} from './components';
-import { AppIcon } from "@/components/others/AppIcon";
-import Spacer from "@/components/others/Spacer";
-
-// Use BottomTabScreenProps instead of StackScreenProps for tab navigation
 type Props = BottomTabScreenProps<DashboardTabParamList, "Home">;
 
-const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const rootNavigation = useRootNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [hasModalShown, setHasShown] = useState(false); // track if modal was shown once
-
- // State for ride search
-  const [activeTab, setActiveTab] = useState<'find' | 'offer'>('find');
-  const [leavingFrom, setLeavingFrom] = useState('');
-  const [goingTo, setGoingTo] = useState('');
-  const [selectedDate, setSelectedDate] = useState('Fri, 11 April');
-  const [selectedTime, setSelectedTime] = useState('9:05 AM');
-
   const { currentUser, UserKycStatus } = useAuth();
-  useEffect(() => {
-    if (!hasModalShown) {
-      const timer = setTimeout(() => {
-        setModalVisible(true);
-        setHasShown(true); // mark as shown so it never triggers again
-      }, 5000);
 
-      return () => clearTimeout(timer); // cleanup
-    }
-  }, [hasModalShown]);
-  /**User is verified if nin and dob are verified */
+  // ─── Verification modal ──────────────────────────────────────
+  const [modalVisible, setModalVisible] = useState(false);
+  const [hasModalShown, setHasShown] = useState(false);
+
   const isVerified =
     UserKycStatus.dobStatus === ApiStatus.VERIFIED &&
     UserKycStatus.ninStatus === ApiStatus.VERIFIED;
-    UserKycStatus.selfieStatus === ApiStatus.VERIFIED;
 
+  useEffect(() => {
+    if (!hasModalShown && !isVerified) {
+      const timer = setTimeout(() => {
+        setModalVisible(true);
+        setHasShown(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [hasModalShown, isVerified]);
 
-     const handleDatePress = () => {
-    // Open your date picker modal
-  };
+  // ─── Search form state ───────────────────────────────────────
+  const [leavingFrom, setLeavingFrom] = useState("");
+  const [goingTo, setGoingTo] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState(new Date());
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
+  const [timePickerVisible, setTimePickerVisible] = useState(false);
+  const [searchError, setSearchError] = useState("");
 
-  const handleTimePress = () => {
-    // Open your time picker modal
+  // ─── Handlers ────────────────────────────────────────────────
+  const clearError = () => {
+    if (searchError) setSearchError("");
   };
 
   const handleFindRide = () => {
-    if (!leavingFrom || !goingTo) {
-      // Show error toast
+    if (!leavingFrom.trim()) {
+      setSearchError("Please enter your pick-up location.");
       return;
     }
-    // Navigate to search results
-    // navigation.navigate('RideResults', {
-    //   from: leavingFrom,
-    //   to: goingTo,
-    //   date: selectedDate,
-    //   time: selectedTime,
-    // });
+    if (!goingTo.trim()) {
+      setSearchError("Please enter your destination.");
+      return;
+    }
+    setSearchError("");
+
+    rootNavigation.navigate("RideStack", {
+      screen: "RideResults",
+      params: {
+        query: {
+          origin: leavingFrom.trim(),
+          destination: goingTo.trim(),
+          date: format(selectedDate, "yyyy-MM-dd"),
+          page: 1,
+          size: 20,
+        },
+      },
+    });
   };
 
+  const displayDate = format(selectedDate, "EEE, d MMM");
+  const displayTime = format(selectedTime, "h:mm a");
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ProfileSummary />
-      {/* Show verification box if user is not verified */}
-      {!isVerified && <VerificationBox />}
+    <SafeAreaView style={styles.container} edges={["top"]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+      >
+        <ProfileSummary />
+
+        {!isVerified && <VerificationBox />}
+
+        {/* Find / Offer tab toggle */}
+        <TabSelector
+          activeTab="find"
+          onTabChange={(tab) => {
+            if (tab === "offer") navigation.navigate("Offer");
+          }}
+          findIcon={
+            <Ionicons
+              name="search-outline"
+              size={18}
+              color={Colors.primaryMedium}
+            />
+          }
+          offerIcon={
+            <Ionicons
+              name="car-outline"
+              size={18}
+              color={Colors.textSecondary}
+            />
+          }
+        />
+
+        {/* Validation error */}
+        {searchError ? (
+          <Text style={styles.errorText}>{searchError}</Text>
+        ) : null}
+
+        {/* Search form */}
+        <RideSearchForm
+          leavingFrom={leavingFrom}
+          goingTo={goingTo}
+          selectedDate={displayDate}
+          selectedTime={displayTime}
+          onLeavingFromChange={(t) => {
+            setLeavingFrom(t);
+            clearError();
+          }}
+          onGoingToChange={(t) => {
+            setGoingTo(t);
+            clearError();
+          }}
+          onDatePress={() => setDatePickerVisible(true)}
+          onTimePress={() => setTimePickerVisible(true)}
+          onFindRide={handleFindRide}
+          mapPinIcon={
+            <Ionicons
+              name="location-outline"
+              size={18}
+              color={Colors.textSecondary}
+            />
+          }
+          navigationIcon={
+            <Ionicons
+              name="navigate-outline"
+              size={18}
+              color={Colors.textSecondary}
+            />
+          }
+          calendarIcon={
+            <Ionicons
+              name="calendar-outline"
+              size={16}
+              color={Colors.textSecondary}
+            />
+          }
+          clockIcon={
+            <Ionicons
+              name="time-outline"
+              size={16}
+              color={Colors.textSecondary}
+            />
+          }
+        />
+      </ScrollView>
+
+      {/* Date picker modal */}
+      <DateTimePickerModal
+        isVisible={datePickerVisible}
+        mode="date"
+        date={selectedDate}
+        minimumDate={new Date()}
+        onConfirm={(date) => {
+          setDatePickerVisible(false);
+          setSelectedDate(date);
+        }}
+        onCancel={() => setDatePickerVisible(false)}
+      />
+
+      {/* Time picker modal */}
+      <DateTimePickerModal
+        isVisible={timePickerVisible}
+        mode="time"
+        date={selectedTime}
+        onConfirm={(time) => {
+          setTimePickerVisible(false);
+          setSelectedTime(time);
+        }}
+        onCancel={() => setTimePickerVisible(false)}
+      />
+
+      {/* Verification nudge modal (shows once, 5s after mount) */}
       {modalVisible && !isVerified && (
         <CustomModal
           onClose={() => setModalVisible(false)}
           visible={modalVisible}
-          children={
-            <PseudoModalScreen
-              headerText={`Welcome, ${currentUser.firstName ?? "User"}`} //This should come from state i.e current user.firstname
-              description="For everyone’s safety, only verified users can join or offer rides on Share."
-              upperBtnTitle="OK, Let’s do it now"
-              onUpperBtnPress={() => {
-                rootNavigation.navigate("AccountVerification");
-                setModalVisible(false);
-              }}
-              lowerBtnTitle="Maybe later"
-              //   handle delete api and logout will be called
-              onLowerBtnPress={() => {
-                // logout();
-                setModalVisible(false);
-              }}
-              // lowerBtnColour="#CC0000"
-            />
-          }
-        />
+        >
+          <PseudoModalScreen
+            headerText={`Welcome, ${currentUser?.firstName ?? "User"}`}
+            description="For everyone's safety, only verified users can join or offer rides on Share."
+            upperBtnTitle="OK, Let's do it now"
+            onUpperBtnPress={() => {
+              rootNavigation.navigate("AccountVerification");
+              setModalVisible(false);
+            }}
+            lowerBtnTitle="Maybe later"
+            onLowerBtnPress={() => setModalVisible(false)}
+          />
+        </CustomModal>
       )}
-      <Spacer />
-      {/* Tab Selector */}
-      <TabSelector
-        activeTab={activeTab}
-        onTabChange={(tab) => {
-          setActiveTab(tab);
-          if (tab === 'offer') {
-            console.log('Navigate to Offer Ride screen');
-            // navigation.navigate('OfferRide');
-          }
-        }}
-        findIcon={<AppIcon name="carProfile" size={20} />}
-        offerIcon={<AppIcon name="carProfile" size={20}/>}
-      />
-
-      {/* Ride Search Form */}
-      <RideSearchForm
-        leavingFrom={leavingFrom}
-        goingTo={goingTo}
-        selectedDate={selectedDate}
-        selectedTime={selectedTime}
-        onLeavingFromChange={setLeavingFrom}
-        onGoingToChange={setGoingTo}
-        onDatePress={handleDatePress}
-        onTimePress={handleTimePress}
-        onFindRide={handleFindRide}
-        mapPinIcon={<AppIcon name="headset" size={20} />}
-        navigationIcon={<AppIcon name="pencilSimpleLine" size={20}  />}
-        calendarIcon={<AppIcon name="caretRight" size={20}  />}
-        clockIcon={<AppIcon name="caretRight" size={20}  />}
-      />
-      <RNText style={{ fontSize: 18, fontWeight: "bold" }}>
-        Welcome to the Home!
-      </RNText>
     </SafeAreaView>
   );
 };
@@ -149,11 +220,17 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    borderBlockColor: "red",
-    // borderWidth: 2,
-    backgroundColor: "#fff",
-    padding: 10,
+    backgroundColor: Colors.white,
+  },
+  scroll: {
+    padding: Spacing.base,
+    paddingBottom: Spacing.xxl,
+  },
+  errorText: {
+    fontSize: FontSize.sm,
+    color: Colors.error,
+    marginBottom: Spacing.sm,
+    marginTop: -Spacing.xs,
   },
 });
 

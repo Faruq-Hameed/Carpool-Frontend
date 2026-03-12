@@ -7,3 +7,4 @@ export const ACCESS_TOKEN_STORAGE_KEY = 'access-token';
 export const REFRESH_TOKEN_STORAGE_KEY = "refresh-token";
 export const USER_STORAGE_KEY = "carpool-user";
 export const USER_KYC_STATUS_STORAGE_KEY = "carpool-user-kyc-status";
+export const PUSH_TOKEN_KEY = "carpool-push-token";

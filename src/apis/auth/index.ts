@@ -11,6 +11,8 @@ import {
   ResetPasscodePayload,
   createJobIdRequestPayload,
   changeEmailPayload,
+  ChangePasscodeDto,
+  VerifyPasscodeDto,
 } from "./types";
 
 /**Login api call */
@@ -71,4 +73,21 @@ export function createJobId(payload: createJobIdRequestPayload) {
 /**Api to get user */
 export function getMe() {
   return request.get<GenericResponse<User>>("/users/me");
+}
+
+/** Update profile picture */
+export function updateProfilePictureApi(file: FormData) {
+  return request.patch<GenericResponse<User>>("/users/me/profile-picture", file, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
+/** Change passcode */
+export function changePasscodeApi(dto: ChangePasscodeDto) {
+  return request.put<GenericResponse<null>>("/auths/passcode", dto);
+}
+
+/** Verify passcode */
+export function verifyPasscodeApi(dto: VerifyPasscodeDto) {
+  return request.post<GenericResponse<null>>("/auths/verify/passcode", dto);
 }

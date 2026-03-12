@@ -57,3 +57,12 @@ export interface createJobIdRequestPayload {
   passcode: string;
   purpose: VerifyOtpPurposes;
 }
+
+export interface ChangePasscodeDto {
+  oldPasscode: string;
+  newPasscode: string;
+}
+
+export interface VerifyPasscodeDto {
+  passcode: string;
+}

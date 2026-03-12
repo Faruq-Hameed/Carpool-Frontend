@@ -3,6 +3,7 @@ import {
   ACCESS_TOKEN_STORAGE_KEY,
   USER_KYC_STATUS_STORAGE_KEY,
   USER_STORAGE_KEY,
+  PUSH_TOKEN_KEY,
 } from "./constants";
 import { UserKycStatu } from "@/apis/verifications/types";
 import { ApiStatus } from "./constants/ApiStatus";
@@ -123,3 +124,30 @@ export const getUserUserKycStatusFromStorage =
       };
     }
   };
+
+// ─── Push token helpers ───────────────────────────────────────────────────────
+
+export const storePushToken = async (token: string) => {
+  try {
+    await AsyncStorage.setItem(PUSH_TOKEN_KEY, token);
+  } catch (e) {
+    console.log("storePushToken error:", e);
+  }
+};
+
+export const getPushToken = async (): Promise<string | null> => {
+  try {
+    return await AsyncStorage.getItem(PUSH_TOKEN_KEY);
+  } catch (e) {
+    console.log("getPushToken error:", e);
+    return null;
+  }
+};
+
+export const removePushToken = async () => {
+  try {
+    await AsyncStorage.removeItem(PUSH_TOKEN_KEY);
+  } catch (e) {
+    console.log("removePushToken error:", e);
+  }
+};

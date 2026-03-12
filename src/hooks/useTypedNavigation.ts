@@ -4,6 +4,7 @@ import { AuthStackParamList } from "../navigation/AuthNavigator";
 import { ProfileStackParamList } from "@/navigation/ProfileStackNavigator";
 import { VerificationStackParamList } from "@/navigation/VerificationNavigator";
 import { RootStackParamList } from "@/navigation/RootNavigator";
+import { RideStackParamList } from "@/navigation/RideStackNavigator";
 
 type RootNavigationKey = keyof RootStackParamList;
 /**Use this hook to get the navigation prop of the RootStack navigator. */
@@ -31,4 +32,10 @@ export function useVerificationNavigation<
   return useNavigation<
     StackNavigationProp<VerificationStackParamList, RouteName>
   >();
+}
+
+type RideNavigationKey = keyof RideStackParamList;
+/** Use this hook to get the navigation prop of the RideStack navigator. */
+export function useRideNavigation<RouteName extends RideNavigationKey>() {
+  return useNavigation<StackNavigationProp<RideStackParamList, RouteName>>();
 }

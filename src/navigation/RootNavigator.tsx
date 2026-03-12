@@ -8,23 +8,27 @@ import {
   DashboardTabs,
   ProfileStackNavigator,
   VerificationNavigator,
+  RideStackNavigator,
 } from ".";
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { ProfileStackParamList } from "./ProfileStackNavigator";
 import { AuthStackParamList } from "./AuthNavigator";
+import { RideStackParamList } from "./RideStackNavigator";
 
 export type RootStackParamList = {
   AuthStack: NavigatorScreenParams<AuthStackParamList>;
   DashboardStack: undefined;
   AccountVerification: undefined;
-  /**Making ts allow me to access it’s a nested stack that can take screen + params. */
+  /** Making ts allow me to access it's a nested stack that can take screen + params. */
   ProfileStack: NavigatorScreenParams<ProfileStackParamList>;
+  /** Ride search results and ride detail screens */
+  RideStack: NavigatorScreenParams<RideStackParamList>;
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const { isLoggedIn, loading, } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
 
   if (loading) {
     return (
@@ -40,9 +44,9 @@ export default function RootStackNavigator() {
         <RootStack.Screen name="AuthStack" component={AuthNavigator} />
       ) : (
         <>
-          {/* Dashboard screens and global are only available when user is login */}
+          {/* Main dashboard tabs */}
           <RootStack.Screen name="DashboardStack" component={DashboardTabs} />
-          {/* Global navigation routes */}
+          {/* Global routes accessible from anywhere inside the app */}
           <RootStack.Screen
             name="AccountVerification"
             component={VerificationNavigator}
@@ -51,6 +55,7 @@ export default function RootStackNavigator() {
             name="ProfileStack"
             component={ProfileStackNavigator}
           />
+          <RootStack.Screen name="RideStack" component={RideStackNavigator} />
         </>
       )}
     </RootStack.Navigator>
