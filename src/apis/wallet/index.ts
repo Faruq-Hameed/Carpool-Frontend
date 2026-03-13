@@ -21,9 +21,9 @@ export function getMyTransactionsApi(page = 1, size = 10) {
   );
 }
 
-/** Fund the wallet */
+/** Fund the wallet (returns the credit transaction) */
 export function fundWalletApi(dto: FundWalletDto) {
-  return request.post<GenericResponse<Wallet>>("/wallet/fund", dto);
+  return request.post<GenericResponse<WalletTransaction>>("/wallet/fund", dto);
 }
 
 /** Request a withdrawal */
@@ -31,6 +31,13 @@ export function requestWithdrawalApi(dto: WithdrawalRequestDto) {
   return request.post<GenericResponse<WithdrawalRequest>>(
     "/wallet/withdraw",
     dto
+  );
+}
+
+/** Get my current pending withdrawal, if any (null if none) */
+export function getPendingWithdrawalApi() {
+  return request.get<GenericResponse<WithdrawalRequest | null>>(
+    "/wallet/withdraw/pending"
   );
 }
 

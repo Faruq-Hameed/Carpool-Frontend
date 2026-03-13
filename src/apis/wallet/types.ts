@@ -1,10 +1,13 @@
 export type TransactionType = "CREDIT" | "DEBIT";
 export type TransactionReason =
-  | "RIDE_EARNING"
-  | "RIDE_REFUND"
+  | "FUND"
   | "RIDE_PAYMENT"
-  | "MANUAL_CREDIT"
-  | "MANUAL_DEBIT";
+  | "RIDE_REFUND"
+  | "RIDE_EARNING"
+  | "WITHDRAWAL"
+  | "WITHDRAWAL_REVERSAL"
+  | "DIRECT_CREDIT"
+  | "DIRECT_DEBIT";
 export type WithdrawalStatus =
   | "PENDING"
   | "APPROVED"
@@ -40,9 +43,11 @@ export interface BankDetails {
 export interface WithdrawalRequest {
   id: string;
   walletId: string;
+  userId: string;
   amount: number;
   status: WithdrawalStatus;
   bankDetails: BankDetails;
+  adminNote?: string;
   createdAt: string;
   updatedAt: string;
 }

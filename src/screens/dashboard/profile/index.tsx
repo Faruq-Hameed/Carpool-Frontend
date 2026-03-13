@@ -30,7 +30,7 @@ const Profile: React.FC = () => {
         onPress={() => profileNavigation.navigate("MyCars")}
         leftIcon="userGear"
       />
-      <LightStackFrame title="Wallet" onPress={() => {}} leftIcon="wallet" />
+      <LightStackFrame title="Wallet" onPress={() => profileNavigation.navigate("WalletScreen")} leftIcon="wallet" />
       <LightStackFrame title="Support" onPress={() => {}} leftIcon="headset" />
       <LightStackFrame
         title="Account Settings"
