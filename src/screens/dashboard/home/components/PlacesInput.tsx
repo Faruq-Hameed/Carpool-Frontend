@@ -1,9 +1,13 @@
-import React, { useRef } from "react";
-import { View, TouchableOpacity, Alert, StyleSheet } from "react-native";
+import React, { useState, useRef, useCallback } from "react";
 import {
-  GooglePlacesAutocomplete,
-  GooglePlacesAutocompleteRef,
-} from "react-native-google-places-autocomplete";
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  Alert,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { Colors, Spacing, Radius, FontSize } from "@/theme";
@@ -17,12 +21,22 @@ export interface PlaceSelection {
   lng: number;
 }
 
+interface Prediction {
+  place_id: string;
+  description: string;
+  structured_formatting: {
+    main_text: string;
+    secondary_text: string;
+  };
+}
+
 interface PlacesInputProps {
   placeholder: string;
   onSelect: (place: PlaceSelection) => void;
   icon?: React.ReactNode;
-  /** Show GPS "use current location" icon on the right (origin field only) */
   showCurrentLocation?: boolean;
+  /** Pre-fill the input with this value (e.g. from search context or ride defaults) */
+  defaultValue?: PlaceSelection;
 }
 
 export const PlacesInput: React.FC<PlacesInputProps> = ({
@@ -30,8 +44,55 @@ export const PlacesInput: React.FC<PlacesInputProps> = ({
   onSelect,
   icon,
   showCurrentLocation = false,
+  defaultValue,
 }) => {
-  const inputRef = useRef<GooglePlacesAutocompleteRef>(null);
+  const [query, setQuery] = useState(defaultValue?.label ?? "");
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const fetchPredictions = useCallback(async (text: string) => {
+    if (text.length < 2) {
+      setPredictions([]);
+      return;
+    }
+    setLoading(true);
+    try {
+      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(text)}&key=${GOOGLE_PLACES_API_KEY}&language=en&components=country:ng`;
+      const res = await fetch(url);
+      const json = await res.json();
+      setPredictions(json.predictions ?? []);
+    } catch (e) {
+      console.error("[PlacesInput] autocomplete error:", e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const handleChangeText = (text: string) => {
+    setQuery(text);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchPredictions(text), 350);
+  };
+
+  const handleSelect = async (prediction: Prediction) => {
+    setQuery(prediction.description);
+    setPredictions([]);
+    try {
+      const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${prediction.place_id}&fields=geometry&key=${GOOGLE_PLACES_API_KEY}`;
+      const res = await fetch(url);
+      const json = await res.json();
+      const loc = json.result?.geometry?.location;
+      onSelect({
+        label: prediction.description,
+        lat: loc?.lat ?? 0,
+        lng: loc?.lng ?? 0,
+      });
+    } catch (e) {
+      console.error("[PlacesInput] place details error:", e);
+      onSelect({ label: prediction.description, lat: 0, lng: 0 });
+    }
+  };
 
   const handleCurrentLocation = async () => {
     try {
@@ -43,84 +104,91 @@ export const PlacesInput: React.FC<PlacesInputProps> = ({
         );
         return;
       }
-
       const loc = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Balanced,
       });
       const { latitude, longitude } = loc.coords;
-
       const [address] = await Location.reverseGeocodeAsync({
         latitude,
         longitude,
       });
-
       const parts = [
         address?.street,
         address?.district,
         address?.city,
         address?.region,
       ].filter(Boolean);
-
       const label =
         parts.length > 0
           ? parts.join(", ")
           : `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-
-      inputRef.current?.setAddressText(label);
+      setQuery(label);
+      setPredictions([]);
       onSelect({ label, lat: latitude, lng: longitude });
     } catch (err) {
-      console.error("[PlacesInput] Current location error:", err);
+      console.error("[PlacesInput] current location error:", err);
       Alert.alert("Error", "Could not get your current location. Try again.");
     }
   };
 
   return (
     <View style={styles.wrapper}>
-      <GooglePlacesAutocomplete
-        ref={inputRef}
-        placeholder={placeholder}
-        fetchDetails
-        onPress={(data, details) => {
-          onSelect({
-            label: data.description,
-            lat: details?.geometry?.location?.lat ?? 0,
-            lng: details?.geometry?.location?.lng ?? 0,
-          });
-        }}
-        query={{
-          key: GOOGLE_PLACES_API_KEY,
-          language: "en",
-          components: "country:ng",
-        }}
-        renderLeftButton={() =>
-          icon ? <View style={styles.iconWrapper}>{icon}</View> : null
-        }
-        renderRightButton={() =>
-          showCurrentLocation ? (
+      {/* Input row */}
+      <View style={styles.inputContainer}>
+        {icon && <View style={styles.iconWrapper}>{icon}</View>}
+        <TextInput
+          style={styles.textInput}
+          placeholder={placeholder}
+          placeholderTextColor={Colors.textTertiary}
+          value={query}
+          onChangeText={handleChangeText}
+          autoCorrect={false}
+        />
+        {loading && (
+          <ActivityIndicator
+            size="small"
+            color={Colors.primary}
+            style={styles.loader}
+          />
+        )}
+        {showCurrentLocation && !loading && (
+          <TouchableOpacity
+            onPress={handleCurrentLocation}
+            style={styles.locateBtn}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="locate" size={18} color={Colors.primary} />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {/* Suggestions dropdown */}
+      {predictions.length > 0 && (
+        <View style={styles.listView}>
+          {predictions.map((item, index) => (
             <TouchableOpacity
-              onPress={handleCurrentLocation}
-              style={styles.locateBtn}
-              activeOpacity={0.7}
+              key={item.place_id}
+              style={[styles.row, index < predictions.length - 1 && styles.rowBorder]}
+              onPress={() => handleSelect(item)}
+              activeOpacity={0.75}
             >
-              <Ionicons name="locate" size={18} color={Colors.primary} />
+              <View style={styles.pinIconWrap}>
+                <Ionicons name="location" size={16} color={Colors.primary} />
+              </View>
+              <View style={styles.rowTextWrap}>
+                <Text style={styles.mainText} numberOfLines={1}>
+                  {item.structured_formatting?.main_text ?? item.description}
+                </Text>
+                {!!item.structured_formatting?.secondary_text && (
+                  <Text style={styles.secondaryText} numberOfLines={1}>
+                    {item.structured_formatting.secondary_text}
+                  </Text>
+                )}
+              </View>
             </TouchableOpacity>
-          ) : null
-        }
-        onFail={(error) => console.error("[PlacesInput] onFail:", error)}
-        onNotFound={() => console.log("[PlacesInput] onNotFound")}
-        minLength={2}
-        enablePoweredByContainer={false}
-        textInputProps={{ placeholderTextColor: Colors.textTertiary }}
-        styles={{
-          container: { flex: 0 },
-          textInputContainer: styles.inputContainer,
-          textInput: styles.textInput,
-          listView: styles.listView,
-          row: styles.row,
-          description: styles.description,
-          separator: styles.separator,
-        }}
-      />
+          ))}
+        </View>
+      )}
     </View>
   );
 };
@@ -148,9 +216,9 @@ const styles = StyleSheet.create({
     color: Colors.text,
     paddingVertical: 14,
     paddingHorizontal: Spacing.md,
-    height: undefined,
-    marginBottom: 0,
-    backgroundColor: "transparent",
+  },
+  loader: {
+    paddingHorizontal: Spacing.md,
   },
   locateBtn: {
     paddingHorizontal: Spacing.md,
@@ -158,29 +226,51 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   listView: {
-    maxHeight: 220,
     borderWidth: 1,
     borderColor: Colors.border,
     borderRadius: Radius.sm,
-    marginTop: 4,
     backgroundColor: Colors.white,
-    elevation: 4,
+    marginTop: 4,
+    elevation: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.12,
     shadowRadius: 4,
   },
   row: {
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.md,
+    paddingVertical: 12,
+    gap: Spacing.sm,
+  },
+  rowBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  pinIconWrap: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#EAF2EA",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rowTextWrap: {
+    flex: 1,
+  },
+  mainText: {
+    fontSize: FontSize.sm,
+    fontWeight: "600",
+    color: Colors.text,
+  },
+  secondaryText: {
+    fontSize: FontSize.xs,
+    color: Colors.textSecondary,
+    marginTop: 2,
   },
   description: {
     fontSize: FontSize.sm,
     color: Colors.text,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: Colors.border,
-    marginHorizontal: Spacing.md,
   },
 });

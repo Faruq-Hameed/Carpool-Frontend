@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ScrollView,
   View,
@@ -11,10 +11,10 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 
 import { RideStackParamList } from "@/navigation/RideStackNavigator";
 import { useRideNavigation, useRootNavigation } from "@/hooks/useTypedNavigation";
+import { BookingSheet } from "./components/BookingSheet";
 import {
   useRideById,
   useRideBookings,
-  useBookRide,
   useCancelBooking,
   useAcceptBooking,
   useRejectBooking,
@@ -50,7 +50,9 @@ const RideDetailScreen: React.FC = () => {
   const route = useRoute<RouteProps>();
   const rideNavigation = useRideNavigation();
   const rootNavigation = useRootNavigation();
-  const { rideId } = route.params;
+  const { rideId, searchOrigin, searchDestination } = route.params;
+
+  const [bookingSheetOpen, setBookingSheetOpen] = useState(false);
 
   const { currentUser, UserKycStatus } = useAuth();
 
@@ -63,7 +65,6 @@ const RideDetailScreen: React.FC = () => {
   const isOwner = ride?.ownerId === currentUser?.id;
 
   // ── Passenger mutations ───────────────────────────────────────────────────
-  const bookRideMutation = useBookRide();
   const cancelBookingMutation = useCancelBooking();
 
   // ── Driver mutations ──────────────────────────────────────────────────────
@@ -83,23 +84,8 @@ const RideDetailScreen: React.FC = () => {
 
   // ── Passenger handlers ────────────────────────────────────────────────────
   const handleBook = useCallback(() => {
-    if (!ride) return;
-    bookRideMutation.mutate(
-      { rideId: ride.id, dto: { seatsBooked: 1 } },
-      {
-        onSuccess: () =>
-          Alert.alert(
-            "Booking Requested!",
-            "Your seat has been requested. You will be notified once the driver accepts."
-          ),
-        onError: (err: any) => {
-          const message =
-            err?.response?.data?.message ?? "Failed to book ride. Please try again.";
-          Alert.alert("Booking Failed", message);
-        },
-      }
-    );
-  }, [ride, bookRideMutation]);
+    setBookingSheetOpen(true);
+  }, []);
 
   const handleCancelBooking = useCallback(
     (bookingId: string) => {
@@ -338,6 +324,13 @@ const RideDetailScreen: React.FC = () => {
             label="Price per seat"
             value={formatNaira(ride.pricePerSeat)}
           />
+          {ride.distanceKm != null && (
+            <RideInfoRow
+              icon="navigate-outline"
+              label="Total distance"
+              value={`~${Number(ride.distanceKm).toFixed(1)} km`}
+            />
+          )}
         </View>
 
         {/* ── Driver info (passenger view only) ──────────────────────── */}
@@ -415,8 +408,25 @@ const RideDetailScreen: React.FC = () => {
           isOwner={false}
           onBook={handleBook}
           onCancelBooking={handleCancelBooking}
-          isBooking={bookRideMutation.isPending}
+          isBooking={false}
           isCancelling={cancelBookingMutation.isPending}
+        />
+      )}
+
+      {/* ── Booking sheet ───────────────────────────────────────────── */}
+      {ride && !isOwner && (
+        <BookingSheet
+          visible={bookingSheetOpen}
+          ride={ride}
+          defaultBoarding={searchOrigin}
+          defaultAlighting={searchDestination}
+          onClose={() => setBookingSheetOpen(false)}
+          onSuccess={() =>
+            Alert.alert(
+              "Booking Requested!",
+              "Your seat has been requested. You will be notified once the driver accepts."
+            )
+          }
         />
       )}
 

@@ -63,7 +63,7 @@ export function completeRideApi(id: string, dto?: CompleteRideDto) {
 }
 
 /** Book a seat on a ride */
-export function bookRideApi(rideId: string, dto?: CreateBookingDto) {
+export function bookRideApi(rideId: string, dto: CreateBookingDto) {
   return request.post<GenericResponse<RideBooking>>(
     `/rides/${rideId}/bookings`,
     dto

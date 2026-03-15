@@ -10,6 +10,7 @@ import {
   FontSize,
   formatShortDate,
   formatTime,
+  formatNaira,
 } from "@/theme";
 
 interface BookingCardProps {
@@ -94,6 +95,29 @@ export const BookingCard: React.FC<BookingCardProps> = ({
           <Text style={styles.metaText}>
             {formatShortDate(ride.departureTime)} ·{" "}
             {formatTime(ride.departureTime)}
+          </Text>
+        </View>
+      )}
+
+      {/* ── Segment ──────────────────────────────────────────────── */}
+      {(booking.boardingLabel || booking.alightingLabel) && (
+        <View style={styles.metaItem}>
+          <Ionicons name="navigate-outline" size={13} color={Colors.textSecondary} />
+          <Text style={styles.metaText} numberOfLines={1}>
+            {booking.boardingLabel ?? "?"} → {booking.alightingLabel ?? "?"}
+          </Text>
+        </View>
+      )}
+
+      {/* ── Fare ─────────────────────────────────────────────────── */}
+      {booking.fareAmount != null && (
+        <View style={styles.metaItem}>
+          <Ionicons name="cash-outline" size={13} color={Colors.textSecondary} />
+          <Text style={styles.metaText}>
+            {formatNaira(Number(booking.fareAmount))}
+            {booking.platformFee != null
+              ? ` + ${formatNaira(Number(booking.platformFee))} fee`
+              : ""}
           </Text>
         </View>
       )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -10,7 +10,7 @@ import { DashboardTabParamList } from "@/navigation/DashboardNavigator";
 import { useRootNavigation } from "@/hooks/useTypedNavigation";
 import { useAuth } from "@/hooks/useAuth";
 import { ApiStatus } from "@/utils/constants/ApiStatus";
-import { Colors, Spacing, FontSize } from "@/theme";
+import { Colors, Spacing, FontSize, Radius } from "@/theme";
 import ProfileSummary from "../profile/components/ProfileSummary";
 import VerificationBox from "./components/VerificationBox";
 import { TabSelector, RideSearchForm } from "./components";
@@ -166,6 +166,19 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             />
           }
         />
+
+        {/* Browse all rides shortcut */}
+        <TouchableOpacity
+          style={styles.browseBtn}
+          activeOpacity={0.8}
+          onPress={() =>
+            rootNavigation.navigate("RideStack", { screen: "BrowseRides" })
+          }
+        >
+          <Ionicons name="list-outline" size={16} color={Colors.primary} />
+          <Text style={styles.browseBtnText}>Browse all available rides</Text>
+          <Ionicons name="chevron-forward" size={16} color={Colors.primary} />
+        </TouchableOpacity>
       </ScrollView>
 
       {/* Date picker modal */}
@@ -230,6 +243,24 @@ const styles = StyleSheet.create({
     color: Colors.error,
     marginBottom: Spacing.sm,
     marginTop: -Spacing.xs,
+  },
+  browseBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+    marginTop: Spacing.md,
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.base,
+    backgroundColor: Colors.primaryLight,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  browseBtnText: {
+    flex: 1,
+    fontSize: FontSize.sm,
+    fontWeight: "600",
+    color: Colors.primary,
   },
 });
 

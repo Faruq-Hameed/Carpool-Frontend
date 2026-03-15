@@ -111,7 +111,7 @@ export function useCompleteRide() {
 export function useBookRide() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ rideId, dto }: { rideId: string; dto?: CreateBookingDto }) =>
+    mutationFn: ({ rideId, dto }: { rideId: string; dto: CreateBookingDto }) =>
       bookRideApi(rideId, dto).then((r) => r.data.data),
     onSuccess: (_data, { rideId }) => {
       qc.invalidateQueries({ queryKey: rideKeys.rideBookings(rideId) });

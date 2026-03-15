@@ -36,6 +36,8 @@ export interface Ride {
   totalSeats: number;
   availableSeats: number;
   pricePerSeat: number;
+  /** Total route distance in km, computed from route points at creation */
+  distanceKm?: number;
   status: RideStatus;
   notes?: string;
   ownerId: string;
@@ -52,6 +54,18 @@ export interface RideBooking {
   id: string;
   seatsBooked: number;
   status: BookingStatus;
+  /** Passenger's boarding point */
+  boardingLat: number;
+  boardingLng: number;
+  boardingLabel?: string;
+  /** Passenger's alighting point */
+  alightingLat: number;
+  alightingLng: number;
+  alightingLabel?: string;
+  /** Proportional fare for this passenger's segment */
+  fareAmount: number;
+  /** Platform fee on top of fareAmount */
+  platformFee: number;
   rideId: string;
   ride: Ride;
   passengerId: string;
@@ -92,6 +106,12 @@ export interface UpdateRideDto {
 
 export interface CreateBookingDto {
   seatsBooked?: number;
+  boardingLat: number;
+  boardingLng: number;
+  boardingLabel?: string;
+  alightingLat: number;
+  alightingLng: number;
+  alightingLabel?: string;
 }
 
 export interface CompleteRideDto {

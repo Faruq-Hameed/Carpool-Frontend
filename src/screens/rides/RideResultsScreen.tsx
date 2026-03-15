@@ -30,9 +30,18 @@ const RideResultsScreen: React.FC = () => {
 
   const handleRidePress = useCallback(
     (rideId: string) => {
-      navigation.navigate("RideDetail", { rideId });
+      // Pass search origin/destination so booking sheet can pre-fill boarding/alighting
+      const searchOrigin =
+        query.originLat != null && query.originLng != null
+          ? { label: query.origin ?? "", lat: query.originLat, lng: query.originLng }
+          : undefined;
+      const searchDestination =
+        query.destinationLat != null && query.destinationLng != null
+          ? { label: query.destination ?? "", lat: query.destinationLat, lng: query.destinationLng }
+          : undefined;
+      navigation.navigate("RideDetail", { rideId, searchOrigin, searchDestination });
     },
-    [navigation]
+    [navigation, query]
   );
 
   return (

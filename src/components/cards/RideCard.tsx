@@ -69,7 +69,7 @@ export const RideCard: React.FC<RideCardProps> = ({
         </View>
       </View>
 
-      {/* ── Meta: time + seats ───────────────────────────────────── */}
+      {/* ── Meta: time + seats + distance ────────────────────────── */}
       <View style={styles.metaRow}>
         <View style={styles.metaItem}>
           <Ionicons name="time-outline" size={13} color={Colors.textSecondary} />
@@ -84,6 +84,13 @@ export const RideCard: React.FC<RideCardProps> = ({
             {ride.availableSeats}/{ride.totalSeats} seats
           </Text>
         </View>
+
+        {ride.distanceKm != null && (
+          <View style={styles.metaItem}>
+            <Ionicons name="navigate-outline" size={13} color={Colors.textSecondary} />
+            <Text style={styles.metaText}>~{Number(ride.distanceKm).toFixed(0)} km</Text>
+          </View>
+        )}
       </View>
 
       {/* ── Driver ───────────────────────────────────────────────── */}
