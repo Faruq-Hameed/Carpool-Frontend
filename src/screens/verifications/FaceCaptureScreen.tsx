@@ -25,12 +25,15 @@ type ScreenState = "guide" | "preview";
 
 const FaceCaptureScreen: React.FC = () => {
   const navigation = useVerificationNavigation();
-  const { setUserKycStatus } = useAuth();
+  const { setUserKycStatus, UserKycStatus } = useAuth();
 
   const [screenState, setScreenState] = useState<ScreenState>("guide");
   const [capturedUri, setCapturedUri] = useState<string | null>(null);
   const [isCapturing, setIsCapturing] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  // Show "under review" if already pending from a previous session
+  const [submitted, setSubmitted] = useState(
+    UserKycStatus.selfieStatus === ApiStatus.PENDING,
+  );
 
   const { initiateApiCall, isLoading, error } = useMutationHandler<UserKycStatus>(
     "faceVeriication",
