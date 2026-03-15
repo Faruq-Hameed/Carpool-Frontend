@@ -17,7 +17,7 @@ export const DriverInfo: React.FC<DriverInfoProps> = ({ driver, car }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Driver</Text>
+      <Text style={styles.sectionTitle}>Owner</Text>
 
       <View style={styles.row}>
         {/* Avatar */}

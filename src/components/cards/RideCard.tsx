@@ -31,7 +31,7 @@ export const RideCard: React.FC<RideCardProps> = ({
     : "?";
   const driverName = ride.owner
     ? `${ride.owner.firstName} ${ride.owner.lastName}`
-    : "Unknown driver";
+    : "Unknown owner";
 
   return (
     <TouchableOpacity

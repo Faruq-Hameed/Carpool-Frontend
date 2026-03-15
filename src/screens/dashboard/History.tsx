@@ -123,7 +123,7 @@ const DriverHistory: React.FC<DriverHistoryProps> = ({ onRidePress }) => {
       onRefresh={handleRefresh}
       isRefreshing={isFetching && page === 1 && allRides.length > 0}
       emptyTitle="No rides offered yet"
-      emptySubtitle="Rides you create as a driver will appear here."
+      emptySubtitle="Rides you create as an owner will appear here."
       contentContainerStyle={styles.list}
     />
   );

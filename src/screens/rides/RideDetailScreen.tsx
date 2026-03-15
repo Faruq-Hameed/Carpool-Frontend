@@ -343,7 +343,7 @@ const RideDetailScreen: React.FC = () => {
         {/* ── Notes ──────────────────────────────────────────────────── */}
         {ride.notes ? (
           <View style={styles.notesSection}>
-            <SectionHeader title="Notes from driver" />
+            <SectionHeader title="Notes from owner" />
             <Text style={styles.notesText}>{ride.notes}</Text>
           </View>
         ) : null}
@@ -424,7 +424,7 @@ const RideDetailScreen: React.FC = () => {
           onSuccess={() =>
             Alert.alert(
               "Booking Requested!",
-              "Your seat has been requested. You will be notified once the driver accepts."
+              "Your seat has been requested. You will be notified once the owner accepts."
             )
           }
         />

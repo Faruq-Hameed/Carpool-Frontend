@@ -40,7 +40,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const personName = person
     ? `${person.firstName} ${person.lastName}`
     : "Unknown";
-  const personRole = perspective === "passenger" ? "Driver" : "Passenger";
+  const personRole = perspective === "passenger" ? "Owner" : "Passenger";
 
   return (
     <TouchableOpacity

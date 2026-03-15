@@ -11,7 +11,7 @@ interface HistoryTabBarProps {
 
 const TABS: { key: HistoryTab; label: string }[] = [
   { key: "passenger", label: "As Passenger" },
-  { key: "driver", label: "As Driver" },
+  { key: "driver", label: "As Owner" },
 ];
 
 export const HistoryTabBar: React.FC<HistoryTabBarProps> = ({
