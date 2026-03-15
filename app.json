@@ -34,8 +34,16 @@
           "color": "#126415",
           "sounds": []
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Carpool to access your photos for KYC selfie.",
+          "cameraPermission": "Allow Carpool to use your camera to take a selfie for identity verification."
+        }
       ]
     ],
+    "newArchEnabled": false,
     "extra": {
       "eas": {
         "projectId": "78541a66-e60e-442c-aa7d-11151459a621"

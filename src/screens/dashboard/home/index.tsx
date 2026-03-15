@@ -30,7 +30,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const isVerified =
     UserKycStatus.dobStatus === ApiStatus.VERIFIED &&
-    UserKycStatus.ninStatus === ApiStatus.VERIFIED;
+    UserKycStatus.ninStatus === ApiStatus.VERIFIED &&
+    UserKycStatus.selfieStatus === ApiStatus.VERIFIED;
 
   useEffect(() => {
     if (!hasModalShown && !isVerified) {

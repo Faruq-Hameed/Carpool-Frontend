@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: Spacing.sm,
+    zIndex: 2,
+    overflow: "visible",
   },
   sectionLabel: {
     fontSize: FontSize.sm,

@@ -4,9 +4,12 @@ import { StyleSheet, View } from "react-native";
 import Text from "@/components/texts";
 import { AppIcon } from "@/components/others/AppIcon";
 import { useAuth } from "@/hooks/useAuth";
+import { useMyWallet } from "@/hooks/useWallet";
+import { getGreeting } from "@/utils";
 
 const ProfileSummary: React.FC<{}> = () => {
   const { currentUser } = useAuth();
+  const { data: wallet } = useMyWallet();
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -19,7 +22,7 @@ const ProfileSummary: React.FC<{}> = () => {
           {`${currentUser?.lastName ?? ""} ${currentUser?.firstName ?? ""}`}
         </Text>
         {/* /Actual period will be used e.g*/}
-        <Text style={styles.period}>Good afternoon</Text>
+        <Text style={styles.period}>{getGreeting()}</Text>
       </View>
       {/* wallet container */}
       <View style={styles.rightContainer}>
@@ -28,7 +31,7 @@ const ProfileSummary: React.FC<{}> = () => {
           <AppIcon name="whiteWallet" />
           <Text style={styles.balance} h4 h4Style={styles.rating}>
             {" "}
-            N10,000.00
+            N{Number(wallet?.balance ?? 0).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
           </Text>
         </View>
 

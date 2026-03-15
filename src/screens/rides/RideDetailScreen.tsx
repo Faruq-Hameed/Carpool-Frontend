@@ -58,7 +58,8 @@ const RideDetailScreen: React.FC = () => {
 
   const isVerified =
     UserKycStatus.dobStatus === ApiStatus.VERIFIED &&
-    UserKycStatus.ninStatus === ApiStatus.VERIFIED;
+    UserKycStatus.ninStatus === ApiStatus.VERIFIED &&
+    UserKycStatus.selfieStatus === ApiStatus.VERIFIED;
 
   const { data: ride, isLoading, error } = useRideById(rideId);
 

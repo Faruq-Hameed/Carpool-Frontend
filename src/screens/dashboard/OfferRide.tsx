@@ -26,6 +26,7 @@ import { InlineAlert } from "@/components/shared/InlineAlert";
 import { Colors, Spacing, Radius, FontSize } from "@/theme";
 import { Car } from "@/apis/cars/types";
 import { RideRoutePointDto } from "@/apis/rides/types";
+import { PlacesInput, PlaceSelection } from "@/screens/dashboard/home/components/PlacesInput";
 
 type Props = BottomTabScreenProps<DashboardTabParamList, "Offer">;
 
@@ -116,12 +117,12 @@ function combineDateAndTime(date: Date, time: Date): Date {
 }
 
 function buildRoutePoints(
-  origin: string,
+  origin: PlaceSelection,
   stops: string[],
-  destination: string
+  destination: PlaceSelection
 ): RideRoutePointDto[] {
   const points: RideRoutePointDto[] = [
-    { orderIndex: 0, pointType: "START", latitude: 0, longitude: 0, label: origin.trim() },
+    { orderIndex: 0, pointType: "START", latitude: origin.lat, longitude: origin.lng, label: origin.label },
   ];
 
   stops.forEach((stop, i) => {
@@ -139,9 +140,9 @@ function buildRoutePoints(
   points.push({
     orderIndex: points.length,
     pointType: "END",
-    latitude: 0,
-    longitude: 0,
-    label: destination.trim(),
+    latitude: destination.lat,
+    longitude: destination.lng,
+    label: destination.label,
   });
 
   return points;
@@ -157,8 +158,8 @@ const OfferRideScreen: React.FC<Props> = () => {
   const verifiedCars = cars.filter((c) => c.carStatus === "VERIFIED");
 
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
+  const [origin, setOrigin] = useState<PlaceSelection | null>(null);
+  const [destination, setDestination] = useState<PlaceSelection | null>(null);
   const [stops, setStops] = useState<string[]>([]);
   const [totalSeats, setTotalSeats] = useState(4);
   const [pricePerSeat, setPricePerSeat] = useState("");
@@ -178,8 +179,8 @@ const OfferRideScreen: React.FC<Props> = () => {
 
   const isValid =
     !!selectedCarId &&
-    origin.trim().length > 0 &&
-    destination.trim().length > 0 &&
+    !!origin &&
+    !!destination &&
     pricePerSeat.trim().length > 0 &&
     parseFloat(pricePerSeat) > 0;
 
@@ -198,19 +199,19 @@ const OfferRideScreen: React.FC<Props> = () => {
     createRideMutation.mutate(
       {
         carId: selectedCarId!,
-        origin: origin.trim(),
-        destination: destination.trim(),
+        origin: origin!.label,
+        destination: destination!.label,
         departureTime: combinedDeparture.toISOString(),
         totalSeats,
         pricePerSeat: parseFloat(pricePerSeat),
         notes: notes.trim() || undefined,
-        routePoints: buildRoutePoints(origin, stops, destination),
+        routePoints: buildRoutePoints(origin!, stops, destination!),
       },
       {
         onSuccess: (ride) => {
           setSelectedCarId(null);
-          setOrigin("");
-          setDestination("");
+          setOrigin(null);
+          setDestination(null);
           setStops([]);
           setPricePerSeat("");
           setNotes("");
@@ -255,7 +256,7 @@ const OfferRideScreen: React.FC<Props> = () => {
       >
         <ScrollView
           contentContainerStyle={styles.scroll}
-          keyboardShouldPersistTaps="handled"
+          keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}
         >
           {/* ── 1. Car selection ──────────────────────────────────────── */}
@@ -307,12 +308,12 @@ const OfferRideScreen: React.FC<Props> = () => {
 
           {/* ── 2. Route ──────────────────────────────────────────────── */}
           <FormSection title="Route">
-            <LabeledInput
-              label="Leaving from *"
-              value={origin}
-              onChange={setOrigin}
+            <Text style={styles.label}>Leaving from *</Text>
+            <PlacesInput
               placeholder="Enter pick-up location"
-              icon="location-outline"
+              onSelect={setOrigin}
+              icon={<Ionicons name="location-outline" size={18} color={Colors.textSecondary} />}
+              showCurrentLocation
             />
 
             {stops.map((stop, index) => (
@@ -351,12 +352,11 @@ const OfferRideScreen: React.FC<Props> = () => {
               <Text style={styles.addStopText}>Add a stop along the route</Text>
             </TouchableOpacity>
 
-            <LabeledInput
-              label="Going to *"
-              value={destination}
-              onChange={setDestination}
+            <Text style={styles.label}>Going to *</Text>
+            <PlacesInput
               placeholder="Enter drop-off location"
-              icon="navigate-outline"
+              onSelect={setDestination}
+              icon={<Ionicons name="navigate-outline" size={18} color={Colors.textSecondary} />}
             />
           </FormSection>
 

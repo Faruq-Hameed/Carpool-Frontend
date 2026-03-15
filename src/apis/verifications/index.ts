@@ -47,9 +47,11 @@ export function getUserKycStatusApi(userId: string) {
   });
 }
 
-/**Api to Get user kyc staus */
-export function useFaceVerificationApi() {
-  return request.post<GenericResponse<UserKycStatus>>("/kyc/selfie");
+/** Upload selfie as multipart/form-data for admin review */
+export function uploadSelfieApi(formData: FormData) {
+  return request.post<GenericResponse<UserKycStatus>>("/kyc/selfie", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 }
 
 // export function changeEmailApi(payload: VerifyEmailPayload) {

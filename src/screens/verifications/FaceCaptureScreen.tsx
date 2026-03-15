@@ -1,165 +1,393 @@
-import React, { useReducer } from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
-
-import Text from "@/components/texts";
-import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
-import { AppIcon } from "@/components/others/AppIcon";
-import NavButton from "@/components/buttons/GreenButton";
-import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
-import InfoTextFrame from "@/components/texts/InfoText";
+import React, { useState } from "react";
 import {
-  BaseFaceCaptureState,
-  faceCaptureReducer,
-  actionTypes,
-} from "@/reducers/faceCaptureReducer";
-import PleaseWaitModal from "@/components/modals/PleaseWaitModal";
-import { ErrorToast } from "@/components/modals/ErrorToast";
-import ContinueModal from "@/components/modals/ContinueModal";
-import Spacer from "@/components/others/Spacer";
-import SmallSpacer from "@/components/others/SmallSpacer";
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { Ionicons } from "@expo/vector-icons";
+
+import NavButton from "@/components/buttons/GreenButton";
+import UpperTextsFrame from "@/components/navigation/upperTextsFrame";
+import { useVerificationNavigation } from "@/hooks/useTypedNavigation";
 import { useAuth } from "@/hooks/useAuth";
-import { ApiStatus } from "@/utils/constants/ApiStatus";
 import { useMutationHandler } from "@/hooks/useMutationHandler";
+import { ApiStatus } from "@/utils/constants/ApiStatus";
 import UserKycStatus from "@/models/UserKycStatus";
+import { Colors, Spacing, Radius, FontSize } from "@/theme";
 
-/**Face Capture verification prep screen */
+type ScreenState = "guide" | "preview";
+
 const FaceCaptureScreen: React.FC = () => {
-  // const [state, dispatch] = useReducer(
-  //   faceCaptureReducer,
-  //   BaseFaceCaptureState
-  // );
-  const { setUserKycStatus, UserKycStatus } = useAuth();
-
-  const { initiateApiCall, isLoading, error, message } = useMutationHandler<{
-    userKyc: any;
-  }>("faceVeriication", (data, message) => {
-    console.log({ data, message });
-    setUserKycStatus(data as unknown as UserKycStatus);
-  });
-
-  // const { isLoading, error, completionMessage } = state;
   const navigation = useVerificationNavigation();
+  const { setUserKycStatus } = useAuth();
 
-  const handleVerificationCall = (success = false) => {
-    console.log("Face capture initiated");
-    // dispatch({ type: actionTypes.SET_LOADING, payload: true });
-    console.log({ isLoading });
-    const message = success
-      ? "Face captured successfully"
-      : "Face verification failed!";
-    //handle the provider call
-    //simulating for now
-    // setTimeout(() => {
-    //   if (!success) {
-    //     //simulating error
-    //     dispatch({ type: actionTypes.SET_ERROR, payload: message });
-    //     dispatch({ type: actionTypes.SET_LOADING, payload: false });
-    //     return;
-    //   }
-    //   //simulate success
-    //   else {
-    //     dispatch({ type: actionTypes.SET_LOADING, payload: false });
-    //     dispatch({
-    //       type: actionTypes.SET_COMPLETION_MESSAGE,
-    //       payload: message,
-    //     });
-    //     setUserKycStatus({
-    //       ninStatus: UserKycStatus.ninStatus,
-    //       dobStatus: UserKycStatus.dobStatus,
-    //       faceCapture: ApiStatus.VERIFIED,
-    //     });
-    //   }
-    // }, 3000);
+  const [screenState, setScreenState] = useState<ScreenState>("guide");
+  const [capturedUri, setCapturedUri] = useState<string | null>(null);
+  const [isCapturing, setIsCapturing] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const { initiateApiCall, isLoading, error } = useMutationHandler<UserKycStatus>(
+    "faceVeriication",
+    (data) => {
+      if (data) {
+        setUserKycStatus({
+          ninStatus: (data as any).ninStatus ?? ApiStatus.NOT_VERIFIED,
+          dobStatus: (data as any).dobStatus ?? ApiStatus.NOT_VERIFIED,
+          selfieStatus: (data as any).selfieStatus ?? ApiStatus.PENDING,
+        });
+      }
+      setSubmitted(true);
+    },
+  );
+
+  const handleCapture = async () => {
+    setIsCapturing(true);
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Camera Permission Required",
+          "Please allow camera access in your device settings to take a selfie.",
+        );
+        return;
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        cameraType: ImagePicker.CameraType.front,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.8,
+        allowsEditing: false,
+      });
+
+      if (!result.canceled && result.assets[0]) {
+        setCapturedUri(result.assets[0].uri);
+        setScreenState("preview");
+      }
+    } catch {
+      Alert.alert("Error", "Could not open camera. Please try again.");
+    } finally {
+      setIsCapturing(false);
+    }
   };
 
-  return (
-    <SafeAreaView style={styles.mainContainer}>
-      {/* <View style={styles.container}> */}
-      <ErrorToast message={error} />
-      <PleaseWaitModal visible={isLoading} onClose={() => {}} />
-      {!error &&
-        message && ( //if no error and we got our final completion message
-          <ContinueModal
-            title="Continue"
-            message={message} // ✅ Dynamic message from provider or my api
-            visible={message ? true : false}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        )}
-      <View style={styles.upperContainer}>
+  const handleRetake = () => {
+    setCapturedUri(null);
+    setScreenState("guide");
+  };
+
+  const handleSubmit = () => {
+    if (!capturedUri) return;
+    const formData = new FormData();
+    formData.append("selfie", {
+      uri: capturedUri,
+      name: "selfie.jpg",
+      type: "image/jpeg",
+    } as any);
+    initiateApiCall(formData);
+  };
+
+  // ── Submitted state ────────────────────────────────────────────────────
+  if (submitted) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.centeredContent}>
+          <View style={styles.successIcon}>
+            <Ionicons name="time-outline" size={48} color={Colors.primary} />
+          </View>
+          <Text style={styles.successTitle}>Selfie Submitted!</Text>
+          <Text style={styles.successBody}>
+            Your selfie is under review. We'll notify you once it's been
+            verified — usually within 24 hours.
+          </Text>
+          <NavButton title="Done" onPress={() => navigation.goBack()} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // ── Preview state ──────────────────────────────────────────────────────
+  if (screenState === "preview" && capturedUri) {
+    return (
+      <SafeAreaView style={styles.container}>
         <UpperTextsFrame header="Face Capture" />
-        <Spacer />
-        <SmallSpacer />
-        <AppIcon name="faceIcon" size={122} />
-        <Spacer />
-        <SmallSpacer />
+
+        <View style={styles.previewContainer}>
+          <Text style={styles.previewLabel}>Use this photo?</Text>
+          <Text style={styles.previewSub}>
+            Make sure your face is clear, well-lit, and centred.
+          </Text>
+
+          <View style={styles.imageWrapper}>
+            <Image source={{ uri: capturedUri }} style={styles.previewImage} />
+          </View>
+
+          {error && (
+            <View style={styles.errorBox}>
+              <Ionicons name="alert-circle-outline" size={16} color="#DC2626" />
+              <Text style={styles.errorText}>{error}</Text>
+            </View>
+          )}
+        </View>
+
+        <View style={styles.previewActions}>
+          <TouchableOpacity
+            style={styles.retakeBtn}
+            onPress={handleRetake}
+            disabled={isLoading}
+          >
+            <Ionicons name="camera-reverse-outline" size={18} color={Colors.primary} />
+            <Text style={styles.retakeBtnText}>Retake</Text>
+          </TouchableOpacity>
+
+          <View style={styles.submitBtnWrap}>
+            {isLoading ? (
+              <View style={styles.loadingBtn}>
+                <ActivityIndicator color="#fff" size="small" />
+                <Text style={styles.loadingBtnText}>Submitting…</Text>
+              </View>
+            ) : (
+              <NavButton title="Submit Selfie" onPress={handleSubmit} />
+            )}
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // ── Guide state (default) ──────────────────────────────────────────────
+  return (
+    <SafeAreaView style={styles.container}>
+      <UpperTextsFrame header="Face Capture" />
+
+      <View style={styles.guideContent}>
+        <View style={styles.ovalFrame}>
+          <Ionicons name="person-circle-outline" size={120} color={Colors.primary} />
+        </View>
+
+        <Text style={styles.guideTitle}>Take a selfie</Text>
+        <Text style={styles.guideBody}>
+          Your selfie will be reviewed by our team to verify your identity.
+        </Text>
+
+        <View style={styles.tipsBox}>
+          {[
+            "Face the camera directly with a neutral expression",
+            "Ensure your face is fully visible — no sunglasses or hats",
+            "Find a well-lit area with no harsh shadows",
+            "Hold your phone at eye level",
+          ].map((tip, i) => (
+            <View key={i} style={styles.tipRow}>
+              <Ionicons name="checkmark-circle" size={16} color={Colors.primary} />
+              <Text style={styles.tipText}>{tip}</Text>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.infoBox}>
+          <Ionicons name="information-circle-outline" size={16} color={Colors.textSecondary} />
+          <Text style={styles.infoText}>
+            Photo captured will also be used as your profile picture.
+          </Text>
+        </View>
       </View>
 
-      <View style={styles.midContainer}>
-        <Text h4>Face capture</Text>
-        <Text style={styles.text}>
-          Your face needs to be verified against government database. For a
-          successful face capture, please make sure;
-        </Text>
-        <Text style={styles.text}>
-          * You are in a space with enough light to take a clear photo of your
-          face
-        </Text>
-        <Text style={styles.text}>
-          * You're not wearing hats, sunglasses, or face coverings
-        </Text>
-        <Text style={styles.text}>
-          * You’re facing the camera directly with a neutral expression
-        </Text>
-      </View>
-      <Spacer />
-      <SmallSpacer />
-      <InfoTextFrame
-        leftIcon="info"
-        title="Photo captured will also be used as your profile picture."
-      />
       <View style={styles.btnContainer}>
-        <NavButton
-          title="I'm ready, Continue"
-          onPress={initiateApiCall}
-        />
-        {/* <NavButton
-            title="I'm ready, Continue"
-            onPress={() => handleVerificationCall(true)}
-          /> */}
+        {isCapturing ? (
+          <View style={styles.loadingBtn}>
+            <ActivityIndicator color="#fff" size="small" />
+            <Text style={styles.loadingBtnText}>Opening camera…</Text>
+          </View>
+        ) : (
+          <NavButton title="Open Camera" onPress={handleCapture} />
+        )}
       </View>
-      {/* </View> */}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 10,
+    padding: Spacing.base,
   },
-  // container: {
-  //   flex: 1,
-  //   paddingHorizontal: 10,
-  // },
-  upperContainer: {
-    justifyContent: "space-around",
+  centeredContent: {
+    flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: Spacing.lg,
+    gap: Spacing.base,
   },
-  midContainer: {
-    // flex: 0.35,
-    rowGap: 10,
-    padding: 10,
+  successIcon: {
+    width: 80,
+    height: 80,
+    borderRadius: Radius.full,
+    backgroundColor: Colors.primaryLight,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: Spacing.sm,
+  },
+  successTitle: {
+    fontSize: FontSize.xl,
+    fontWeight: "700",
+    color: Colors.text,
+    textAlign: "center",
+  },
+  successBody: {
+    fontSize: FontSize.base,
+    color: Colors.textSecondary,
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: Spacing.base,
+  },
+  guideContent: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: Spacing.base,
+    gap: Spacing.md,
+  },
+  ovalFrame: {
+    width: 160,
+    height: 200,
+    borderRadius: 80,
+    borderWidth: 3,
+    borderColor: Colors.primary,
+    borderStyle: "dashed",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: Spacing.sm,
+  },
+  guideTitle: {
+    fontSize: FontSize.xl,
+    fontWeight: "700",
+    color: Colors.text,
+  },
+  guideBody: {
+    fontSize: FontSize.base,
+    color: Colors.textSecondary,
+    textAlign: "center",
+    lineHeight: 22,
+    paddingHorizontal: Spacing.md,
+  },
+  tipsBox: {
+    width: "100%",
+    gap: Spacing.sm,
+    paddingHorizontal: Spacing.sm,
+  },
+  tipRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: Spacing.sm,
+  },
+  tipText: {
+    flex: 1,
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    lineHeight: 20,
+  },
+  infoBox: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: Spacing.sm,
+    backgroundColor: Colors.surface,
+    borderRadius: Radius.sm,
+    padding: Spacing.md,
+    width: "100%",
+  },
+  infoText: {
+    flex: 1,
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    lineHeight: 18,
   },
   btnContainer: {
-    flex: 0.15,
-    marginTop: 5,
+    paddingBottom: Spacing.sm,
   },
-  text: {
-    fontSize: 14,
+  previewContainer: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: Spacing.sm,
+    gap: Spacing.md,
+  },
+  previewLabel: {
+    fontSize: FontSize.xl,
+    fontWeight: "700",
+    color: Colors.text,
+  },
+  previewSub: {
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    textAlign: "center",
+  },
+  imageWrapper: {
+    width: 220,
+    height: 280,
+    borderRadius: Radius.lg,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor: Colors.primary,
+  },
+  previewImage: {
+    width: "100%",
+    height: "100%",
+  },
+  errorBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+    backgroundColor: "#FEF2F2",
+    borderRadius: Radius.sm,
+    padding: Spacing.md,
+    width: "100%",
+  },
+  errorText: {
+    flex: 1,
+    fontSize: FontSize.sm,
+    color: "#DC2626",
+  },
+  previewActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.md,
+    paddingBottom: Spacing.sm,
+  },
+  retakeBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 12,
+    paddingHorizontal: Spacing.base,
+    borderRadius: Radius.md,
+    borderWidth: 1.5,
+    borderColor: Colors.primary,
+  },
+  retakeBtnText: {
+    fontSize: FontSize.base,
+    fontWeight: "600",
+    color: Colors.primary,
+  },
+  submitBtnWrap: {
+    flex: 1,
+  },
+  loadingBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: Colors.primary,
+    borderRadius: Radius.md,
+    paddingVertical: 14,
+  },
+  loadingBtnText: {
+    color: "#fff",
+    fontSize: FontSize.base,
+    fontWeight: "600",
   },
 });
 
