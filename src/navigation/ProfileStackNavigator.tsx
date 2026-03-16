@@ -8,6 +8,8 @@ import CarDetailScreen from "@/screens/cars/CarDetailScreen";
 import WalletScreen from "@/screens/wallet/WalletScreen";
 import TransactionHistoryScreen from "@/screens/wallet/TransactionHistoryScreen";
 import WithdrawalScreen from "@/screens/wallet/WithdrawalScreen";
+import ChangePasscodeScreen from "@/screens/settings/ChangePasscodeScreen";
+import NotificationPreferencesScreen from "@/screens/settings/NotificationPreferencesScreen";
 
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
@@ -21,6 +23,8 @@ export type ProfileStackParamList = {
   MyCars: undefined;
   AddCar: undefined;
   CarDetail: { carId: string };
+  ChangePasscode: undefined;
+  NotificationPreferences: undefined;
 };
 
 const Stack = createStackNavigator<ProfileStackParamList>();
@@ -39,6 +43,8 @@ const ProfileStackNavigator: React.FC = () => (
     <Stack.Screen name="MyCars" component={MyCarsScreen} />
     <Stack.Screen name="AddCar" component={AddCarScreen} />
     <Stack.Screen name="CarDetail" component={CarDetailScreen} />
+    <Stack.Screen name="ChangePasscode" component={ChangePasscodeScreen} />
+    <Stack.Screen name="NotificationPreferences" component={NotificationPreferencesScreen} />
   </Stack.Navigator>
 );
 

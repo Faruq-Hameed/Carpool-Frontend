@@ -9,13 +9,23 @@ import { useProfileNavigation } from "@/hooks/useTypedNavigation";
 import SignOutModal from "./SignOutModal";
 
 const AccountSettingScreen: React.FC = ({}) => {
-  const [modalVisible, setModalVisible] = useState(false); //This determines if the delete confirmation modal will show up
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useProfileNavigation();
 
   return (
     <SafeAreaView style={style.container}>
       <NavigationHeader title="Account Setting" goBack />
       <Spacer />
+      <NavigationChildFrame
+        title="Change Passcode"
+        leftIcon="userGear"
+        onPress={() => navigation.navigate("ChangePasscode")}
+      />
+      <NavigationChildFrame
+        title="Notification Preferences"
+        leftIcon="userGear"
+        onPress={() => navigation.navigate("NotificationPreferences")}
+      />
       <NavigationChildFrame
         title="Sign Out"
         leftIcon="signOut"

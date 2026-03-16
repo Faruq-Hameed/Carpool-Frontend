@@ -1,24 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
+import { StyleSheet, Alert } from "react-native";
 import { useProfileNavigation } from "@/hooks/useTypedNavigation";
-import { StyleSheet } from "react-native";
 
 import { PseudoModalScreen } from "../dashboard/profile/components";
 import Modal from "@/components/modals/CustomModal";
 import { useAuth } from "@/hooks/useAuth";
+import { useDeleteAccount } from "@/hooks/useProfile";
 
-/** Delete confirmation  that pops up when user click delete in delete account screen
- * With initial state, the modal will be visible when the component mounts
- * @param visible - initial boolean state of the modal without this
- * calling the modal again won't make it visible.
- * @param onClose
- * @returns - Modal component with content and buttons
- */
+/** Delete confirmation modal. Calls DELETE /users/me then logs the user out. */
 const DeleteConfirmationModal: React.FC<{
   visible: boolean;
   onClose: () => void;
 }> = ({ visible, onClose }) => {
   const { logout } = useAuth();
   const navigation = useProfileNavigation();
+  const { mutate: deleteAccount, isPending } = useDeleteAccount();
+
+  const handleDelete = () => {
+    deleteAccount(undefined, {
+      onSuccess: () => {
+        onClose();
+        logout();
+      },
+      onError: (err: any) => {
+        const msg = err?.response?.data?.message ?? "Failed to delete account. Please try again.";
+        Alert.alert("Error", msg);
+      },
+    });
+  };
+
   return (
     <Modal
       visible={visible}
@@ -26,19 +36,14 @@ const DeleteConfirmationModal: React.FC<{
       children={
         <PseudoModalScreen
           headerText="Deleting Account"
-          description="Deleting your account will permanently remove all 
-            your profile and account information. This action can not be undone"
+          description="Deleting your account will permanently remove all your profile and account information. This action cannot be undone."
           upperBtnTitle="Do not Delete"
           onUpperBtnPress={() => {
-            navigation.goBack(); //go back to account setting screen
+            navigation.goBack();
             onClose();
           }}
-          lowerBtnTitle="Yes, delete my account"
-          //   handle delete api and logout will be called
-          onLowerBtnPress={() => {
-            logout();
-            onClose(); //Though not compulsory since logout unmount the current navigation stack
-          }}
+          lowerBtnTitle={isPending ? "Deleting…" : "Yes, delete my account"}
+          onLowerBtnPress={handleDelete}
           lowerBtnColour="#CC0000"
         />
       }
