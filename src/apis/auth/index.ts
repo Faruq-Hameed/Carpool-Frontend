@@ -92,7 +92,7 @@ export function verifyPasscodeApi(dto: VerifyPasscodeDto) {
   return request.post<GenericResponse<null>>("/auths/verify/passcode", dto);
 }
 
-/** Delete own account */
-export function deleteAccountApi() {
-  return request.delete<GenericResponse<null>>("/users/me");
+/** Request account deletion — locks the account pending admin approval */
+export function requestAccountDeletionApi() {
+  return request.post<GenericResponse<null>>("/users/me/deletion-request");
 }

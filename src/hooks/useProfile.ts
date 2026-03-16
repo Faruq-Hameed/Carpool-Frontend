@@ -3,7 +3,7 @@ import {
   updateProfilePictureApi,
   changePasscodeApi,
   verifyPasscodeApi,
-  deleteAccountApi,
+  requestAccountDeletionApi,
 } from "@/apis/auth";
 import { ChangePasscodeDto, VerifyPasscodeDto } from "@/apis/auth/types";
 
@@ -31,8 +31,8 @@ export function useVerifyPasscode() {
   });
 }
 
-export function useDeleteAccount() {
+export function useRequestAccountDeletion() {
   return useMutation({
-    mutationFn: () => deleteAccountApi().then((r) => r.data),
+    mutationFn: () => requestAccountDeletionApi().then((r) => r.data),
   });
 }
