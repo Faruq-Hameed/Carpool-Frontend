@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors, Spacing, Radius, FontSize } from "@/theme";
 import { Conversation } from "@/apis/chat/types";
@@ -39,10 +39,10 @@ const ConversationRow: React.FC<Props> = ({ conversation, currentUserId, onPress
       {/* Avatar */}
       <View style={styles.avatar}>
         {other.profilePicture ? (
-          // eslint-disable-next-line react-native/no-inline-styles
-          <View style={{ width: 46, height: 46, borderRadius: 23, overflow: "hidden" }}>
-            {/* RN Image — avoid inline style by using static style */}
-          </View>
+          <Image
+            source={{ uri: other.profilePicture }}
+            style={styles.avatarImage}
+          />
         ) : (
           <Text style={styles.avatarText}>{initials || "?"}</Text>
         )}
@@ -92,6 +92,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryLight,
     alignItems: "center",
     justifyContent: "center",
+  },
+  avatarImage: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
   },
   avatarText: {
     fontSize: FontSize.base,
