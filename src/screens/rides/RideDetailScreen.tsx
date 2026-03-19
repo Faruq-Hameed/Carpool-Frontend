@@ -43,6 +43,8 @@ import { DriverInfo } from "./components/DriverInfo";
 import { BookingStatusBar } from "./components/BookingStatusBar";
 import { BookingRequestCard } from "./components/BookingRequestCard";
 import { RideStatusActions } from "./components/RideStatusActions";
+import RouteMap from "./components/RouteMap";
+import { useRideTracking } from "@/contexts/RideTrackingContext";
 
 type RouteProps = RouteProp<RideStackParamList, "RideDetail">;
 
@@ -64,6 +66,13 @@ const RideDetailScreen: React.FC = () => {
   const { data: ride, isLoading, error } = useRideById(rideId);
 
   const isOwner = ride?.ownerId === currentUser?.id;
+
+  // ── Live tracking ─────────────────────────────────────────────────────────
+  const { driverLocation } = useRideTracking(
+    rideId,
+    !!isOwner,
+    ride?.status === "ONGOING"
+  );
 
   // ── Passenger mutations ───────────────────────────────────────────────────
   const cancelBookingMutation = useCancelBooking();
@@ -258,6 +267,14 @@ const RideDetailScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        {/* ── Map ──────────────────────────────────────────────────── */}
+        {ride.routePoints && ride.routePoints.length >= 2 && (
+          <RouteMap
+            routePoints={ride.routePoints}
+            driverLocation={driverLocation}
+          />
+        )}
+
         {/* ── Route card ─────────────────────────────────────────────── */}
         <View style={styles.routeCard}>
           <View style={styles.routePoint}>
