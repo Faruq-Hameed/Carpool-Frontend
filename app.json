@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "CarpoolApp",
-    "slug": "CarpoolApp",
+    "name": "Kajolo",
+    "slug": "kajolo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.faruqhameed.CarpoolApp"
+      "package": "com.faruqhameed.kajolo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,8 +38,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow Carpool to access your photos for KYC selfie.",
-          "cameraPermission": "Allow Carpool to use your camera to take a selfie for identity verification."
+          "photosPermission": "Allow Kajolo to access your photos for KYC selfie.",
+          "cameraPermission": "Allow Kajolo to use your camera to take a selfie for identity verification."
         }
       ]
     ],
