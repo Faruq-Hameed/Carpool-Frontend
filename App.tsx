@@ -15,6 +15,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import AuthProvider from "./src/contexts/AuthContext";
 import { InAppNotificationProvider, useInAppNotification } from "./src/contexts/InAppNotificationContext";
+import { ChatSocketProvider } from "./src/contexts/ChatSocketContext";
 import RootStackNavigator from "./src/navigation/RootNavigator";
 import type { RootStackParamList } from "./src/navigation/RootNavigator";
 import { ResetPasscodeProvider } from "@/contexts/ResetPasscodeContext";
@@ -163,11 +164,13 @@ export default function App(): React.ReactElement {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ResetPasscodeProvider>
+            <ChatSocketProvider>
             <InAppNotificationProvider>
               <NavigationContainer ref={navigationRef}>
                 <AppInner navigationRef={navigationRef} />
               </NavigationContainer>
             </InAppNotificationProvider>
+          </ChatSocketProvider>
           </ResetPasscodeProvider>
         </AuthProvider>
       </QueryClientProvider>

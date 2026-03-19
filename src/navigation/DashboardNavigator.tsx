@@ -7,10 +7,10 @@ import {
   HomeScreen,
   OfferRideScreen,
   HistoryScreen,
-  MessageScreen,
   ProfileScreen,
 } from "../screens/dashboard";
 import ProfileStackNavigator from "./ProfileStackNavigator";
+import ChatStackNavigator from "./ChatStackNavigator";
 
 export type DashboardTabParamList = {
   Home: undefined;
@@ -64,7 +64,7 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name="Messages"
-        component={MessageScreen}
+        component={ChatStackNavigator}
         options={{
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="chatbubble-outline" size={size} color={color} />
