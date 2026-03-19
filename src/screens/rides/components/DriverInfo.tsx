@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import User from "@/models/User";
 import { RideCar } from "@/apis/rides/types";
 import { Colors, Spacing, Radius, FontSize } from "@/theme";
+import { useUserReviews } from "@/hooks/useReviews";
 
 interface DriverInfoProps {
   driver: User;
@@ -14,6 +15,7 @@ interface DriverInfoProps {
 export const DriverInfo: React.FC<DriverInfoProps> = ({ driver, car }) => {
   const initials = `${driver.firstName?.charAt(0) ?? ""}${driver.lastName?.charAt(0) ?? ""}`.toUpperCase();
   const fullName = `${driver.firstName ?? ""} ${driver.lastName ?? ""}`.trim();
+  const { data: reviewData } = useUserReviews(driver.id);
 
   return (
     <View style={styles.container}>
@@ -43,10 +45,14 @@ export const DriverInfo: React.FC<DriverInfoProps> = ({ driver, car }) => {
           ) : null}
         </View>
 
-        {/* Rating placeholder */}
+        {/* Live average rating */}
         <View style={styles.ratingBadge}>
           <Ionicons name="star" size={13} color="#F59E0B" />
-          <Text style={styles.ratingText}>4.5</Text>
+          <Text style={styles.ratingText}>
+            {reviewData?.avgRating != null
+              ? reviewData.avgRating.toFixed(1)
+              : "—"}
+          </Text>
         </View>
       </View>
     </View>

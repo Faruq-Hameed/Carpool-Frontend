@@ -5,7 +5,9 @@ import {
   Text,
   Alert,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useRoute } from "@react-navigation/native";
 
@@ -44,7 +46,9 @@ import { BookingStatusBar } from "./components/BookingStatusBar";
 import { BookingRequestCard } from "./components/BookingRequestCard";
 import { RideStatusActions } from "./components/RideStatusActions";
 import RouteMap from "./components/RouteMap";
+import RatingModal from "./components/RatingModal";
 import { useRideTracking } from "@/contexts/RideTrackingContext";
+import { useMyReviewForRide } from "@/hooks/useReviews";
 
 type RouteProps = RouteProp<RideStackParamList, "RideDetail">;
 
@@ -55,6 +59,7 @@ const RideDetailScreen: React.FC = () => {
   const { rideId, searchOrigin, searchDestination } = route.params;
 
   const [bookingSheetOpen, setBookingSheetOpen] = useState(false);
+  const [ratingModalOpen, setRatingModalOpen] = useState(false);
 
   const { currentUser, UserKycStatus } = useAuth();
 
@@ -66,6 +71,14 @@ const RideDetailScreen: React.FC = () => {
   const { data: ride, isLoading, error } = useRideById(rideId);
 
   const isOwner = ride?.ownerId === currentUser?.id;
+
+  // ── Rating — show modal for passengers on completed rides ─────────────────
+  const { data: myReview } = useMyReviewForRide(rideId);
+  const canRate =
+    !isOwner &&
+    ride?.status === "COMPLETED" &&
+    myBooking?.status === "COMPLETED" &&
+    myReview === null;
 
   // ── Live tracking ─────────────────────────────────────────────────────────
   const { driverLocation } = useRideTracking(
@@ -366,6 +379,19 @@ const RideDetailScreen: React.FC = () => {
           </View>
         ) : null}
 
+        {/* ── Rate driver (completed rides, passenger only) ───────────── */}
+        {canRate && (
+          <TouchableOpacity
+            style={styles.rateDriverBanner}
+            onPress={() => setRatingModalOpen(true)}
+            activeOpacity={0.85}
+          >
+            <Ionicons name="star-outline" size={20} color="#D97706" />
+            <Text style={styles.rateDriverText}>Rate your driver</Text>
+            <Ionicons name="chevron-forward" size={16} color="#D97706" />
+          </TouchableOpacity>
+        )}
+
         {/* ── Verification warning (passenger only) ───────────────────── */}
         {!isVerified && !isOwner && (
           <>
@@ -428,6 +454,16 @@ const RideDetailScreen: React.FC = () => {
           onCancelBooking={handleCancelBooking}
           isBooking={false}
           isCancelling={cancelBookingMutation.isPending}
+        />
+      )}
+
+      {/* ── Rating modal ────────────────────────────────────────────── */}
+      {ride && ride.owner && (
+        <RatingModal
+          visible={ratingModalOpen}
+          rideId={rideId}
+          driverName={`${ride.owner.firstName} ${ride.owner.lastName}`}
+          onDismiss={() => setRatingModalOpen(false)}
         />
       )}
 
@@ -589,6 +625,23 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     textAlign: "center",
     lineHeight: 18,
+  },
+  rateDriverBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+    backgroundColor: "#FFF8E7",
+    borderRadius: Radius.sm,
+    padding: Spacing.md,
+    marginBottom: Spacing.base,
+    borderWidth: 1,
+    borderColor: "#FDE68A",
+  },
+  rateDriverText: {
+    flex: 1,
+    fontSize: FontSize.base,
+    fontWeight: "600",
+    color: "#D97706",
   },
 });
 
