@@ -118,7 +118,7 @@ function combineDateAndTime(date: Date, time: Date): Date {
 
 function buildRoutePoints(
   origin: PlaceSelection,
-  stops: string[],
+  stops: (PlaceSelection | null)[],
   destination: PlaceSelection
 ): RideRoutePointDto[] {
   const points: RideRoutePointDto[] = [
@@ -126,13 +126,13 @@ function buildRoutePoints(
   ];
 
   stops.forEach((stop, i) => {
-    if (stop.trim()) {
+    if (stop) {
       points.push({
         orderIndex: i + 1,
         pointType: "INTERMEDIATE",
-        latitude: 0,
-        longitude: 0,
-        label: stop.trim(),
+        latitude: stop.lat,
+        longitude: stop.lng,
+        label: stop.label,
       });
     }
   });
@@ -160,7 +160,7 @@ const OfferRideScreen: React.FC<Props> = () => {
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
   const [origin, setOrigin] = useState<PlaceSelection | null>(null);
   const [destination, setDestination] = useState<PlaceSelection | null>(null);
-  const [stops, setStops] = useState<string[]>([]);
+  const [stops, setStops] = useState<(PlaceSelection | null)[]>([]);
   const [totalSeats, setTotalSeats] = useState(4);
   const [pricePerSeat, setPricePerSeat] = useState("");
   const [notes, setNotes] = useState("");
@@ -171,10 +171,10 @@ const OfferRideScreen: React.FC<Props> = () => {
 
   const createRideMutation = useCreateRide();
 
-  const addStop = () => setStops((prev) => [...prev, ""]);
+  const addStop = () => setStops((prev) => [...prev, null]);
   const removeStop = (index: number) =>
     setStops((prev) => prev.filter((_, i) => i !== index));
-  const updateStop = (index: number, value: string) =>
+  const updateStop = (index: number, value: PlaceSelection | null) =>
     setStops((prev) => prev.map((s, i) => (i === index ? value : s)));
 
   const isValid =
@@ -319,18 +319,17 @@ const OfferRideScreen: React.FC<Props> = () => {
             {stops.map((stop, index) => (
               <View key={index} style={styles.stopRow}>
                 <View style={styles.stopInputWrap}>
-                  <Ionicons
-                    name="ellipse-outline"
-                    size={14}
-                    color={Colors.textTertiary}
-                    style={styles.inputIcon}
-                  />
-                  <TextInput
-                    style={[styles.input, styles.inputWithIcon]}
-                    value={stop}
-                    onChangeText={(v) => updateStop(index, v)}
+                  <PlacesInput
                     placeholder={`Stop ${index + 1}`}
-                    placeholderTextColor={Colors.textTertiary}
+                    onSelect={(place) => updateStop(index, place)}
+                    defaultValue={stop?.label}
+                    icon={
+                      <Ionicons
+                        name="ellipse-outline"
+                        size={14}
+                        color={Colors.textTertiary}
+                      />
+                    }
                   />
                 </View>
                 <TouchableOpacity
@@ -559,12 +558,6 @@ const styles = StyleSheet.create({
   },
   stopInputWrap: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: Radius.sm,
-    backgroundColor: Colors.white,
   },
   removeStopBtn: {
     padding: 4,

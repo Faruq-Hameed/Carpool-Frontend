@@ -27,7 +27,7 @@ const WelcomeScreen: React.FC<ScreenProps<"Welcome">> = () => {
             Share Ride, Share Cost
           </Text>
           <Text style={{ textAlign: "center", fontSize: 16 }}>
-            Split your transport cost when you carpool and keep your wallet
+            Split your transport cost when you carpool with Kajolo and keep your wallet
             happy. All within a secured, trusted platform
           </Text>
         </View>
