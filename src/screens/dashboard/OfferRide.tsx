@@ -18,10 +18,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 import { DashboardTabParamList } from "@/navigation/DashboardNavigator";
-import {
-  useRootNavigation,
-  useProfileNavigation,
-} from "@/hooks/useTypedNavigation";
+import { useRootNavigation, useProfileNavigation } from "@/hooks/useTypedNavigation";
 import { useMyCars } from "@/hooks/useCars";
 import { useCreateRide } from "@/hooks/useRides";
 import { CarCard } from "@/components/cards/CarCard";
@@ -29,10 +26,7 @@ import { InlineAlert } from "@/components/shared/InlineAlert";
 import { Colors, Spacing, Radius, FontSize } from "@/theme";
 import { Car } from "@/apis/cars/types";
 import { RideRoutePointDto } from "@/apis/rides/types";
-import {
-  PlacesInput,
-  PlaceSelection,
-} from "@/screens/dashboard/home/components/PlacesInput";
+import { PlacesInput, PlaceSelection } from "@/screens/dashboard/home/components/PlacesInput";
 
 type Props = BottomTabScreenProps<DashboardTabParamList, "Offer">;
 
@@ -55,14 +49,7 @@ const LabeledInput: React.FC<{
   placeholder: string;
   keyboardType?: "default" | "numeric" | "decimal-pad";
   icon?: keyof typeof Ionicons.glyphMap;
-}> = ({
-  label,
-  value,
-  onChange,
-  placeholder,
-  keyboardType = "default",
-  icon,
-}) => (
+}> = ({ label, value, onChange, placeholder, keyboardType = "default", icon }) => (
   <View style={styles.fieldWrap}>
     <Text style={styles.label}>{label}</Text>
     <View style={styles.inputRow}>
@@ -132,16 +119,10 @@ function combineDateAndTime(date: Date, time: Date): Date {
 function buildRoutePoints(
   origin: PlaceSelection,
   stops: (PlaceSelection | null)[],
-  destination: PlaceSelection,
+  destination: PlaceSelection
 ): RideRoutePointDto[] {
   const points: RideRoutePointDto[] = [
-    {
-      orderIndex: 0,
-      pointType: "START",
-      latitude: origin.lat,
-      longitude: origin.lng,
-      label: origin.label,
-    },
+    { orderIndex: 0, pointType: "START", latitude: origin.lat, longitude: origin.lng, label: origin.label },
   ];
 
   stops.forEach((stop, i) => {
@@ -205,10 +186,7 @@ const OfferRideScreen: React.FC<Props> = () => {
 
   const handleSubmit = () => {
     if (!isValid) {
-      Alert.alert(
-        "Incomplete",
-        "Please select a car and fill in all required fields.",
-      );
+      Alert.alert("Incomplete", "Please select a car and fill in all required fields.");
       return;
     }
 
@@ -254,17 +232,15 @@ const OfferRideScreen: React.FC<Props> = () => {
                   }),
               },
               { text: "OK" },
-            ],
+            ]
           );
         },
         onError: (err: any) => {
           const raw = err?.response?.data?.message;
-          const message = Array.isArray(raw)
-            ? raw.join("\n")
-            : (raw ?? "Failed to create ride.");
+          const message = Array.isArray(raw) ? raw.join("\n") : (raw ?? "Failed to create ride.");
           Alert.alert("Error", message);
         },
-      },
+      }
     );
   };
 
@@ -302,11 +278,7 @@ const OfferRideScreen: React.FC<Props> = () => {
                   onPress={() => profileNavigation.navigate("MyCars")}
                   activeOpacity={0.85}
                 >
-                  <Ionicons
-                    name="add-circle-outline"
-                    size={18}
-                    color={Colors.primary}
-                  />
+                  <Ionicons name="add-circle-outline" size={18} color={Colors.primary} />
                   <Text style={styles.outlineBtnText}>Register a Car</Text>
                 </TouchableOpacity>
               </>
@@ -327,9 +299,7 @@ const OfferRideScreen: React.FC<Props> = () => {
                   car={car}
                   selected={selectedCarId === car.id}
                   onPress={() =>
-                    setSelectedCarId((prev) =>
-                      prev === car.id ? null : car.id,
-                    )
+                    setSelectedCarId((prev) => (prev === car.id ? null : car.id))
                   }
                 />
               ))
@@ -342,13 +312,7 @@ const OfferRideScreen: React.FC<Props> = () => {
             <PlacesInput
               placeholder="Enter pick-up location"
               onSelect={setOrigin}
-              icon={
-                <Ionicons
-                  name="location-outline"
-                  size={18}
-                  color={Colors.textSecondary}
-                />
-              }
+              icon={<Ionicons name="location-outline" size={18} color={Colors.textSecondary} />}
               showCurrentLocation
             />
 
@@ -373,11 +337,7 @@ const OfferRideScreen: React.FC<Props> = () => {
                   style={styles.removeStopBtn}
                   hitSlop={8}
                 >
-                  <Ionicons
-                    name="close-circle"
-                    size={22}
-                    color={Colors.textTertiary}
-                  />
+                  <Ionicons name="close-circle" size={22} color={Colors.textTertiary} />
                 </TouchableOpacity>
               </View>
             ))}
@@ -387,11 +347,7 @@ const OfferRideScreen: React.FC<Props> = () => {
               onPress={addStop}
               activeOpacity={0.7}
             >
-              <Ionicons
-                name="add-circle-outline"
-                size={16}
-                color={Colors.primaryMedium}
-              />
+              <Ionicons name="add-circle-outline" size={16} color={Colors.primaryMedium} />
               <Text style={styles.addStopText}>Add a stop along the route</Text>
             </TouchableOpacity>
 
@@ -399,13 +355,7 @@ const OfferRideScreen: React.FC<Props> = () => {
             <PlacesInput
               placeholder="Enter drop-off location"
               onSelect={setDestination}
-              icon={
-                <Ionicons
-                  name="navigate-outline"
-                  size={18}
-                  color={Colors.textSecondary}
-                />
-              }
+              icon={<Ionicons name="navigate-outline" size={18} color={Colors.textSecondary} />}
             />
           </FormSection>
 
@@ -419,11 +369,7 @@ const OfferRideScreen: React.FC<Props> = () => {
                   onPress={() => setDatePickerVisible(true)}
                   activeOpacity={0.8}
                 >
-                  <Ionicons
-                    name="calendar-outline"
-                    size={16}
-                    color={Colors.textSecondary}
-                  />
+                  <Ionicons name="calendar-outline" size={16} color={Colors.textSecondary} />
                   <Text style={styles.pickerBtnText}>
                     {format(departureDate, "EEE, d MMM")}
                   </Text>
@@ -437,11 +383,7 @@ const OfferRideScreen: React.FC<Props> = () => {
                   onPress={() => setTimePickerVisible(true)}
                   activeOpacity={0.8}
                 >
-                  <Ionicons
-                    name="time-outline"
-                    size={16}
-                    color={Colors.textSecondary}
-                  />
+                  <Ionicons name="time-outline" size={16} color={Colors.textSecondary} />
                   <Text style={styles.pickerBtnText}>
                     {format(departureTime, "h:mm a")}
                   </Text>
